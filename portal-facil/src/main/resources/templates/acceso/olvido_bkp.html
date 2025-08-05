@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Olvide mi contrase&ntilde;a</title>
+<!--JQUERY-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <!-- FRAMEWORK BOOTSTRAP para el estilo de la pagina-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    
+    <!-- Los iconos tipo Solid de Fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css">
+    <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
+    <!-- Nuestro css-->
+    <link rel="stylesheet" type="text/css" th:href="@{/login/static/css/index.css}">
+
+</head>
+<body>
+    <div class="modal-dialog text-center">
+        <div class="col-sm-10 main-section">
+            <div class="modal-content">
+                <div class="col-12 user-img">
+                    <img th:src="@{/login/static/img/user.jpg}"/>
+                </div>
+                <form class="col-12 mb-3" name="form" method="GET" th:action="@{/authenticate/reset}">
+                    <div class="form-group" id="user-group">
+                        <input type="text" class="form-control" name="membresia" id="membresia" placeholder="Coloca tu usuario" required />
+                    </div>
+                     <div class="form-group" id="user-group">
+						<input type="email" class="form-control" name="correo" id="correo" placeholder="Coloca tu Correo Electronico" required />
+                    </div>
+					<a href="javascript:void(0);" onclick="document.form.submit();" class="btn btn-primary" >
+					    Enviar
+					</a>
+					<a th:href="@{/}" class="btn btn-primary" >
+                        Inicio <i class="fas fa-exclamation"></i>
+                    </a>
+                </form>
+				
+				<div th:if="${mensaje!=null}" th:class="'alert alert-'+${clase}+'  alert-dismissible fade show'" >
+					<span th:text="${mensaje}"> </span> <i class="fas fa-times"></i>
+				</div>
+				
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	
+    <title>Sistema Fácil | Administración de Reportes</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/interno/plugins/fontawesome-free/css/all.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/interno/dist/css/adminlte.min.css}">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" th:href="@{/interno/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+    <!-- Personalizado -->
+    <link rel="stylesheet" th:href="@{/interno/css/personalizadoAdminReportes.css}">
+    <!-- sweetalert2 -->
+    <link rel="stylesheet" th:href="@{/interno/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css}">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf-header" th:content="${_csrf.headerName}"/>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand-lg navbar-white navbar-light">
+		
+		<button class="navbar-toggler order-1 ml-2" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+				
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+            <li class="nav-item d-none d-sm-inline-block">
+                <strong>Hola, <span th:text="${usuario.nombreUsuario}"></span></strong>
+            </li>
+        </ul>
+        
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a th:href="@{/logout}" class="btn btn-danger btn-sm">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                </a>
+            </li>
+        </ul>
+		
+		
+    </nav>
+
+    <div th:replace="~{componentes/menu/menu :: sidebar-menu}"></div>
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <!-- Content Header -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Administración de Reportes</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <div class="card card-info">                    
+                            <div class="card-header">
+                                <h3 class="card-title">Selección de Rol</h3>
+                            </div>
+                            <form id="rolForm" class="form-horizontal" th:object="${roles}" th:action="@{/usuarios/AdmonReportes}" method ="post">
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Rol</label>
+                                        <div class="col-sm-10">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="rol" th:field="*{rol_Descripcion}" placeholder="Rol">
+                                                <div class="input-group-append">
+                                                    <button type="submit" class="btn btn-primary" onclick="setAccion('searchRoles')" title="Buscar rol">
+                                                        <i class="fas fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="accion" id="accion">
+                            </form>
+                            
+                            <div class="card">
+                                <!-- /.card-header -->
+                                <div class="card-body p-0" style="max-height: 500px; overflow-y: auto;">
+                                    <div class="card-body table-responsive p-0">
+                                        <table class="table table-hover">
+                                            <thead style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 1;">
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Nombre del Rol</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="rol : ${listaRoles}"
+                                                    th:classappend="${(!rol.rol_Activo) ? 'rol-inactivo' : (rol.modulosRoles == null or rol.modulosRoles.isEmpty()) ? 'rol-sin-modulos' : ''}"
+                                                    th:attr="data-activo=${rol.rol_Activo}">
+                                                    <td th:text="${rol.rol_Id}">1</td>
+                                                    <td th:text="${rol.rol_Descripcion}">Administrador</td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Modal de Edición -->
+    <div class="modal fade" id="editarReportesModal" tabindex="-1" role="dialog" aria-labelledby="editarReportesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-editar-rol" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h5 class="modal-title" id="editarReportesModalLabel">Editar Reportes Asignados</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="formEditarReportes" method="post" th:action="@{/usuarios/updateAssignReports}">
+                    <div class="modal-body">
+                        <input type="hidden" id="editReporteId" name="id">                    
+                        <div class="card card-primary h-100">
+                            <div class="card-header">
+                                <h3 class="card-title">Reportes Asignados</h3>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="reportes-scroll-container">
+                                    <div id="reportesEdicionTree">
+                                        <div class="text-center p-3 text-muted">
+                                            <i class="fas fa-spinner fa-spin"></i> Cargando reportes...
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-info">Guardar Cambios</button>
+                    </div>
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2024-2050 <a href="https://adminlte.io">Coral Clubes</a>.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            <b>Version</b> 1.0.0
+        </div>
+    </footer>
+	<div class="sidebar-overlay"></div>
+</div>
+
+<div id="sessionModal" class="modal" style="display: none;">
+		<div class="modal-dialog" style="max-width: 500px;"> <!-- Aquí controlas el tamaño -->		
+			<div class="modal-content">
+				<i class="fas fa-exclamation-circle text-warning" style="font-size: 60px; margin-bottom: 15px;"></i>
+				<div class="modal-title">¡Sesión expirada!</p>			        		
+				    <p id="modalMessage">¿Deseas continuar conectado?</p>
+				    <p>Tiempo restante: <span id="countdown">30</span> segundos</p>
+					<button id="continueBtn" type="button" class="btn btn-primary">
+						<i class="fas fa-sign-in-alt mr-2"></i>Sí, Seguir conectado
+					</button>
+				    <!--<button id="continueBtn">Continuar sesión</button>-->
+				</div>	
+			</div>
+		</div> 
+	</div>
+
+<!-- JavaScript -->
+<script th:src="@{/interno/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/interno/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/interno/dist/js/adminlte.min.js}"></script>
+<script th:src="@{/interno/plugins/toastr/toastr.min.js}"></script>
+<script th:src="@{/interno/plugins/sweetalert2/sweetalert2.min.js}"></script>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+$(document).ready(function() {
+	
+	// Menú móvil
+	   /* $('.navbar-toggler').click(function() {
+	        $('body, .main-sidebar, .sidebar-overlay').toggleClass('sidebar-open');
+	    });
+	    
+	    $('.sidebar-overlay, .nav-link').click(function() {
+	        if($(window).width() < 992) {
+	            $('body, .main-sidebar, .sidebar-overlay').removeClass('sidebar-open');
+	        }
+	    });*/
+		
+		
+		
+		$('.navbar-toggler').click(function() {
+		    $('body, .main-sidebar, .sidebar-overlay').toggleClass('sidebar-open');
+		});
+		
+		// Cerrar menú solo cuando se hace clic fuera del menú
+		$(document).on('click', function(e) {
+		    // Solo aplicar en móvil (ancho menor a 992px)
+		    if ($(window).width() < 992) {
+		        // Si el clic no fue en el menú ni en el botón toggler
+		        if (!$(e.target).closest('.main-sidebar').length && 
+		            !$(e.target).closest('.navbar-toggler').length) {
+		            $('body, .main-sidebar, .sidebar-overlay').removeClass('sidebar-open');
+		        }
+		    }
+		});
+
+		// Evitar que el clic dentro del menú lo cierre
+		$('.main-sidebar').on('click', function(e) {
+		    e.stopPropagation();
+		});
+
+		// Cerrar menú solo cuando se hace clic en un enlace que no tenga submenú
+		$(document).on('click', '.nav-link:not(.has-treeview > .nav-link)', function() {
+		    if ($(window).width() < 992) {
+		        $('body, .main-sidebar, .sidebar-overlay').removeClass('sidebar-open');
+		    }
+		});
+		
+		$('.nav-link').click(function (e) {
+		    if ($(window).width() < 992) {
+		        const $parentLi = $(this).closest('li');
+
+		        // Si el enlace es un padre con submenú, no cerrar
+		        if ($parentLi.hasClass('has-treeview')) {
+		            e.preventDefault(); // Opcional: para evitar scroll arriba
+		            return;
+		        }
+
+		        // Si no tiene hijos, cerrar el menú (navegación real)
+		        $('body, .main-sidebar, .sidebar-overlay').removeClass('sidebar-open');
+		    }
+		});
+
+		$(document).on('click', '.nav-link', function (e) {
+		    if ($(window).width() < 992) {
+		        const $link = $(this);
+		        const $parentLi = $link.closest('.nav-item');
+
+		        // Si el <li> o algún ancestro tiene-treeview con menu-open, no cerrar
+		        if ($parentLi.closest('.has-treeview.menu-open').length > 0) {
+		            e.preventDefault();
+		            return;
+		        }
+
+		        // Si es un link real (con href distinto de #), cerrar
+		        const href = $link.attr('href');
+		        if (href && href !== '#' && !href.startsWith('javascript')) {
+		            $('body, .main-sidebar, .sidebar-overlay').removeClass('sidebar-open');
+		        }
+		    }
+		});
+
+		$('.main-sidebar').on('click', 'a.nav-link', function (e) {
+		    if ($(window).width() < 992) {
+		        const $link = $(this);
+		        const $li = $link.closest('li');
+
+		        const isFinalLink = !$li.hasClass('has-treeview') && $li.find('.nav-treeview').length === 0;
+
+		        if (isFinalLink) {
+		            setTimeout(() => {
+		                $('body').removeClass('sidebar-open');
+		            }, 200);
+		        }
+		    }
+		});
+
+			
+			$(document).on('click', 'tbody tr td:nth-child(2)', function(e) {
+			    if ($(window).width() < 768) {
+			        e.preventDefault();
+			        const row = $(this).closest('tr');
+			        const rolId = row.find('td:first-child').text();
+			        const rolNombre = $(this).text();
+			        
+			        abrirModalEdicionReportes(rolId, rolNombre);
+			    }
+			});
+
+	    // Inicialización del treeview
+	    $('[data-widget="treeview"]').Treeview('init');
+	    
+	    // Marcar elemento activo basado en la URL
+	    var currentUrl = window.location.pathname;
+	    $('.nav-link').each(function() {
+	        if ($(this).attr('href') === currentUrl) {
+	            $(this).addClass('active');
+	            $(this).closest('.has-treeview').addClass('menu-open');
+	        }
+	    });
+	
+    // Inicialización del treeview con configuración personalizada
+    $('[data-widget="treeview"]').Treeview({
+       /* trigger: '.nav-item.has-treeview > a',
+        animationSpeed: 300,*/
+        accordion: true
+    });
+    
+    // Manejo manual del clic para evitar el comportamiento no deseado
+    /*$('.nav-item.has-treeview > a').on('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        var parent = $(this).parent();
+        var treeviewMenu = $(this).next('.nav-treeview');
+        var isOpen = parent.hasClass('menu-open');
+        
+        if (!e.originalEvent.detail || e.originalEvent.detail == 1) {
+            if(isOpen) {
+                parent.removeClass('menu-open');
+                treeviewMenu.slideUp();
+                $(this).find('.right.fas').removeClass('fa-angle-down').addClass('fa-angle-left');
+            } else {
+                parent.addClass('menu-open');
+                treeviewMenu.slideDown();
+                $(this).find('.right.fas').removeClass('fa-angle-left').addClass('fa-angle-down');
+            }
+        }
+    });*/
+	
+	$('.nav-item.has-treeview > a').on('click', function (e) {
+		    e.preventDefault();
+		    var parent = $(this).parent();
+		    var wasOpen = parent.hasClass('menu-open');
+
+		    // Cierra todos primero
+		    $('.nav-item.has-treeview').removeClass('menu-open');
+		    $('.nav-item.has-treeview .nav-treeview').slideUp();
+
+		    if (!wasOpen) {
+		        parent.addClass('menu-open');
+		        parent.find('> .nav-treeview').slideDown();
+		    }
+		});
+    
+    // Manejo del doble click para colapsar sin reabrirse
+    $('.nav-item.has-treeview > a').on('dblclick', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        var parent = $(this).parent();
+        var treeviewMenu = $(this).next('.nav-treeview');
+        
+        parent.removeClass('menu-open');
+        treeviewMenu.slideUp();
+        $(this).find('.right.fas').removeClass('fa-angle-down').addClass('fa-angle-left');
+        
+        $(this).off('click').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+        
+        setTimeout(() => {
+            $('.nav-item.has-treeview > a').off('click').on('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                var parent = $(this).parent();
+                var treeviewMenu = $(this).next('.nav-treeview');
+                var isOpen = parent.hasClass('menu-open');
+                
+                if(isOpen) {
+                    parent.removeClass('menu-open');
+                    treeviewMenu.slideUp();
+                    $(this).find('.right.fas').removeClass('fa-angle-down').addClass('fa-angle-left');
+                } else {
+                    parent.addClass('menu-open');
+                    treeviewMenu.slideDown();
+                    $(this).find('.right.fas').removeClass('fa-angle-left').addClass('fa-angle-down');
+                }
+            });
+        }, 300);
+    });
+    
+    // Marcar elemento activo basado en la URL
+    var currentUrl = window.location.pathname;
+    $('.nav-link').each(function() {
+        if ($(this).attr('href') === currentUrl) {
+            $(this).addClass('active');
+            var treeview = $(this).closest('.nav-treeview');
+            if(treeview.length) {
+                treeview.show();
+                treeview.prev('a').find('.right.fas').removeClass('fa-angle-left').addClass('fa-angle-down');
+                treeview.closest('.has-treeview').addClass('menu-open');
+            }
+        }
+    });
+
+    // Mostrar notificación si hay mensajes
+    const errorMsg = /*[[${msg}]]*/ null;
+    const isError = /*[[${success == false}]]*/ false;
+            
+    if (errorMsg) {
+        Swal.fire({
+            title: isError ? 'Error' : 'Éxito',
+            text: errorMsg,
+            icon: isError ? 'error' : 'success',
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: isError ? '#d33' : '#28a745',
+            backdrop: isError ? `
+                url("/interno/dist/img/error-animation.gif")
+                left top
+                no-repeat
+            ` : ''
+        });
+    }
+
+    // =============================================
+    // NUEVAS FUNCIONALIDADES PARA LA TABLA DE ROLES
+    // =============================================
+
+    // Doble click en nombre de rol para editar reportes
+    $(document).on('dblclick', 'tbody tr td:nth-child(2)', function(e) {
+        if ($(e.target).is('button, i, a, select')) return;
+        
+        const row = $(this).closest('tr');
+        const rolId = row.find('td:first-child').text();
+        const rolNombre = $(this).text();
+        
+        abrirModalEdicionReportes(rolId, rolNombre);
+    }).css('cursor', 'pointer');
+
+
+    // Manejar el envío del formulario de edición
+    $('#formEditarReportes').on('submit', function(e) {
+        e.preventDefault();
+        
+        const rolId = $('#editReporteId').val();
+        const reportesSeleccionados = [];
+        
+        $('.reporte-checkbox:checked').each(function() {
+            reportesSeleccionados.push($(this).data('id'));
+        });
+        
+        if (reportesSeleccionados.length === 0) {
+            Swal.fire({
+                title: 'Error',
+                text: 'Debe seleccionar al menos un reporte para el rol',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+            return;
+        }
+        
+        const csrfToken = $('meta[name="_csrf"]').attr('content');
+        
+        $.ajax({
+            url: '/portal-facil/usuarios/updateAssignReports',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                rolId: parseInt(rolId),
+                reportesSeleccionados: reportesSeleccionados
+            }),
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            },
+            success: function(response) {
+                if (response.success) {
+                    Swal.fire({
+                        title: '¡Éxito!',
+                        text: response.message || 'Los reportes se actualizaron correctamente',
+                        icon: 'success',
+                        confirmButtonColor: '#28a745'
+                    }).then(() => {
+                        $('#editarReportesModal').modal('hide');
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error',
+                        text: response.message || 'Error al actualizar los reportes',
+                        icon: 'error'
+                    });
+                }
+            },
+            error: function(xhr) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Error al actualizar los reportes: ' + (xhr.responseJSON?.message || xhr.responseText),
+                    icon: 'error'
+                });
+            }
+        });
+    });
+});
+
+// Función para abrir el modal de edición de reportes
+function abrirModalEdicionReportes(rolId, rolNombre) {
+    // Cerrar cualquier modal abierto primero
+    $('.modal').modal('hide');
+    
+    // Configuración del modal
+    $('#editReporteId').val(rolId);
+    $('#editarReportesModal .modal-title').text(`Editar Reportes para ${rolNombre}`);
+    
+    // Mostrar el modal con configuración especial para móviles
+    if ($(window).width() < 768) {
+        $('#editarReportesModal').modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: true
+        }).css({
+            'position': 'fixed',
+            'top': '0',
+            'left': '0',
+            'width': '100%',
+            'height': '100%',
+            'margin': '0',
+            'padding': '15px',
+            'overflow-y': 'auto',
+            'display': 'block',
+            'opacity': 1,
+            'z-index': 1060
+        });
+        
+        $('.modal-dialog').css({
+            'width': '100%',
+            'margin': '0',
+            'max-width': 'none',
+            'min-height': '100%'
+        });
+        
+        $('.modal-content').css({
+            'height': 'auto',
+            'min-height': '100%',
+            'border-radius': '0'
+        });
+    } else {
+        // Versión desktop normal
+        $('#editarReportesModal').modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: true
+        }).css({
+            'display': 'block',
+            'opacity': 1,
+            'pointer-events': 'auto',
+            'z-index': 1060
+        });
+    }
+    
+    // Cargar los reportes
+    cargarReportesParaEdicion(rolId);
+}
+
+// Función para cargar los reportes para edición
+function cargarReportesParaEdicion(rolId) {
+    const $container = $('#reportesEdicionTree');
+    $container.html(`
+        <div class="d-flex justify-content-center align-items-center" style="height: 100px;">
+            <div class="text-center">
+                <i class="fas fa-spinner fa-spin fa-2x"></i>
+                <p class="mt-2">Cargando reportes...</p>
+            </div>
+        </div>
+    `);
+
+    // Cargar todos los tipos de reportes disponibles
+    $.ajax({
+        url: '/portal-facil/usuarios/loadTiposReportesJson',
+        type: 'POST',
+        dataType: 'json',
+        headers: {
+            [$('meta[name="_csrf-header"]').attr('content')]: $('meta[name="_csrf"]').attr('content')
+        },
+        success: function(tiposReportes) {
+            // Cargar los reportes asignados al rol
+            $.ajax({
+                url: '/portal-facil/usuarios/getReportesRol',
+                type: 'POST',
+                data: {
+                    rolId: rolId,
+                    _csrf: $('meta[name="_csrf"]').attr('content')
+                },
+                dataType: 'json',
+                success: function(reportesAsignados) {
+                    renderizarReportes(tiposReportes, reportesAsignados);
+                },
+                error: function() {
+                    renderizarReportes(tiposReportes, []);
+                }
+            });
+        },
+        error: function() {
+            $container.html(`
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                    Error al cargar los tipos de reportes
+                </div>
+            `);
+        }
+    });
+
+    function renderizarReportes(tiposReportes, reportesAsignados) {
+        // Extraer IDs de reportes asignados
+        const reportesAsignadosIds = reportesAsignados.map(reporte => 
+            reporte.idTipoReporte || reporte.mdl_tipo_id || reporte.rom_mdl_id
+        );
+        
+        // Crear lista de checkboxes
+        let html = '<div class="list-group">';
+        
+        tiposReportes.forEach(reporte => {
+            const reporteId = reporte.mdl_tipo_id || reporte.idTipoReporte;
+            const reporteNombre = reporte.mdl_tipo_reporte || reporte.tipoReporte;
+            const estaAsignado = reportesAsignadosIds.includes(reporteId.toString());
+            
+            html += `
+                <div class="list-group-item">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input reporte-checkbox" 
+                               id="reporte_${reporteId}" 
+                               data-id="${reporteId}"
+                               ${estaAsignado ? 'checked' : ''}>
+                        <label class="custom-control-label" for="reporte_${reporteId}">
+                            ${reporteNombre}
+                        </label>
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        $container.html(html);
+    }
+}
+
+// Funciones existentes que debes mantener
+function saveRole(event) {
+    event.preventDefault();
+    const form = document.getElementById("rolForm");
+    form.action = "/usuarios/saveRole";
+    form.submit();
+}
+
+function setAccion(valor) {
+    document.getElementById("accion").value = valor;
+}
+
+function confirmarGuardado() {
+    const rolInput = document.getElementById('rol');
+    const rolValue = rolInput.value.trim();
+    
+    if (!rolValue) {
+        Swal.fire({
+            title: 'Campo vacío',
+            text: 'No se puede guardar un rol sin nombre. Por favor ingresa un nombre para el rol.',
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Aceptar'
+        });
+        rolInput.focus();
+        return;
+    }
+    
+    Swal.fire({
+        title: '¿Guardar Rol?',
+        text: "¿Estás seguro de que deseas guardar este nuevo rol?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#dc3545',
+        confirmButtonText: 'Sí, guardar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('accion').value = 'saveRoles';
+            document.getElementById('rolForm').submit();
+        }
+    });
+}
+
+/*]]>*/
+</script>
+
+<!-- Script para colapsar/expandir -->
+<script th:inline="javascript">
+/*<![CDATA[*/
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Inicialización del treeview
+    $('[data-widget="treeview"]').Treeview({
+        collapseAll: true,
+        expandSpeed: 0
+    });
+
+    // 2. Obtener el identificador de página activa del modelo Thymeleaf
+    var paginaActiva = /*[[${menuActivo}]]*/ null;
+    var currentUrl = window.location.pathname.toLowerCase(); // Convertir a minúsculas para comparación
+	
+	console.log('Pagina activa desde modelo:', paginaActiva);
+	console.log('Current URL:', currentUrl);
+	console.log('Todos los data-menu-id:', $('[data-menu-id]').map(function() { 
+	    return $(this).data('menu-id'); 
+	}).get());
+    
+    // 3. Función para activar menú mejorada
+   /* function activarMenu(id) {
+        // Limpiar activos previos
+        $('.nav-link').removeClass('active');
+        $('.has-treeview').removeClass('menu-open');
+        
+        // Buscar coincidencia sin importar mayúsculas/minúsculas
+        $('[data-menu-id]').each(function() {
+            if($(this).data('menu-id').toLowerCase() === id.toLowerCase()) {
+                $(this).addClass('active')
+                    .closest('.has-treeview').addClass('menu-open')
+                    .find('> .nav-treeview').show();
+                return false; // Salir del bucle una vez encontrado
+            }
+        });
+    }*/
+	
+	function activarMenu(id) {
+		    // Limpiar activos previos
+		    $('.nav-link').removeClass('active');
+		    $('.has-treeview').removeClass('menu-open');
+		    $('.nav-treeview').hide();
+
+		    // Buscar coincidencia sin importar mayúsculas/minúsculas
+		    $('[data-menu-id]').each(function () {
+		        if ($(this).data('menu-id') && $(this).data('menu-id').toLowerCase() === id.toLowerCase()) {
+		            $(this).addClass('active');
+
+		            // Abrir todos los ancestros has-treeview
+		            $(this).parents('.has-treeview').addClass('menu-open');
+
+		            // Mostrar todos los submenús padres (nav-treeview)
+		            $(this).parents('.nav-treeview').show();
+
+		            return false; // Salir del each
+		        }
+		    });
+		}
+    
+    // 4. Resaltar menú basado en URL o identificador
+    if (paginaActiva) {
+        activarMenu(paginaActiva);
+    } 
+    else if (currentUrl.includes('/usuarios/adminroles') || 
+             currentUrl.includes('/usuarios/rol')) {
+        activarMenu('smnuAdministracionRoles');
+    }
+    else {
+        // Caso 2: Fallback a detección por URL
+        $('.nav-link').each(function() {
+            var linkUrl = $(this).attr('href');
+            if (linkUrl && 
+               (currentUrl === linkUrl.toLowerCase() || 
+                (linkUrl !== '/' && currentUrl.startsWith(linkUrl.toLowerCase())))) {
+                activarMenu($(this).data('menu-id'));
+            }
+        });
+    }
+});
+
+
+let inactivityTime = 1 * 60 * 1000; // 10 minutos
+let countdownTime = 30;
+let countdownInterval;
+let inactivityTimer;
+
+function startInactivityTimer() {
+  clearTimeout(inactivityTimer);
+  inactivityTimer = setTimeout(showSessionModal, inactivityTime);
+}
+
+function showSessionModal() {
+	
+  const modal = document.getElementById("sessionModal");
+  const message = document.getElementById("modalMessage");
+  const countdown = document.getElementById("countdown");
+  const continueBtn = document.getElementById("continueBtn");
+
+  countdownTime = 30;
+  countdown.textContent = countdownTime;
+  modal.style.display = "flex";
+
+  countdownInterval = setInterval(() => {
+    countdownTime--;
+    countdown.textContent = countdownTime;
+    if (countdownTime <= 0) {
+      clearInterval(countdownInterval);
+      endSession();
+    }
+  }, 1000);
+
+  continueBtn.onclick = () => {
+    clearInterval(countdownInterval);
+    modal.style.display = "none";
+    fetch("/keep-alive"); // Llama al backend para renovar la sesión
+    startInactivityTimer(); // Reinicia conteo
+  };
+}
+
+function endSession() {
+  const modal = document.getElementById("sessionModal");
+  document.getElementById("modalMessage").textContent = "Sesión terminada. Vuelva a ingresar.";
+  document.getElementById("countdown").style.display = "none";
+  document.getElementById("continueBtn").style.display = "none";
+
+  setTimeout(() => {
+    window.location.href = contextRoot+"logout"; // Redirige al logout
+  }, 3000);
+}
+
+["click", "mousemove", "keydown"].forEach(event =>
+  document.addEventListener(event, startInactivityTimer)
+);
+
+startInactivityTimer();
+/*]]>*/
+</script>
+</body>
+</html>

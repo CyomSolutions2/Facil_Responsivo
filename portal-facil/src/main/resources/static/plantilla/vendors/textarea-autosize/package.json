@@ -1,0 +1,82 @@
+{
+  "_from": "textarea-autosize@^0.4.2",
+  "_id": "textarea-autosize@0.4.2",
+  "_inBundle": false,
+  "_integrity": "sha1-8vsCY7J/tOfPZ6v+blHzzXEnIM8=",
+  "_location": "/textarea-autosize",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "textarea-autosize@^0.4.2",
+    "name": "textarea-autosize",
+    "escapedName": "textarea-autosize",
+    "rawSpec": "^0.4.2",
+    "saveSpec": null,
+    "fetchSpec": "^0.4.2"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/textarea-autosize/-/textarea-autosize-0.4.2.tgz",
+  "_shasum": "f2fb0263b27fb4e7cf67abfe6e51f3cd712720cf",
+  "_spec": "textarea-autosize@^0.4.2",
+  "_where": "C:\\workspace\\Dashboardpack\\architectui-html-pro",
+  "author": {
+    "name": "Javier Julio",
+    "email": "jjfutbol@gmail.com",
+    "url": "http://www.javier-julio.com/"
+  },
+  "bugs": {
+    "url": "https://github.com/javierjulio/textarea-autosize/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "jquery": ">=1.8"
+  },
+  "deprecated": false,
+  "description": "Vertically adjust a textarea based on user input without needing a clone or ghost element.",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "http-server": "^0.9.0",
+    "jshint": "^2.9.1",
+    "mocha": "^2.4.5",
+    "mocha-phantomjs": "^4.0.2",
+    "node-sass": "^3.4.2",
+    "phantomjs": "^2.1.3",
+    "shelljs": "^0.6.0",
+    "uglify-js": "^2.6.2"
+  },
+  "directories": {
+    "example": "examples"
+  },
+  "gitHead": "5830e2367854630eb8fccec7d79fd0e12d5aa54f",
+  "homepage": "http://javierjulio.github.io/textarea-autosize/",
+  "keywords": [
+    "textarea",
+    "expand",
+    "grow",
+    "vertical",
+    "autoexpand",
+    "autogrow"
+  ],
+  "license": "MIT",
+  "main": "dist/jquery.textarea_autosize.js",
+  "name": "textarea-autosize",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/javierjulio/textarea-autosize.git"
+  },
+  "scripts": {
+    "build": "npm run css & npm run lint && npm run js",
+    "css": "node-sass -w -r --output-style compressed gh-pages-assets/stylesheets/application.scss gh-pages-assets/application.css",
+    "js": "uglifyjs src/jquery.textarea_autosize.js -c -m -o dist/jquery.textarea_autosize.min.js",
+    "lint": "jshint src/*.js test/*.js",
+    "prepublish": "npm run build",
+    "prestart": "npm run build",
+    "pretest": "npm run lint --silent",
+    "start": "http-server -p 3000 -a localhost & open http://localhost:3000",
+    "test": "mocha-phantomjs test/index.html --reporter list"
+  },
+  "version": "0.4.2"
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Socio - Perfil</title>
+
+    <link rel="stylesheet" th:href="@{/portal/assets/fonts/fontawesome-free-6.1.2-web/css/all.min.css}" />
+    
+    <!-- Cargar estilos -->
+    <link rel="stylesheet" th:href="@{/portal/assets/css/reset.css}" />
+    <link rel="stylesheet" th:href="@{/portal/assets/css/home.css}" />
+    
+     <script th:inline="javascript">
+		var contextRoot = /*[[@{/}]]*/ '';
+	</script>
+    
+</head>
+<body th:background="'/coral/fondo/home/1280x800_palapas_snaks_albercas.jpg'">
+
+    <!--Layout principal-->
+    <div class="layout">
+
+        <!--Barra lateral (info usuario)-->
+        <aside class="layout__aside">
+
+            <section class="aside__user-info">
+
+                <!--Informacion general usuario-->
+                <div class="user-info__general">
+                    <div class="user-info__container-image">
+                        <img th:src="'data:image/png;base64, '+${session.fotoPerfil}" class="user-info__image" alt="Foto de perfil del usuario" />
+                        <!--aqui la sombra-->
+                    </div>
+
+                    <h2 class="user-info__name" th:text="${informacion.getNombre_Completo_Socio}" ></h2>
+                </div>
+
+                <!--Links a redes sociales-->
+                <div class="user-info__links">
+
+                    <ul class="links__social">
+
+                        <li class="social__option">
+                            <a href="#" class="social__link">
+                                <i class="social__icon fa-brands fa-youtube"></i>
+                            </a>
+                        </li>
+
+                        <li class="social__option">
+                            <a href="#" class="social__link">
+                                <i class="social__icon fa-brands fa-linkedin"></i>
+                            </a>
+                        </li>
+
+                        <li class="social__option">
+                            <a href="#" class="social__link">
+                                <i class="social__icon fa-brands fa-instagram"></i>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <!--Boton del curriculum-->
+                <div class="user-info__buttons">
+                    <a href="javascript:void(0);" class="user-info__btn" onclick="document.logout_form.submit();" >Cerrar Sesi&oacute;n</a>
+                </div>
+                <form name="logout_form" th:action="@{/logout}" method="POST">
+			
+		</form>	
+                <!--Pie de página-->
+                <footer class="user-info__footer">
+                    &copy; 2025 Coral Clubes
+                </footer>
+            </section>
+
+        </aside>
+
+        <!--Contenido principal-->
+        <main class="layout__content">
+
+            <section class="content__page content__about">
+                <!--ESTE CONTENIDO CAMBIA EN CADA PAGINA DEL SITIO WEB-->
+
+                <header class="about__header">
+                    <h1 class="about__title"> Socio <span class="title__color" th:text="${informacion.getMem_Membresia}"></span></h1>
+                </header>
+
+                <section class="about__extra">
+                    <header class="extra__header">
+                        <h2 class="extra__title">¿Qué deseas hacer <span class="title__color">hoy?</span></h2>
+                    </header>
+
+                    <div class="extra__container">
+
+                          <a th:href="@{/tu-club}" class="extra__info">
+                              <i class="extra__icon fas fa-house-user"></i>
+                              <h4 class="extra__subtitle">Tu Club</h4>
+                         </a>
+
+                        <a th:href="@{/cupon}" class="extra__info">
+                            <i class="extra__icon fas fa-ticket-alt"></i>
+                            <h4 class="extra__subtitle">Cupones</h4>
+                        </a>
+
+                        <a th:href="@{/pago}" class="extra__info">
+                            <i class="extra__icon fas fa-shopping-cart"></i>
+                            <h4 class="extra__subtitle">Pago en l&iacute;nea</h4>
+                        </a>
+
+                       <a th:href="@{/reserva}" class="extra__info">
+                            <i class="extra__icon fas fa-hotel"></i>
+                            <h4 class="extra__subtitle">Reservaciones</h4>
+                        </a>
+
+                        <a th:href="@{/buzon}" class="extra__info">
+                            <i class="extra__icon fas fa-envelope"></i>
+                            <h4 class="extra__subtitle">Buz&oacute;n</h4>
+                        </a>
+
+                        <a th:href="@{/beneficiario}" class="extra__info">
+                            <i class="extra__icon fas fa-users"></i>
+                            <h4 class="extra__subtitle">Beneficiarios</h4>
+                        </a>
+
+                        <a th:href="@{/promocion}" class="extra__info">
+                            <i class="extra__icon fas fa-gifts"></i>
+                            <h4 class="extra__subtitle">Promociones</h4>
+                        </a>
+
+                        <a th:href="@{/servicio}" class="extra__info">
+                            <i class="extra__icon fas fa-handshake"></i>
+                            <h4 class="extra__subtitle">Otros servicios</h4>
+                        </a>
+
+                        <a th:href="@{/pregunta-frecuente}" class="extra__info">
+                            <i class="extra__icon fas fa-question"></i>
+                            <h4 class="extra__subtitle">Preguntas frecuentes</h4>
+                        </a>
+
+                    </div>
+                </section>
+
+            </section>
+
+        </main>
+    </div>
+    
+    <script th:src="@{/interno/plugins/jquery/jquery.min.js}"></script>
+    <script th:src="@{/interno/sweetalert/2.1.2/sweetalert.min.js}"></script>
+    <script th:src="@{/negocio/movimientos.js}"></script>
+    
+    <div th:replace="componentes/alertas/swalPregunta :: index"></div>
+    
+</body>
+</html>

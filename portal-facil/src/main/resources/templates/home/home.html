@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	  <head>
+	      <meta charset="UTF-8">
+	      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	      <title>Pagos en l&iacute;nea</title>
+
+	      <!-- Cargar fuentes -->
+	      <link rel="stylesheet" th:href="@{/publico/assets/fonts/fontawesome-free-6.1.2-web/css/all.min.css}" />
+	      <link rel="stylesheet" th:href="@{/publico/assets/fonts/dmsans/dmsans.css}" />
+
+	      <!-- Cargar estilos -->
+	      <link rel="stylesheet" th:href="@{/publico/assets/css/reset.css}" />
+	      <link rel="stylesheet" th:href="@{/publico/assets/css/styles.css}" />
+	      <!--
+	      <link rel="stylesheet" href="assets/css/dark.css" />
+	       -->
+	      <link rel="stylesheet" th:href="@{/publico/assets/css/responsive.css}" />
+
+	      <!-- Cargar JS -->
+	      <script th:src="@{/publico/assets/js/menu-mobile.js}"></script>
+	      <script th:src="@{/publico/assets/js/navbar-fixed.js}"></script>
+	      <script th:src="@{/publico/assets/js/dark.js}"></script>
+
+	  </head>
+	  <body>
+	  
+	  
+
+	      <!-- Botón modo oscuro -->
+	      <div class="switcher">
+	          <button class="switcher__btn">
+
+	              <span class="switcher__icon-light">
+	                  <i class="fa-solid fa-moon switcher__icon"></i>
+	              </span>
+	              <span class="switcher__icon-dark">
+	                  <i class="fa-solid fa-lightbulb switcher__icon"></i>
+	              </span>
+
+	          </button>
+	      </div>
+
+
+	      <!-- MENÚ NAVEGACIÓN RESPONSIVE -->
+
+	      <div class="menu-mobile">
+	          <header class="menu-mobile__header">
+	              <div class="menu-mobile__container-logo">
+	                  <a class="menu-mobile__link-logo" href="#">
+	                      <img class="menu-mobile__logo" src="assets/img/logo1.png" alt="Logo del sitio Web" />
+	                  </a>
+	              </div>
+
+	              <button class="menu-mobile__close">
+	                  <i class="menu-mobile__icon-close fa-solid fa-xmark"></i>
+	              </button>
+
+	          </header>
+
+	          <div class="menu-mobile__body">
+	              <nav class="menu-mobile__nav">
+	                  <ul class="menu-mobile__list">
+
+	                      <li class="menu-mobile__item">
+	                          <a href="#" class="menu-mobile__link">Inicio</a>
+	                      </li>
+
+	                      <li class="menu-mobile__item">
+	                          <a href="#" class="menu-mobile__link">
+	                              Servicios <i class="fa-solid fa-chevron-down menu-mobile__icon"></i>
+	                          </a>
+	                          <ul class="menu-mobile__submenu-mobile">
+	                              <li class="submenu-mobile__item">
+	                                  <a href="#" class="submenu-mobile__link">Pagos</a>
+	                              </li>
+	                              <li class="submenu-mobile__item">
+	                                  <a href="#" class="submenu-mobile__link">Nuestros Desarrollos</a>
+	                              </li>
+	                              <li class="submenu-mobile__item">
+	                                  <a href="#" class="submenu-mobile__link">Novedades</a>
+	                              </li>
+	                              <li class="submenu-mobile__item">
+	                                  <a href="#" class="submenu-mobile__link">¿Quienes somos?</a>
+	                              </li>
+	                              <li class="submenu-mobile__item">
+	                                  <a href="#" class="submenu-mobile__link">Eventos</a>
+	                              </li> 
+								  <li sec:authorize="isAuthenticated()" class="submenu-mobile__item">
+									<a class="submenu-mobile__link" th:href="@{/authenticate/socios}" >Socios</a>
+								  </li>
+								  
+	                          </ul>
+
+
+	                      </li>
+
+	                      <li class="menu-mobile__item">
+	                          <a href="#" class="menu-mobile__link">Pagos <i
+	                                  class="menu-mobile__icon fa-solid fa-chevron-down"></i>
+	                          </a>
+	                          <ul class="menu-mobile__submenu-mobile">
+	                              <li class="submenu-mobile__item">
+	                                  <a href="#" class="submenu-mobile__link">Diseño web</a>
+	                              </li>
+	                              <li class="submenu-mobile__item">
+	                                  <a href="#" class="submenu-mobile__link">Desarrolo web</a>
+	                              </li>
+	                              <li class="submenu-mobile__item">
+	                                  <a href="#" class="submenu-mobile__link">Desarrollo de apps</a>
+	                              </li>
+	                              <li class="submenu-mobile__item">
+	                                  <a href="#" class="submenu-mobile__link">Programación</a>
+	                              </li>
+	                              <li class="submenu-mobile__item">
+	                                  <a href="#" class="submenu-mobile__link">Consultoría</a>
+	                              </li>
+	                          </ul>
+
+
+	                      </li>
+
+	                      <li class="menu-mobile__item">
+	                          <a href="#" class="menu-mobile__link">Blog <i
+	                                  class="menu-mobile__icon fa-solid fa-chevron-down"></i>
+	                          </a>
+	                          <ul class="menu-mobile__submenu-mobile">
+	                              <li class="submenu-mobile__item">
+	                                  <a href="#" class="submenu-mobile__link">Diseño web</a>
+	                              </li>
+	                              <li class="submenu-mobile__item">
+	                                  <a href="#" class="submenu-mobile__link">Desarrolo web</a>
+	                              </li>
+	                              <li class="submenu-mobile__item">
+	                                  <a href="#" class="submenu-mobile__link">Desarrollo de apps</a>
+	                              </li>
+	                              <li class="submenu-mobile__item">
+	                                  <a href="#" class="submenu-mobile__link">Programación</a>
+	                              </li>
+	                              <li class="submenu-mobile__item">
+	                                  <a href="#" class="submenu-mobile__link">Consultoría</a>
+	                              </li>
+	                          </ul>
+
+
+	                      </li>
+
+	                      <li class="menu-mobile__item">
+	                          <a href="#" class="menu-mobile__link">Nuestros Desarrollos</a>
+	                      </li>
+
+	                      <li class="menu-mobile__item">
+	                          <a href="#" class="menu-mobile__link">Novedades</a>
+	                      </li>
+
+	                  </ul>
+	              </nav>
+	          </div>
+
+	      </div>
+
+	      <!-- LAYOUT PRINCIPAL O ESTRUCTURA PRINCIPAL -->
+
+
+	      <div class="layout">
+
+	          <!-- MENU -->
+
+	          <section class="layout__menu">
+	              <header class="menu__navbar">
+
+	                  <!-- LOGO -->
+	                  <div class="navbar__logo">
+	                      <a href="#" class="navbar__link-logo">
+	                          <img th:src="'/coral/front-pagos/banner-shape-2.jpg'" class="navbar__logo-light" />
+	                      </a>
+	                  </div>
+
+	                  <!-- BOTÓN DE MENÚ RESPONSIVE -->
+	                  <div class="navbar__mobile-btn">
+	                      <button class="mobile-btn__wrap">
+	                          <span class="mobile-btn__line"></span>
+	                          <span class="mobile-btn__line"></span>
+	                          <span class="mobile-btn__line"></span>
+	                      </button>
+	                  </div>
+
+	                  <!-- NAVEGACIÓN -->
+	                  <nav class="navbar__nav">
+	                      <ul class="nav__list">
+
+	                          <li class="nav__item">
+	                              <a href="#" class="nav__title">Inicio</a>
+	                          </li>
+
+	                          <li class="nav__item">
+	                              <a href="#" class="nav__title">Servicios <i class="nav__icon fa-solid fa-chevron-down"></i>
+	                              </a>
+	                              <ul class="nav__submenu">
+	                                  <li class="submenu__item">
+	                                      <a href="#" class="submenu__title">Diseño web</a>
+	                                  </li>
+	                                  <li class="submenu__item">
+	                                      <a href="#" class="submenu__title">Desarrolo web</a>
+	                                  </li>
+	                                  <li class="submenu__item">
+	                                      <a href="#" class="submenu__title">Desarrollo de apps</a>
+	                                  </li>
+	                                  <li class="submenu__item">
+	                                      <a href="#" class="submenu__title">Programación</a>
+	                                  </li>
+	                                  <li class="submenu__item">
+	                                      <a href="#" class="submenu__title">Consultoría</a>
+	                                  </li>
+	                              </ul>
+
+
+	                          </li>
+
+	                          <li class="nav__item">
+	                              <a href="#" class="nav__title">Desarrollos <i class="nav__icon fa-solid fa-chevron-down"></i>
+	                              </a>
+	                              <ul class="nav__submenu">
+	                                  <li class="submenu__item">
+	                                      <a href="#" class="submenu__title">Diseño web</a>
+	                                  </li>
+	                                  <li class="submenu__item">
+	                                      <a href="#" class="submenu__title">Desarrolo web</a>
+	                                  </li>
+	                                  <li class="submenu__item">
+	                                      <a href="#" class="submenu__title">Desarrollo de apps</a>
+	                                  </li>
+	                                  <li class="submenu__item">
+	                                      <a href="#" class="submenu__title">Programación</a>
+	                                  </li>
+	                                  <li class="submenu__item">
+	                                      <a href="#" class="submenu__title">Consultoría</a>
+	                                  </li>
+	                              </ul>
+
+
+	                          </li>
+
+	                          <li class="nav__item">
+	                              <a href="#" class="nav__title">Blog <i class="nav__icon fa-solid fa-chevron-down"></i>
+	                              </a>
+	                              <ul class="nav__submenu">
+	                                  <li class="submenu__item">
+	                                      <a href="#" class="submenu__title">Diseño web</a>
+	                                  </li>
+	                                  <li class="submenu__item">
+	                                      <a href="#" class="submenu__title">Desarrolo web</a>
+	                                  </li>
+	                                  <li class="submenu__item">
+	                                      <a href="#" class="submenu__title">Desarrollo de apps</a>
+	                                  </li>
+	                                  <li class="submenu__item">
+	                                      <a href="#" class="submenu__title">Programación</a>
+	                                  </li>
+	                                  <li class="submenu__item">
+	                                      <a href="#" class="submenu__title">Consultoría</a>
+	                                  </li>
+	                              </ul>
+
+
+	                          </li>
+
+	                          <li class="nav__item">
+	                              <a href="#" class="nav__title">Pagos</a>
+	                          </li>
+
+	                          <li class="nav__item">
+	                              <a href="#" class="nav__title">Contacto</a>
+	                          </li>
+							  
+							  <li sec:authorize="isAuthenticated()" class="nav__item">
+							  		<a class="nav__title" th:href="@{/authenticate/socios}" >Socios</a>
+							  </li>
+							  
+							   <li class="nav__item" sec:authorize="isAnonymous()" >
+	                              <a th:href="@{/registro}" class="nav__title">Registrate</a>
+	                          </li>
+
+	                      </ul>
+	                  </nav>
+
+
+	              </header>
+	          </section>
+
+	          <!-- BANNER -->
+
+	          <section class="layout__banner">
+
+	              <!-- Contenido del banner -->
+	              <header class="banner__content">
+	                  <h1 class="banner__title">Portal de Pagos</h1>
+	                  <a href="#" class="banner__btn" th:href="@{/authenticate/socios}" >Ir al portal de Socios</a>
+	              </header>
+
+	              <!-- Formas e imagenes del banner -->
+	              <div class="banner__shapes">
+	                  <ul class="shapes__list">
+	                      <li class="shapes__item shapes__item--shape1">
+	                          <div class="shapes__container">
+	                              <img class="shaps__img" th:src="'/coral/front-pagos/banner-shape-2.jpg'" style="
+	                              width: 1000px;
+	                              height: auto;
+	                          " />
+	                          </div>
+	                      </li>
+
+	                      <li class="shapes__item shapes__item--shape3">
+	                          <div class="shapes__container">
+	                              <img class="shaps__img" th:src="'/coral/front-pagos/bubble-16.png'" />
+	                          </div>
+	                      </li>
+
+	                      <li class="shapes__item shapes__item--shape4">
+	                          <div class="shapes__container">
+	                              <img class="shaps__img" th:src="'/coral/front-pagos/bubble-15.png'" />
+	                          </div>
+	                      </li>
+
+	                      <li class="shapes__item shapes__item--shape5">
+	                          <div class="shapes__container">
+	                              <img class="shaps__img" th:src="'/coral/front-pagos/bubble-14.png'" />
+	                          </div>
+	                      </li>
+
+	                      <li class="shapes__item shapes__item--shape6">
+	                          <div class="shapes__container">
+	                              <img class="shaps__img" th:src="'/coral/front-pagos/bubble-16.png'" />
+	                          </div>
+	                      </li>
+
+	                      <li class="shapes__item shapes__item--shape7">
+	                          <div class="shapes__container">
+	                              <img class="shaps__img" th:src="'/coral/front-pagos/bubble-26.png'" />
+	                          </div>
+	                      </li>
+
+	                  </ul>
+	              </div>
+
+	          </section>
+
+
+	          <!-- SERVICIOS -->
+
+	          <section class="layout__services">
+
+
+	              <div class="services__grid">
+
+	                  <header class="services__header">
+	                      <p class="services__subtitle">¿Como podemos servirte?</p>
+	                      <h2 class="services__title">Nuestros servicios <br /> para t&iacute;</h2>
+	                  </header>
+
+	                  <div class="services__list">
+
+	                      <article class="services__service services__service--bottom">
+
+	                          <div class="service__container-img">
+	                              <img class="service_img" th:src="'/coral/front-pagos/icon-1.png'" alt="Diseño" />
+	                          </div>
+
+	                          <div class="service__content">
+
+	                              <h3 class="service__title">
+	                                  <a href="#" class="service__link">Hospedaje</a>
+	                              </h3>
+
+	                              <p class="service__description">
+	                                  En Vista del mar, ofrecemos un ambiente donde te podrás conectarte con la naturaleza mientras mantienes un descanso en tu hospedaje.
+	                              </p>
+
+	                              <a class="service__more" href="#">Leer más</a>
+
+	                          </div>
+
+	                      </article>
+
+	                      <article class="services__service services__service--middle">
+
+	                          <div class="service__container-img">
+	                              <img class="service_img" th:src="'/coral/front-pagos/icon-2.png'" alt="Desarrollo" />
+	                          </div>
+
+	                          <div class="service__content">
+
+	                              <h3 class="service__title">
+	                                  <a href="#" class="service__link">Green Fee</a>
+	                              </h3>
+
+	                              <p class="service__description">
+	                                  Con una superficie de mas de 50 hectáreas, ofrecemos un desafiante recorrido de 18 hoyos para golfistas de todos los niveles.
+	                              </p>
+
+	                              <a class="service__more" href="#">Leer más</a>
+
+	                          </div>
+
+	                      </article>
+
+	                      <article class="services__service services__service--top">
+
+	                          <div class="service__container-img">
+	                              <img class="service_img" th:src="'/coral/front-pagos/icon-3.png'" alt="Marketing" />
+	                          </div>
+
+	                          <div class="service__content">
+
+	                              <h3 class="service__title">
+	                                  <a href="#" class="service__link">Eventos</a>
+	                              </h3>
+
+	                              <p class="service__description">
+	                                  Beneficios exclusivos y acceso privilegiado a todas las instalaciones de Coral Cuernavaca.
+	                              </p>
+
+	                              <a class="service__more" href="#">Leer más</a>
+
+	                          </div>
+
+	                      </article>
+
+	                  </div>
+
+	              </div>
+
+	              <ul class="services__service-shapes">
+	                  <li class="service-shapes__item service-shapes--shape1">
+	                      <div class="service-shapes__container">
+	                          <img class="service-shapes__img" th:src="'/coral/front-pagos/circle-2.png'" />
+	                      </div>
+	                  </li>
+
+	                  <li class="service-shapes__item service-shapes--shape2">
+	                      <div class="service-shapes__container">
+	                          <img class="service-shapes__img" th:src="'/coral/front-pagos/bubble-2.png'" />
+	                      </div>
+	                  </li>
+
+
+	                  <li class="service-shapes__item service-shapes--shape3">
+	                      <div class="service-shapes__container">
+	                          <img class="service-shapes__img" th:src="'/coral/front-pagos/bubble-1.png'" />
+	                      </div>
+	                  </li>
+
+	              </ul>
+
+	          </section>
+
+	          <!-- DESARROLLOS -->
+
+	          <section class="layout__projects">
+
+	              <div class="projects__grid">
+
+	                  <header class="projects__header">
+	                      <p class="projects__subtitle">Nuestros desarrollos</p>
+	                      <h2 class="projects__title">
+	                          La mejor opci&oacute;n <br /> para t&iacute;.
+	                      </h2>
+	                  </header>
+
+	                  <ul class="projects__categories">
+	                      <li class="catogories__item catogories__item--active">
+	                          Coral Clubes Golf
+	                      </li>
+	                      <li class="catogories__item">
+	                          Coral Vista del Mar
+	                      </li>
+	                      <li class="catogories__item">
+	                          Coral Cuernavaca
+	                      </li>
+	                      <li class="catogories__item">
+	                          Playas Coral Clubes
+	                      </li>
+	                  </ul>
+
+	                  <div class="projects__all">
+
+	                      <article class="projects__project">
+
+	                          <div class="project__container-img">
+	                              <a href="#" class="project__link-img">
+	                                  <img th:src="'/coral/front-pagos/golf.jpg'" class="project__img"
+	                                      alt="Imagen de un proyecto." />
+	                              </a>
+	                          </div>
+
+	                          <div class="project_content">
+	                              <h3 class="project__title">
+	                                  <a href="#" class="project__link-title">
+	                                      Coral Clubes Golf
+	                                  </a>
+	                              </h3>
+
+	                              <div class="project__tags">
+	                                  <span class="project__tag">Green Fee,</span>
+	                                  <span class="project__tag">Pelotas,</span>
+	                                  <span class="project__tag">Carrito 18 hoyos</span>
+	                              </div>
+
+	                          </div>
+
+	                      </article>
+
+	                      <article class="projects__project">
+
+	                          <div class="project__container-img">
+	                              <a href="#" class="project__link-img">
+	                                  <img th:src="'/coral/front-pagos/vista.jpg'" class="project__img"
+	                                      alt="Imagen de un proyecto." />
+	                              </a>
+	                          </div>
+
+	                          <div class="project_content">
+	                              <h3 class="project__title">
+	                                  <a href="#" class="project__link-title">
+	                                      Coral Vista del Mar
+	                                  </a>
+	                              </h3>
+
+	                              <div class="project__tags">
+	                                  <span class="project__tag">Hospedaje,</span>
+	                                  <span class="project__tag">Eventos,</span>
+	                                  <span class="project__tag">Diversi&oacute;n</span>
+	                              </div>
+
+	                          </div>
+
+	                      </article>
+
+	                      <article class="projects__project">
+
+	                          <div class="project__container-img">
+	                              <a href="#" class="project__link-img">
+	                                  <img th:src="'/coral/front-pagos/sm.jpg'" class="project__img"
+	                                      alt="Imagen de un proyecto." />
+	                              </a>
+	                          </div>
+
+	                          <div class="project_content">
+	                              <h3 class="project__title">
+	                                  <a href="#" class="project__link-title">
+	                                      Coral Santa Mar&iacute;a Acapulco
+	                                  </a>
+	                              </h3>
+
+	                              <div class="project__tags">
+	                                  <span class="project__tag">Hospedaje,</span>
+	                                  <span class="project__tag">Eventos</span>
+	                              </div>
+
+	                          </div>
+
+	                      </article>
+
+	                      <article class="projects__project">
+
+	                          <div class="project__container-img">
+	                              <a href="#" class="project__link-img">
+	                                  <img th:src="'/coral/front-pagos/ixtapa.jpg'" class="project__img"
+	                                      alt="Imagen de un proyecto." />
+	                              </a>
+	                          </div>
+
+	                          <div class="project_content">
+	                              <h3 class="project__title">
+	                                  <a href="#" class="project__link-title">
+	                                      Coral Ixtapa
+	                                  </a>
+	                              </h3>
+
+	                              <div class="project__tags">
+	                                  <span class="project__tag">Hospedaje,</span>
+	                                  <span class="project__tag">Eventos</span>
+	                              </div>
+
+	                          </div>
+
+	                      </article>
+
+	                      <article class="projects__project">
+
+	                          <div class="project__container-img">
+	                              <a href="#" class="project__link-img">
+	                                  <img th:src="'/coral/front-pagos/cuernavaca.jpg'" class="project__img"
+	                                      alt="Imagen de un proyecto." />
+	                              </a>
+	                          </div>
+
+	                          <div class="project_content">
+	                              <h3 class="project__title">
+	                                  <a href="#" class="project__link-title">
+	                                      Coral Cuernavaca
+	                                  </a>
+	                              </h3>
+
+	                              <div class="project__tags">
+	                                  <span class="project__tag">Cabañas,</span>
+	                                  <span class="project__tag">Hospedaje,</span>
+	                                  <span class="project__tag">Diversi&oacute;n</span>
+	                              </div>
+
+	                          </div>
+
+	                      </article>
+
+	                      <article class="projects__project">
+
+	                          <div class="project__container-img">
+	                              <a href="#" class="project__link-img">
+	                                  <img th:src="'/coral/front-pagos/acapulco.jpg'" class="project__img"
+	                                      alt="Imagen de un proyecto." />
+	                              </a>
+	                          </div>
+
+	                          <div class="project_content">
+	                              <h3 class="project__title">
+	                                  <a href="#" class="project__link-title">
+	                                     Coral Acapulco
+	                                  </a>
+	                              </h3>
+
+	                              <div class="project__tags">
+	                                  <span class="project__tag">Hospedaje,</span>
+	                                  <span class="project__tag">Eventos,</span>
+	                                  <span class="project__tag">Mar</span>
+	                              </div>
+
+	                          </div>
+
+	                      </article>
+
+	                  </div>
+
+	              </div>
+
+	              <ul class="projects__project-shapes">
+	                  <li class="project-shapes__item project-shapes--shape1">
+	                      <div class="project-shapes__container">
+	                          <img class="project-shapes__img" th:src="'/coral/front-pagos/circle-2.png'"  />
+	                      </div>
+	                  </li>
+
+	                  <li class="project-shapes__item project-shapes--shape2">
+	                      <div class="project-shapes__container">
+	                          <img class="project-shapes__img" th:src="'/coral/front-pagos/bubble-2.png'"  />
+	                      </div>
+	                  </li>
+
+
+	                  <li class="project-shapes__item project-shapes--shape3">
+	                      <div class="project-shapes__container">
+	                          <img class="project-shapes__img" th:src="'/coral/front-pagos/bubble-1.png'" />
+	                      </div>
+	                  </li>
+
+	              </ul>
+
+	          </section>
+
+	          <!-- ESTADISTICAS -->
+
+	          <section class="layout__stats">
+	              <div class="stats__container">
+
+	                  <header class="stats__header">
+	                      <h4 class="stats__subtitle">Los mejores destinos de M&eacute;xico</h4>
+	                      <h2 class="stats__title">El mejor trato</h2>
+	                      <p class="stats__description">
+	                         Nuestros socios quedan completamente satisfechos.
+	                      </p>
+	                  </header>
+
+	                  <div class="stats__progress">
+
+	                      <article class="stats_stat">
+	                          <div class="stat__icon">
+	                              <img th:src="'/coral/front-pagos/icon-7.png'" />
+	                          </div>
+	                          <span class="stat__count">+40</span>
+	                          <h6 class="stats__title">Años</h6>
+	                      </article>
+
+	                      <article class="stats_stat">
+	                          <div class="stat__icon">
+	                              <img th:src="'/coral/front-pagos/icon-8.png'"  />
+	                          </div>
+	                          <span class="stat__count">+6</span>
+	                          <h6 class="stats__title">Desarrollos</h6>
+	                      </article>
+
+	                      <article class="stats_stat">
+	                          <div class="stat__icon">
+	                              <img th:src="'/coral/front-pagos/icon-9.png'"  />
+	                          </div>
+	                          <span class="stat__count">+200</span>
+	                          <h6 class="stats__title">Socios</h6>
+	                      </article>
+
+
+	                      <article class="stats_stat">
+	                          <div class="stat__icon">
+	                              <img th:src="'/coral/front-pagos/apple.png'"  />
+	                          </div>
+	                          <span class="stat__count">+1000</span>
+	                          <h6 class="stats__title">Clientes contentos</h6>
+	                      </article>
+
+
+	                  </div>
+
+	              </div>
+	          </section>
+
+	          <!-- RESEÑAS -->
+
+	          <section class="layout__reviews">
+
+	              <div class="reviews__grid">
+
+	                  <header class="reviews__header">
+	                      <h4 class="reviews__subtitle">Reseñas</h4>
+	                      <h2 class="reviews__title">¿Que dicen nuestros clientes?</h2>
+	                      <p class="reviews__description">
+	                          Nuestros clientes siempre salen satisfechos
+	                      </p>
+	                  </header>
+
+	                  <div class="reviews__container">
+
+	                      <article class="reviews__review">
+	                          <span class="review__company">
+	                              <img class="review__img" th:src="'/coral/front-pagos/cc.png'" style="border-radius: 80px;" />
+	                          </span>
+	                          <p class="review__description">
+	                              "El trato fue espectacular y las instalaciones son muy agradables y comodas."
+	                          </p>
+	                          <div class="review__author">
+	                              <div class="author__container-img">
+	                                  <img class="author__img" th:src="'/coral/front-pagos/1.jpg'" alt="Foto de usuario" />
+	                              </div>
+	                              <div class="author__content">
+	                                  <span class="author__name">Rogelio Manilla</span>
+	                                  <span class="author__description">Socio</span>
+	                              </div>
+	                          </div>
+	                      </article>
+
+	                      <article class="reviews__review">
+	                          <span class="review__company">
+	                              <img class="review__img" th:src="'/coral/front-pagos/cg.jpg'" style="border-radius: 80px;" />
+	                          </span>
+	                          <p class="review__description">
+	                              " Mi evento fue mejor de lo que esperaba definitivamente volvere, muy recomendable. "
+	                          </p>
+	                          <div class="review__author">
+	                              <div class="author__container-img">
+	                                  <img class="author__img" th:src="'/coral/front-pagos/2.jpg'" alt="Foto de usuario" />
+	                              </div>
+	                              <div class="author__content">
+	                                  <span class="author__name">Monica aguirre</span>
+	                                  <span class="author__description">Socio</span>
+	                              </div>
+	                          </div>
+	                      </article>
+
+	                      <article class="reviews__review">
+	                          <span class="review__company">
+	                              <img class="review__img" th:src="'/coral/front-pagos/ci.png'" style="border-radius: 80px;" />
+	                          </span>
+	                          <p class="review__description">
+	                              "Me gusto la atención prestada por el personal y las instalaciones son muy bellas. "
+	                          </p>
+	                          <div class="review__author">
+	                              <div class="author__container-img">
+	                                  <img class="author__img" th:src="'/coral/front-pagos/3.jpg'" alt="Foto de usuario" />
+	                              </div>
+	                              <div class="author__content">
+	                                  <span class="author__name">Laura Hernandez</span>
+	                                  <span class="author__description">Socio</span>
+	                              </div>
+	                          </div>
+	                      </article>
+
+	                  </div>
+
+	              </div>
+
+	              <ul class="reviews__review-shapes">
+
+	                  <li class="review-shapes__item review-shapes--shape3">
+	                      <div class="review-shapes__container">
+	                          <img class="review-shapes__img" th:src="'/coral/front-pagos/bubble-1.png'" />
+	                      </div>
+	                  </li>
+
+	              </ul>
+
+	          </section>
+
+	          <!-- NOTICIAS -->
+
+	          <section class="layout__news">
+
+	              <div class="news__container">
+
+	                  <header class="news__header">
+	                      <h4 class="news__subtitle">¿Que está pasando?</h4>
+	                      <h2 class="news__title">Últimas noticias</h2>
+	                      <p class="news__description">
+	                          Novedades sobre nuestros desarrollos.
+	                      </p>
+	                  </header>
+
+	                  <div class="news__list">
+
+	                      <article class="news__new">
+	                          <div class="new__container-img">
+	                              <img class="new__img" th:src="'/coral/front-pagos/golf2.jpg'" alt="Camo Golf"  style="
+	                              width: 263px;
+	                              height: 211px;
+	                          " />
+	                          </div>
+	                          <div class="new__content">
+
+	                              <h3 class="new__title">
+	                                  <a href="#" class="new__link">
+	                                      Torneo patrio 2024 (PAR 3)
+	                                  </a>
+	                              </h3>
+
+	                              <p class="new__description">
+	                                  Debido al torneo patrio, el campo permancera cerrado al público en general
+	                              </p>
+
+	                              <a href="#" class="new__more">
+	                                  Leer más <i class="fa-solid fa-chevron-right new__icon"></i>
+	                              </a>
+
+	                          </div>
+	                      </article>
+
+	                      <article class="news__new">
+	                          <div class="new__container-img">
+	                              <img class="new__img" th:src="'/coral/front-pagos/evento.jpg'" alt="XV años" style="
+	                              width: 263px;
+	                              height: 211px;
+	                          " />
+	                          </div>
+	                          <div class="new__content">
+
+	                              <h3 class="new__title">
+	                                  <a href="#" class="new__link">
+	                                      Nuevas instalaciones para eventos
+	                                  </a>
+	                              </h3>
+
+	                              <p class="new__description">
+	                                  ¿Quieres dar tus primeros pasos para apartar tu evento?
+	                              </p>
+
+	                              <a href="#" class="new__more">
+	                                  Leer más <i class="fa-solid fa-chevron-right new__icon"></i>
+	                              </a>
+
+	                          </div>
+	                      </article>
+
+	                  </div>
+
+	              </div>
+
+	              <ul class="news__new-shapes">
+
+	                  <li class="new-shapes__item new-shapes--shape1">
+	                      <div class="new-shapes__container">
+	                          <img class="new-shapes__img" th:src="'/coral/front-pagos/bubble-1.png'"  />
+	                      </div>
+	                  </li>
+
+	                  <li class="new-shapes__item new-shapes--shape2">
+	                      <div class="new-shapes__container">
+	                          <img class="new-shapes__img" th:src="'/coral/front-pagos/line-1.png'"  />
+	                      </div>
+	                  </li>
+
+
+	                  <li class="new-shapes__item new-shapes--shape3">
+	                      <div class="new-shapes__container">
+	                          <img class="new-shapes__img" th:src="'/coral/front-pagos/line-2.png'" />
+	                      </div>
+	                  </li>
+
+	                  <li class="new-shapes__item new-shapes--shape4">
+	                      <div class="new-shapes__container">
+	                          <img class="new-shapes__img" th:src="'/coral/front-pagos/bubble-2.png'"  />
+	                      </div>
+	                  </li>
+
+	              </ul>
+
+	          </section>
+
+	          <!-- PIE DE PAGINA -->
+
+	          <section class="layout__footer">
+
+	              <div class="footer__container">
+
+	                  <section class="footer__top">
+	                      <ul class="footer__social">
+	                          <li class="social__item">
+	                              <a href="#" class="social__link">
+	                                  <i class="fa-brands fa-facebook-f social__img"></i>
+	                              </a>
+	                          </li>
+	                          <li class="social__item">
+	                              <a href="#" class="social__link">
+	                                  <i class="fa-brands fa-twitter social__img"></i>
+	                              </a>
+	                          </li>
+	                          <li class="social__item">
+	                              <a href="#" class="social__link">
+	                                  <i class="fa-brands fa-youtube social__img"></i>
+	                              </a>
+	                          </li>
+	                          <li class="social__item">
+	                              <a href="#" class="social__link">
+	                                  <i class="fa-brands fa-linkedin social__img"></i>
+	                              </a>
+	                          </li>
+	                          <li class="social__item">
+	                              <a href="#" class="social__link">
+	                                  <i class="fa-brands fa-instagram social__img"></i>
+	                              </a>
+	                          </li>
+	                          <li class="social__item">
+	                              <a href="#" class="social__link">
+	                                  <i class="fa-brands fa-pinterest-p social__img"></i>
+	                              </a>
+	                          </li>
+	                          <li class="social__item">
+	                              <a href="#" class="social__link">
+	                                  <i class="fa-brands fa-vimeo-v social__img"></i>
+	                              </a>
+	                          </li>
+	                          <li class="social__item">
+	                              <a href="#" class="social__link">
+	                                  <i class="fa-brands fa-behance social__img"></i>
+	                              </a>
+	                          </li>
+	                      </ul>
+	                  </section>
+
+	                  <section class="footer__main">
+
+	                      <div class="footer__fleft">
+	                          <div class="fleft__container">
+	                              <h2 class="fleft__title">
+	                                  Contactanos!
+	                              </h2>
+	                              <p class="fleft__subtitle">
+	                                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut architecto amet deleniti
+	                                  reprehenderit libero. Expedita earum aliquid nemo, accusamus deleniti cumque ducimus
+	                                  dolores nisi, praesentium officia aliquam deserunt molestiae voluptas!
+	                              </p>
+	                              <form class="fleft__form">
+	                                  <div class="fleft__group">
+	                                      <span class="fleft__mail-icon">
+	                                          <i class="fa-solid fa-envelope-open-text fleft__img"></i>
+	                                      </span>
+	                                      <input type="text" class="fleft__form-control" placeholder="Correo Electrónico" />
+	                                      <button type="submit" class="fleft__btn">Enviar</button>
+	                                  </div>
+	                              </form>
+	                          </div>
+	                      </div>
+
+	                      <div class="footer__fright">
+
+	                          <div class="footer__widget footer__widget--50">
+	                              <h6 class="widget__title">Servicios</h6>
+	                              <ul class="widget__list">
+	                                  <li class="widget__item">
+	                                      <a href="#" class="widget__link">Hospedaje</a>
+	                                  </li>
+	                                  <li class="widget__item">
+	                                      <a href="#" class="widget__link">Bodas</a>
+	                                  </li>
+	                                  <li class="widget__item">
+	                                      <a href="#" class="widget__link">Green Fee</a>
+	                                  </li>
+	                                  <li class="widget__item">
+	                                      <a href="#" class="widget__link">Terrenos</a>
+	                                  </li>
+	                                  <li class="widget__item">
+	                                      <a href="#" class="widget__link">XV Años</a>
+	                                  </li>
+	                                  <li class="widget__item">
+	                                      <a href="#" class="widget__link">Más ...</a>
+	                                  </li>
+	                              </ul>
+	                          </div>
+
+	                          <div class="footer__widget footer__widget--25">
+	                              <h6 class="widget__title">Playas</h6>
+	                              <ul class="widget__list">
+	                                  <li class="widget__item">
+	                                      <a href="#" class="widget__link">Ixtapa</a>
+	                                  </li>
+	                                  <li class="widget__item">
+	                                      <a href="#" class="widget__link">Acapulco</a>
+	                                  </li>
+	                                  <li class="widget__item">
+	                                      <a href="#" class="widget__link">Santa Mar&iacute;a</a>
+	                                  </li>
+	                              </ul>
+	                          </div>
+
+	                          <div class="footer__widget footer__widget--25">
+	                              <h6 class="widget__title">Green Fee</h6>
+	                              <ul class="widget__list">
+	                                  <li class="widget__item">
+	                                      <a href="#" class="widget__link">Campos</a>
+	                                  </li>
+	                                  <li class="widget__item">
+	                                      <a href="#" class="widget__link">Torneos</a>
+	                                  </li>
+	                                  <li class="widget__item">
+	                                      <a href="#" class="widget__link">Carritos de golf</a>
+	                                  </li>
+	                              </ul>
+	                          </div>
+
+	                      </div>
+
+	                  </section>
+
+	                  <section class="footer__bottom">
+
+	                      <div class="footer__copyright">
+	                          <span class="copyright__text">
+	                              &copy; Todos lo derechos reservados a <a href="https://coralpagos.com.mx/CoralClubes/">Coral Clubes</a>.
+	                          </span>
+	                      </div>
+
+	                      <div class="footer__links">
+	                          <ul class="footer__flinks">
+	                              <li class="flinks__item flinks__item--separator">
+	                                  <a href="#" class="flinks__title">Politica de privacidad</a>
+	                              </li>
+	                              <li class="flinks__item">
+	                                  <a href="#" class="flinks__title">Terminos de uso</a>
+	                              </li>
+	                          </ul>
+	                      </div>
+
+	                  </section>
+	              </div>
+
+	          </section>
+
+	      </div>
+	      
+	      <div sec:authorize="isAuthenticated()" >
+				<script>
+				  var contextRoot = /*[[@{/}]]*/ '';
+				  //window.location.href = contextRoot+'/portal-facil/authenticate/empleado';
+				  window.location.href = contextRoot+'/portal-facil/home';
+				</script>				  
+	      </div>
+	      
+	  </body>
+</html>

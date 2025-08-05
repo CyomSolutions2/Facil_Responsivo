@@ -1,0 +1,71 @@
+{
+  "_from": "@atomaras/bootstrap-multiselect@^1.0.0",
+  "_id": "@atomaras/bootstrap-multiselect@1.0.0",
+  "_inBundle": false,
+  "_integrity": "sha512-i3mh8YEBr5H1Rp+klO9PJs7TdJsdkgJ5qWPri4MKmE0a7XAtKt7lMAQaerv/VxIn1u23Yo6cwHxWz1/QGQsTXQ==",
+  "_location": "/@atomaras/bootstrap-multiselect",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@atomaras/bootstrap-multiselect@^1.0.0",
+    "name": "@atomaras/bootstrap-multiselect",
+    "escapedName": "@atomaras%2fbootstrap-multiselect",
+    "scope": "@atomaras",
+    "rawSpec": "^1.0.0",
+    "saveSpec": null,
+    "fetchSpec": "^1.0.0"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@atomaras/bootstrap-multiselect/-/bootstrap-multiselect-1.0.0.tgz",
+  "_shasum": "9fd8835fd57fd8d8c813f7b18944d8e211501cdb",
+  "_spec": "@atomaras/bootstrap-multiselect@^1.0.0",
+  "_where": "C:\\workspace\\Dashboardpack\\architectui-html-pro",
+  "author": {
+    "name": "David Stutz"
+  },
+  "bugs": {
+    "url": "https://github.com/davidstutz/bootstrap-multiselect/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "jquery": "^3.3.1"
+  },
+  "deprecated": false,
+  "description": "JQuery multiselect plugin based on Twitter Bootstrap.",
+  "devDependencies": {
+    "jasmine-core": "*",
+    "karma": "*",
+    "karma-chrome-launcher": "*",
+    "karma-cli": "*",
+    "karma-jasmine": "*",
+    "karma-phantomjs-launcher": "*"
+  },
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "homepage": "http://davidstutz.de/bootstrap-multiselect/",
+  "keywords": [
+    "js",
+    "css",
+    "less",
+    "bootstrap",
+    "jquery",
+    "multiselect"
+  ],
+  "license": "Apache License, Version 2.0",
+  "main": "dist/js/bootstrap-multiselect.js",
+  "name": "@atomaras/bootstrap-multiselect",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/artemistomaras/bootstrap-multiselect.git"
+  },
+  "scripts": {
+    "test": "karma start tests/karma.conf.js --single-run"
+  },
+  "types": "./types/index.d.ts",
+  "version": "1.0.0"
+}

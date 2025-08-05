@@ -1,0 +1,14 @@
+{
+    "name": "animate-sass",
+    "homepage": "https://github.com/tgdev/animate-sass",
+    "version": "0.8.2",
+    "_release": "0.8.2",
+    "_resolution": {
+        "type": "version",
+        "tag": "v0.8.2",
+        "commit": "ee3981eddebbcd5a27771321853e9f22fa6d21cb"
+    },
+    "_source": "git://github.com/tgdev/animate-sass.git",
+    "_target": "~0.8.2s",
+    "_direct": true
+}

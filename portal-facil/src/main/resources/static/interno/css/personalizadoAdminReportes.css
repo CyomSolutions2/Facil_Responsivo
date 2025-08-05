@@ -1,0 +1,668 @@
+/* ESTILOS GENERALES */
+.fondoAzul {
+    background-color: #ADD8E6;
+    color: #fff5ee;
+}
+
+.textoLabel {
+    color: black;
+}
+
+.h-100 {
+    height: 100% !important;
+}
+
+/* ==================== */
+/* VARIABLES CSS */
+/* ==================== */
+:root {
+  --color-primary: #007bff;
+  --color-secondary: #6c757d;
+  --color-info: #17a2b8;
+  --color-success: #28a745;
+  --color-warning: #ffc107;
+  --color-danger: #dc3545;
+  --color-light: #f8f9fa;
+  --color-dark: #343a40;
+  --border-radius: 0.25rem;
+  --box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --transition: all 0.2s ease-in-out;
+}
+
+/* ==================== */
+/* ESTILOS BASE */
+/* ==================== */
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  color: var(--color-dark);
+}
+
+/* ==================== */
+/* ESTILOS PARA SIDEBAR Y NAVEGACIÓN */
+/* ==================== */
+.sidebarStyle {
+  background: lightgray; 
+  font-size: 12px;
+}
+
+.nav-link:hover {
+    background-color: #f8f9fa;
+}
+
+.nav-treeview {
+    display: none;
+    padding-left: 20px;
+    margin-left: 15px;
+    border-left: 1px dashed #dee2e6;
+}
+
+.nav-item.has-treeview > .nav-link > .right {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.nav-item.has-treeview.menu-open > .nav-link > .right {
+    transform: rotate(90deg);
+}
+
+.nav-link {
+    display: flex;
+    align-items: flex-start;
+    padding: 0.5rem 1rem;
+    color: #495057;
+    border-radius: 4px;
+    white-space: normal !important;
+    word-break: break-word !important;
+    line-height: 1.2;
+    gap: 0.5rem;
+}
+
+/* Ajustes específicos para el navbar */
+.main-header .navbar {
+    padding: 0.25rem 0.5rem;
+}
+
+/* Posicionamiento del botón hamburguesa */
+.navbar-toggler {
+    order: -1;
+    margin-right: 0.5rem;
+    margin-left: 0;
+}
+
+/* Menú móvil abierto */
+.sidebar-open .main-sidebar {
+    transform: translateX(0);
+    visibility: visible;
+}
+
+/* Transición suave */
+.main-sidebar {
+    transition: transform 0.3s ease, visibility 0.3s ease;
+}
+
+/* En móviles, el menú está oculto por defecto */
+@media (max-width: 991.98px) {
+    .main-sidebar {
+        transform: translateX(-100%);
+        visibility: hidden;
+        position: fixed;
+        z-index: 1035;
+        height: 100vh;
+        overflow-y: auto;
+    }
+    
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 1030;
+        display: none;
+    }
+    
+    .sidebar-open .sidebar-overlay {
+        display: block;
+    }
+
+    .navbar-toggler {
+        margin-right: 0.75rem;
+    }
+    
+    .main-header .navbar-nav.ml-auto {
+        margin-left: auto !important;
+    }
+    
+    .main-header .navbar-nav.ml-auto .nav-item {
+        margin-left: 0;
+    }
+
+    /* Evita que el menú se cierre al hacer clic en enlaces */
+    .main-sidebar .nav-item.has-treeview .nav-link {
+        pointer-events: auto;
+        text-align: justify;
+    }
+    
+    /* Asegura que los submenús sean accesibles */
+    .main-sidebar .nav-treeview {
+        display: none;
+    }
+    
+    .main-sidebar .nav-item.menu-open .nav-treeview {
+        display: block;
+    }
+}
+
+/* ESTILOS PARA TABLAS */
+.card-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.card-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.card-body::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.card-body::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa;
+    z-index: 10;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(23, 162, 184, 0.1);
+}
+
+@media (min-height: 768px) {
+    .card-body {
+        max-height: 600px !important;
+    }
+}
+
+/* ESTILOS PARA BOTONES */
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+}
+
+.btn-sm i {
+    width: 1em;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-group .btn {
+    margin-right: 0.25rem;
+}
+
+.btn-group .btn:last-child {
+    margin-right: 0;
+}
+
+.btn-herencia, .btn-herencia i {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.btn-herencia {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+}
+
+.btn-herencia:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+}
+
+.btn-activar {
+    transition: all 0.3s ease;
+}
+
+.btn-activar.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-activar.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+/* ESTILOS PARA ROLES */
+.rol-inactivo {
+    background-color: rgba(255, 0, 0, 0.15) !important;
+}
+
+.rol-inactivo:hover {
+    background-color: rgba(255, 0, 0, 0.25) !important;
+}
+
+.rol-sin-modulos {
+    background-color: rgba(255, 255, 0, 0.15) !important;
+}
+
+.rol-sin-modulos:hover {
+    background-color: rgba(255, 255, 0, 0.25) !important;
+}
+
+/* ESTILOS PARA EL ÁRBOL DE MÓDULOS */
+#modulosTree, #modulosEdicionTree {
+    font-family: 'Source Sans Pro', sans-serif;
+    padding: 10px;
+}
+
+.menu-open > .nav-treeview {
+    display: block;
+}
+
+.modulo-checkbox {
+    margin-right: 10px;
+    transform: scale(1.2);
+}
+
+/* MODAL DE EDICIÓN - VERSIÓN MÁS ALTA */
+.modal-editar-rol {
+    max-width: 800px;
+    max-height: 95vh !important;
+}
+
+#editarRolModal .modal-content {
+    min-height: 800px;
+    border-radius: 0.3rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+#editarRolModal .modal-header {
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#editarRolModal .modal-body {
+    height: 680px;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+#editarRolModal .modulos-scroll-container  .reportes-scroll-container {
+    height: 580px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+#editarRolModal #modulosEdicionTree {
+    min-height: 500px;
+    padding-bottom: 30px;
+}
+
+#editarRolModal .card {
+    height: 100%;
+    margin-bottom: 0;
+}
+
+/* MODAL DE HERENCIA */
+#herenciaModal .modal-content {
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 0.3rem;
+}
+
+#herenciaModal .modal-header {
+    color: #212529;
+}
+
+#seccionModulos {
+    transition: all 0.3s ease;
+}
+
+/* SCROLLBAR PERSONALIZADO PARA TODOS LOS CONTENEDORES */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Estilo para módulos padres en el árbol */
+.modulo-padre {
+    font-weight: bold;
+}
+
+/* Estilo para módulos hijos */
+.modulo-hijo {
+    padding-left: 20px;
+}
+
+/* Estilos para el modal de herencia */
+#herenciaModal .modal-body {
+    padding: 15px;
+}
+
+#herenciaModal .modulos-scroll-container {
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+#herenciaModal .nav-treeview {
+    padding-left: 20px;
+}
+
+#herenciaModal .nav-link {
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+}
+
+#herenciaModal .modulo-checkbox {
+    margin-right: 8px;
+}
+
+#herenciaModal .card-primary {
+    border-top: 3px solid #007bff;
+}
+
+#herenciaModal .card-warning {
+    border-top: 3px solid #ffc107;
+}
+
+/* ESTILOS PARA EL MODAL DE REPORTES */
+#editarReportesModal .modal-dialog {
+    max-width: 800px;
+    max-height: 90vh;
+    margin: 1.75rem auto;
+}
+
+#editarReportesModal .modal-content {
+    height: auto;
+    min-height: 300px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#editarReportesModal .modal-body {
+    flex: 1;
+    padding: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#editarReportesModal .card {
+    height: 100%;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#editarReportesModal .card-body {
+    flex: 1;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.reportes-scroll-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    max-height: calc(85vh - 200px);
+}
+
+/* Ajustes específicos para la lista de reportes */
+#reportesEdicionTree .list-group {
+    margin-bottom: 0;
+}
+
+#reportesEdicionTree .list-group-item {
+    border-left: 0;
+    border-right: 0;
+    padding: 0.75rem 1.25rem;
+}
+
+#reportesEdicionTree .custom-control-label {
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#reportesEdicionTree .custom-control-label::before,
+#reportesEdicionTree .custom-control-label::after {
+    top: 0.25rem;
+}
+
+/* Asegura que el modal esté por encima de todo */
+.modal {
+    z-index: 1060 !important;
+}
+
+/* El backdrop (fondo oscuro) debe estar detrás del modal pero sobre otros elementos */
+.modal-backdrop {
+    z-index: 1040 !important;
+}
+
+/* Si usas sidebar, asegúrate que no interfiera */
+.main-sidebar {
+    z-index: 1030 !important;
+}
+
+/* Overlay del menú móvil debe estar debajo del modal */
+.sidebar-overlay {
+    z-index: 1020 !important;
+}
+
+/* SOLUCIÓN DEFINITIVA PARA MODALES */
+.modal {
+    z-index: 1060 !important;
+    background-color: rgba(0,0,0,0.5) !important;
+}
+
+.modal-backdrop {
+    z-index: 1040 !important;
+}
+
+/* Asegurar que el modal no esté detrás del sidebar */
+.main-sidebar {
+    z-index: 1030 !important;
+}
+
+.sidebar-overlay {
+    z-index: 1020 !important;
+}
+
+/* Forzar visibilidad del modal */
+.modal.show {
+    display: block !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+/* Contenedor del modal - posición fija */
+.modal-dialog {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Asegurar que el contenido del modal sea visible */
+.modal-content {
+    position: relative !important;
+    z-index: 1061 !important;
+}
+
+/* Deshabilitar scroll del body cuando el modal está abierto */
+body.modal-open {
+    overflow: hidden !important;
+    padding-right: 0 !important;
+}
+
+/* SOLUCIÓN PARA MODAL EN MÓVILES */
+@media (max-width: 991.98px) {
+  /* Resetear estilos problemáticos */
+  .modal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    z-index: 1060 !important;
+    overflow-y: auto !important;
+  }
+  
+  .modal-dialog {
+    width: 95% !important;
+    margin: 10px auto !important;
+    min-height: 100% !important;
+    display: flex;
+    align-items: center;
+  }
+  
+  .modal-content {
+    width: 100% !important;
+    margin: auto;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .modal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 15px !important;
+    overflow-y: auto !important;
+  }
+  
+  .modal-dialog {
+    width: 100% !important;
+    margin: 0 !important;
+    max-width: none !important;
+    min-height: 100% !important;
+  }
+  
+  .modal-content {
+    height: auto !important;
+    min-height: 100% !important;
+    border-radius: 0 !important;
+  }
+}
+
+/* Ajustes para textos largos en el menú lateral */
+.nav-treeview .nav-link {
+    white-space: normal !important; /* Permite múltiples líneas */
+    line-height: 1.4; /* Mejor espaciado entre líneas */
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+    display: flex;
+    align-items: flex-start; /* Alineación superior */
+}
+
+/* Contenedor de texto principal */
+.nav-treeview .nav-link p {
+    margin-bottom: 0; /* Elimina margen inferior innecesario */
+    text-align: left; /* Alineación consistente */
+    flex-grow: 1; /* Ocupa todo el espacio disponible */
+    word-break: break-word; /* Rompe palabras largas */
+    padding-right: 10px; /* Espacio para el ícono */
+}
+
+/* Flechas indicadoras de submenú */
+.nav-treeview .nav-link > p > .right {
+    margin-left: auto; /* Posiciona flecha a la derecha */
+    align-self: center; /* Centra verticalmente */
+    flex-shrink: 0; /* Evita que se comprima */
+}
+
+/* Íconos principales */
+.nav-treeview .nav-link > .nav-icon {
+    margin-top: 0.25rem; /* Alinea mejor los íconos */
+    margin-right: 0.5rem;
+    flex-shrink: 0; /* Evita que los íconos se compriman */
+}
+
+/* Ajustes específicos para elementos sin ícono */
+.nav-treeview .nav-link > p {
+    margin-left: 1.8rem; /* Espacio equivalente al ícono */
+}
+
+/* Ajustes para tercer nivel (nietos) */
+.nav-treeview .nav-treeview .nav-link p {
+    padding-left: 0;
+    margin-left: 0;
+}
+
+/* Reduce padding en móviles para ahorrar espacio */
+@media (max-width: 991.98px) {
+    .nav-treeview .nav-link {
+        padding-left: 15px !important;
+    }
+}
+
+/* Fuerza la reorganización de elementos */
+.nav-sidebar .nav-link {
+    display: flex !important;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+}
+
+.nav-sidebar .nav-link > i:first-child {
+    flex-shrink: 0;
+    margin-top: 3px;
+}
+
+.nav-sidebar .nav-link > p {
+    flex-grow: 1;
+    min-width: 0; /* Permite que el texto se ajuste */
+}
+
+.nav-sidebar .nav-link > p > span {
+    display: inline-block;
+    width: calc(100% - 20px); /* Reserva espacio para la flecha */
+}
+
+.nav-sidebar .right {
+    flex-shrink: 0;
+    align-self: center;
+}

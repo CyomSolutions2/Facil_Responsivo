@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sistema Fácil | Login</title>
+
+    <!--JQUERY-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <!-- FRAMEWORK BOOTSTRAP para el estilo de la pagina-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    
+    <!-- Los iconos tipo Solid de Fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css">
+    <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+    
+
+    <!-- Nuestro css-->
+    <link rel="stylesheet" type="text/css" th:href="@{/login/static/css/index.css}">
+    
+    <script>
+	   var contextRoot = /*[[@{/}]]*/ '';
+	</script>
+    <script th:src="@{/login/static/js/js.js}"></script>
+</head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-5">
+            <div class="modal-content text-center p-4">
+                <div class="user-img mb-4">
+                    <img th:src="@{/login/static/img/user.jpg}" alt="user" />
+                </div>
+                <form name="form" method="POST" th:action="@{/authenticate/login}">
+                    <div class="form-group position-relative mb-3" id="user-group">
+                        <input type="text" class="form-control" name="username" id="username" placeholder="Usuario" required autofocus />
+                    </div>
+                    <div class="form-group position-relative mb-3" id="contrasena-group">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+                </form>
+
+                <!-- Alertas -->
+                <div th:if="${param.resetEmailSent}" class="alert alert-success alert-dismissible fade show">
+                    Se ha enviado un correo electrónico con las instrucciones para restablecer tu contraseña.
+                    <i class="fas fa-times"></i>
+                </div>
+
+                <div th:if="${param.registerEmailSent}" class="alert alert-success alert-dismissible fade show">
+                    Se ha enviado un correo electrónico para activar tu cuenta en este sistema.
+                    <i class="fas fa-times"></i>
+                </div>
+
+                <div th:if="${mensaje!=null}" th:class="'alert alert-'+${clase}+' alert-dismissible fade show'">
+                    <span th:text="${mensaje}"> </span> <i class="fas fa-times"></i>
+                </div>
+
+                <div th:if="${param.activeUserSuccess}" class="alert alert-success alert-dismissible fade show">
+                    El usuario ha sido activado correctamente
+                    <i class="fas fa-times"></i>
+                </div>
+
+                <div class="forgot mt-3">
+                    <a th:href="@{/authenticate/olvido}">Olvidé mi contraseña <i class="fas fa-exclamation"></i></a><br />
+                    <a th:href="@{/registro}">Regístrate <i class="fas fa-exclamation"></i></a><br />
+                    <a th:href="@{/}">Inicio <i class="fas fa-exclamation"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

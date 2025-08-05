@@ -1,0 +1,117 @@
+<div th:fragment="sidebar-menu" class="app-sidebar sidebar-shadow">
+	                    <div class="app-header__logo">
+	                        <div class="logo-src"></div>
+	                        <div class="header__pane ms-auto">
+	                            <div>
+	                                <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
+	                                    <span class="hamburger-box">
+	                                        <span class="hamburger-inner"></span>
+	                                    </span>
+	                                </button>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="app-header__mobile-menu">
+	                        <div>
+	                            <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
+	                                <span class="hamburger-box">
+	                                    <span class="hamburger-inner"></span>
+	                                </span>
+	                            </button>
+	                        </div>
+	                    </div>
+	                    <div class="app-header__menu">
+	                        <span>
+	                            <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+	                                <span class="btn-icon-wrapper">
+	                                    <i class="fa fa-ellipsis-v fa-w-6"></i>
+	                                </span>
+	                            </button>
+	                        </span>
+	                    </div>
+						<div class="scrollbar-sidebar">
+	                        <div class="app-sidebar__inner">
+	                            <ul class="vertical-nav-menu">
+									<!-- Sección fija -->
+									<li class="app-sidebar__heading">MENU SISTEMA FACIL</li>
+									      <li class="mm-active">
+									          <a th:href="@{/home}" data-menu-id="inicio">
+												<i class="metismenu-icon pe-7s-home"></i>
+									              Inicio
+									          </a>
+									      </li>
+	                               <!--  <li class="app-sidebar__heading">Menu</li>   -->        
+
+									<!-- Módulo principal -->
+									<li th:each="modulo : ${modulos}">
+										<a href="#"
+										      th:attr="data-menu-id=${modulo.mdl_clave}">
+										       <!-- Icono especial para Telemarketing -->
+											   <i th:switch="${modulo.mdl_nombre}" class="metismenu-icon">
+											               <!-- Categorías específicas -->
+														   <span th:case="'Productos'" class="pe-7s-shopbag"></span>
+														   <span th:case="'Telemarketing'" class="pe-7s-call"></span>
+											               <span th:case="'Ventas'" class="pe-7s-cart"></span>
+											               <span th:case="'Cobranza'" class="pe-7s-cash"></span>
+											               <span th:case="'Consultas'" class="pe-7s-search"></span>
+											               <span th:case="'Atención a Clientes'" class="pe-7s-smile"></span>
+											               <span th:case="'Accesos'" class="pe-7s-key"></span>
+											               <span th:case="'Buró de Crédito'" class="pe-7s-credit"></span>
+											               <span th:case="'Reportes Especiales'" class="pe-7s-graph1"></span>
+											               <span th:case="'Buzón Electrónico'" class="pe-7s-mail"></span>
+											               <span th:case="'Catálogos'" class="pe-7s-box2"></span>
+											               <span th:case="'Cargos Automáticos'" class="pe-7s-refresh"></span>
+											               <span th:case="'Usuarios'" class="pe-7s-users"></span>
+											               <span th:case="'Control de Credenciales'" class="pe-7s-id"></span>
+											               <span th:case="'Control de Reservaciones'" class="pe-7s-date"></span>
+											               <span th:case="'Eventos'" class="pe-7s-ticket"></span>
+											               <span th:case="'Mini Bodegas'" class="pe-7s-box1"></span>
+											               <!-- Default: Icono genérico si no coincide con ningún caso -->
+											               <span th:case="*" class="pe-7s-menu"></span>
+											           </i>
+										       <span th:text="${modulo.mdl_nombre}">Nombre del módulo</span>
+										       <i th:if="${not #lists.isEmpty(modulo.hijos)}" class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+										   </a>
+
+									    <!-- Submenús (hijos) -->
+									    <ul th:if="${not #lists.isEmpty(modulo.hijos)}">
+									        <li th:each="submodulo : ${modulo.hijos}">
+									            <!-- Submenú con nietos -->
+									            <a href="#"
+									               th:if="${not #lists.isEmpty(submodulo.hijos)}"
+									               th:attr="data-menu-id=${submodulo.rom_mdl_id}">
+									                <span th:text="${submodulo.mdl_nombre}">Submódulo</span>
+									                <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+									            </a>
+
+									            <!-- Submenú sin nietos y con ruta especial -->
+									            <a th:if="${#strings.startsWith(submodulo.mu_path, '/repEspeciales')} and ${#lists.isEmpty(submodulo.hijos)}"
+									               th:href="@{${submodulo.mu_path}(menuId=${submodulo.rom_mdl_id})}"
+									               th:attr="data-menu-id=${submodulo.rom_mdl_id}">
+									                <span th:text="${submodulo.mdl_nombre}">Submódulo</span>
+									            </a>
+
+									            <!-- Submenú sin nietos y normal -->
+									            <a th:if="${!#strings.startsWith(submodulo.mu_path, '/repEspeciales')} and ${#lists.isEmpty(submodulo.hijos)}"
+									               th:href="@{${submodulo.mu_path}}"
+									               th:attr="data-menu-id=${submodulo.rom_mdl_id}">
+									                <span th:text="${submodulo.mdl_nombre}">Submódulo</span>
+									            </a>
+
+									            <!-- Nietos -->
+									            <ul th:if="${not #lists.isEmpty(submodulo.hijos)}">
+									                <li th:each="subsubmodulo : ${submodulo.hijos}">
+									                    <a th:href="@{${subsubmodulo.mu_path}(menuId=${subsubmodulo.rom_mdl_id})}"
+									                       th:attr="data-menu-id=${subsubmodulo.rom_mdl_id}">
+									                        <span th:text="${subsubmodulo.mdl_nombre}">Subsubmódulo</span>
+									                    </a>
+									                </li>
+									            </ul>
+									        </li>
+									    </ul>
+									</li>
+                                            
+	                            </ul>
+	                        </div>
+	                    </div>
+	                </div>

@@ -1,0 +1,88 @@
+/* VARIABLES */
+
+:root {
+   --color-primary: #5956e9;
+   --color-secondary: #D3D3D4;
+   --color-title: #D3D3D4;
+   --color-bg-banner: #FFDC60;
+   --color-bg-icon: #343A40;
+   
+   --color-bg-dark: #27272E;
+   --color-hover-dark: #FFDC60;
+}
+body {
+    background-color: #212121;
+}
+.layout__menu {
+    background-color: var(--color-bg-icon);
+}
+.banner__content {
+	background-color: var(--color-bg-icon);
+}
+.banner__title {
+	background-color: var(--color-bg-icon);
+}
+.nav__title:hover {
+    color: var(--color-seccondary);
+}
+.nav__title::before {
+    background-color: var(--color-seccondary);
+}
+.nav__submenu {
+    background-color: var(--color-banner);
+}
+.submenu__title:hover {
+    color: var(--color-seccondary);
+}
+.submenu__title::after {
+    background-color: var(--color-seccondary);
+}
+.banner__btn {
+    background-color: var(--color-primary);
+}
+.menu__navbar--fixed {
+    background-color: var(--color-banner);
+}
+.services__service {
+    background: var(--color-banner);
+    background-color: var(--color-banner);
+}
+.project_content {
+    background-color: var(--color-banner);
+}
+.project__title:hover {
+    color: var(--color-hover-dark);
+}
+.layout__contact::before {
+    background-color: var(--color-banner);
+}
+.new__more {
+    color: var(--color-text-body);
+}
+.contact__subtitle {
+    color: var(--color-hover-dark);
+}
+.contact__btn {
+    background-color: var(--color-primary);
+}
+.fleft__group {
+    background-color: #27272E;
+    box-shadow: none;
+}
+.fleft__form-control {
+    background-color: #27272E;
+    color: var(--color-title);
+}
+.widget__link:hover {
+    color: var(--color-hover-dark);
+}
+.extra__info:hover {
+        background: linear-gradient(180deg, var(--color-bg-dark), var(--color-hover-dark));
+    border: 1px solid var(--color-hover-dark);
+}
+.stats__title {
+	color: var(--color-secondary);
+}
+.footer__description {
+	background-color: var(--color-bg-icon);
+}

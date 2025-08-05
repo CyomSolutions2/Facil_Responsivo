@@ -1,0 +1,634 @@
+/* ESTILOS GENERALES */
+.fondoAzul {
+    background-color: #ADD8E6;
+    color: #fff5ee;
+}
+
+.textoLabel {
+    color: black;
+}
+
+.h-100 {
+    height: 100% !important;
+}
+
+/* ESTILOS PARA TABLAS */
+.card-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.card-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.card-body::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.card-body::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa;
+    z-index: 10;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(23, 162, 184, 0.1);
+}
+
+@media (min-height: 768px) {
+    .card-body {
+        max-height: 600px !important;
+    }
+}
+
+/* ESTILOS PARA BOTONES */
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+}
+
+.btn-sm i {
+    width: 1em;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-group .btn {
+    margin-right: 0.25rem;
+}
+
+.btn-group .btn:last-child {
+    margin-right: 0;
+}
+
+.btn-herencia, .btn-herencia i {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.btn-herencia {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+}
+
+.btn-herencia:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+}
+
+.btn-activar {
+    transition: all 0.3s ease;
+}
+
+.btn-activar.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-activar.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+/* ESTILOS PARA ROLES */
+.rol-inactivo {
+    background-color: rgba(255, 0, 0, 0.15) !important;
+}
+
+.rol-inactivo:hover {
+    background-color: rgba(255, 0, 0, 0.25) !important;
+}
+
+.rol-sin-modulos {
+    background-color: rgba(255, 255, 0, 0.15) !important;
+}
+
+.rol-sin-modulos:hover {
+    background-color: rgba(255, 255, 0, 0.25) !important;
+}
+
+/* ESTILOS PARA EL ÁRBOL DE MÓDULOS */
+#modulosTree, #modulosEdicionTree {
+    font-family: 'Source Sans Pro', sans-serif;
+    padding: 10px;
+}
+
+.nav-treeview {
+    display: none;
+    padding-left: 20px;
+    margin-left: 15px;
+    border-left: 1px dashed #dee2e6;
+}
+
+.menu-open > .nav-treeview {
+    display: block;
+}
+
+.nav-item.has-treeview > .nav-link > .right {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.nav-item.has-treeview.menu-open > .nav-link > .right {
+    transform: rotate(90deg);
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    color: #495057;
+    white-space: nowrap;
+    border-radius: 4px;
+    margin-bottom: 2px;
+}
+
+.nav-link:hover {
+    background-color: #f8f9fa;
+}
+
+.modulo-checkbox {
+    margin-right: 10px;
+    transform: scale(1.2);
+}
+
+/* MODAL DE EDICIÓN - VERSIÓN MÁS ALTA */
+.modal-editar-rol {
+    max-width: 800px;
+    max-height: 95vh !important; /* Más alto que 90vh */
+}
+
+#editarRolModal .modal-content {
+    min-height: 800px; /* Aumentado de 700px */
+    border-radius: 0.3rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+#editarRolModal .modal-header {
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#editarRolModal .modal-body {
+    height: 680px; /* Aumentado de 550px */
+    padding: 20px;
+    overflow-y: auto;
+}
+
+#editarRolModal .modulos-scroll-container {
+    height: 580px; /* Aumentado de 450px */
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+#editarRolModal #modulosEdicionTree {
+    min-height: 500px; /* Aumentado de 400px */
+    padding-bottom: 30px;
+}
+
+#editarRolModal .card {
+    height: 100%;
+    margin-bottom: 0;
+}
+
+/* MODAL DE HERENCIA */
+#herenciaModal .modal-content {
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 0.3rem;
+}
+
+#herenciaModal .modal-header {
+    color: #212529;
+}
+
+#seccionModulos {
+    transition: all 0.3s ease;
+}
+
+/* SCROLLBAR PERSONALIZADO PARA TODOS LOS CONTENEDORES */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Estilo para módulos padres en el árbol */
+.modulo-padre {
+    font-weight: bold;
+   /* color: #3c8dbc; /* Opcional: color azul para destacar más */
+}
+
+/* Estilo para módulos hijos */
+.modulo-hijo {
+    padding-left: 20px; /* Sangría para mejor jerarquía */
+}
+
+/* Estilos para el modal de herencia */
+#herenciaModal .modal-body {
+    padding: 15px;
+}
+
+#herenciaModal .modulos-scroll-container {
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+#herenciaModal .nav-treeview {
+    padding-left: 20px;
+}
+
+#herenciaModal .nav-link {
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+}
+
+#herenciaModal .modulo-checkbox {
+    margin-right: 8px;
+}
+
+#herenciaModal .card-primary {
+    border-top: 3px solid #007bff;
+}
+
+#herenciaModal .card-warning {
+    border-top: 3px solid #ffc107;
+}
+
+/* Estilos para móviles (menú responsive) */
+@media (max-width: 991.98px) {
+  .main-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    position: fixed;
+    z-index: 1030;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  
+  .sidebar-open .main-sidebar {
+    transform: translateX(0);
+  }
+  
+  .content-wrapper {
+    margin-left: 0 !important;
+  }
+  
+  .main-header {
+    padding-left: 0 !important;
+  }
+  
+  /* Asegura que el menú tenga ancho completo en móvil */
+  .main-sidebar {
+    width: 250px !important;
+  }
+  
+  /* Estilo para el botón hamburguesa */
+  .navbar-toggler {
+    display: block !important;
+  }
+}
+
+/* Botón hamburguesa */
+.navbar-toggler {
+  border: 1px solid rgba(0,0,0,.1);
+  padding: 0.25rem 0.5rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  background-color: transparent;
+  border-radius: 0.25rem;
+  display: none; /* Oculto por defecto, se muestra en móvil */
+}
+
+.navbar-toggler-icon {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  vertical-align: middle;
+  content: "";
+  background: no-repeat center center;
+  background-size: 100% 100%;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Overlay para fondo oscuro cuando el menú está abierto */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 1029;
+  display: none;
+}
+
+.sidebar-open .sidebar-overlay {
+  display: block;
+}
+
+/* Añade esto a tu CSS */
+.navbar-toggler.order-1 {
+  order: 1;
+  margin-left: auto;
+  margin-right: 0.5rem;
+}
+
+@media (max-width: 991.98px) {
+  .navbar-toggler.order-1 {
+    order: -1;
+    margin-left: 0.5rem;
+    margin-right: auto;
+  }
+}
+
+.main-sidebar {
+  z-index: 1031 !important; /* Mayor que el overlay */
+}
+
+.sidebar-overlay {
+  z-index: 1030 !important; /* Menor que el sidebar pero mayor que otros elementos */
+}
+
+
+@media (max-width: 991.98px) {
+  .navbar-nav.ml-auto {
+    flex-direction: row;
+    margin-left: auto !important;
+  }
+  
+  .navbar-nav.ml-auto .nav-item {
+    margin-left: 0.5rem;
+  }
+}
+
+/* Asegura que el sidebar tenga fondo en móvil */
+@media (max-width: 991.98px) {
+  .main-sidebar.sidebar-dark-primary {
+    background-color: #343a40;
+  }
+  
+  .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link {
+    color: rgba(255,255,255,.8);
+  }
+  
+  .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link:hover {
+    background-color: rgba(255,255,255,.1);
+    color: #fff;
+  }
+}
+
+/* Ajusta el z-index para evitar superposiciones */
+.main-header {
+  z-index: 1032 !important;
+}
+
+/* ==================== */
+/* MEJORAS PARA MENÚ EN MÓVIL */
+/* ==================== */
+@media (max-width: 991.98px) {
+    /* Desactivar transiciones problemáticas */
+    .sidebar-collapse .main-sidebar,
+    .main-sidebar,
+    .main-sidebar * {
+        transition: none !important;
+    }
+    
+    /* Área de clic más grande */
+    .nav-link {
+        padding: 12px 15px !important;
+    }
+    
+    /* Indicador visual mejorado */
+    .has-treeview > .nav-link > .right {
+        transition: transform 0.2s;
+        margin-left: auto;
+    }
+    
+    .has-treeview.menu-open > .nav-link > .right {
+        transform: rotate(90deg);
+    }
+    
+    /* Scroll para menús largos */
+    .main-sidebar {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Evitar que el overlay interfiera con el menú */
+    .sidebar-overlay {
+        z-index: 1037 !important;
+    }
+    
+    .main-sidebar {
+        z-index: 1038 !important;
+    }
+}
+
+@media (max-width: 991.98px) {
+    /* Estilos para mantener el menú abierto */
+    .main-sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+        position: fixed;
+        z-index: 1038;
+        height: 100vh;
+        overflow-y: auto;
+        width: 250px !important;
+    }
+    
+    .sidebar-open .main-sidebar {
+        transform: translateX(0);
+    }
+    
+    /* Área de clic más grande para móviles */
+    .nav-link {
+        padding: 12px 15px !important;
+    }
+    
+    /* Indicador visual mejorado */
+    .has-treeview > .nav-link > .right {
+        transition: transform 0.2s;
+        margin-left: auto;
+    }
+    
+    .has-treeview.menu-open > .nav-link > .right {
+        transform: rotate(90deg);
+    }
+    
+    /* Estilo para el submenú abierto */
+    .nav-treeview {
+        display: none;
+        padding-left: 20px;
+    }
+    
+    .menu-open > .nav-treeview {
+        display: block;
+    }
+    
+    /* Overlay para fondo oscuro */
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 1037;
+        display: none;
+    }
+    
+    .sidebar-open .sidebar-overlay {
+        display: block;
+    }
+}
+
+/* Menú para móviles */
+@media (max-width: 991.98px) {
+    .main-sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        width: 280px !important; /* Más ancho para mejor usabilidad */
+    }
+    
+    .sidebar-open .main-sidebar {
+        transform: translateX(0);
+        box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+    }
+    
+    /* Áreas de click más grandes */
+    .nav-link {
+        padding: 15px 20px !important;
+        font-size: 1.05rem;
+    }
+    
+    /* Mejor feedback visual */
+    .nav-link:active {
+        background-color: rgba(255,255,255,0.1);
+    }
+    
+    /* Iconos más visibles */
+    .nav-icon {
+        font-size: 1.2rem;
+        margin-right: 10px;
+    }
+}
+
+/* Indicador claro de submenús */
+.has-treeview > .nav-link > .right {
+    transition: transform 0.2s ease;
+    margin-left: auto;
+}
+
+.has-treeview.menu-open > .nav-link > .right {
+    transform: rotate(90deg);
+    color: #fff;
+}
+
+.sidebarStyle {
+  background: lightgray; 
+  font-size: 12px;
+}
+
+
+/* Estilos para los items del menú */
+.nav-sidebar .nav-link p {
+    white-space: normal !important; /* Permite saltos de línea */
+    word-wrap: break-word; /* Rompe palabras largas si es necesario */
+    margin-right: 20px; /* Espacio para el icono */
+    text-align: left;
+}
+
+/* Ajuste específico para los submenús */
+.nav-treeview .nav-link p {
+    padding-right: 25px; /* Más espacio para el icono en subniveles */
+}
+
+/* Asegura que el contenedor del texto ocupe todo el espacio disponible */
+.nav-link {
+    display: flex;
+    align-items: flex-start; /* Alinea items al inicio (para multi línea) */
+}
+
+/* Estilo para el texto del menú */
+.nav-link > p {
+    flex: 1; /* Ocupa todo el espacio disponible */
+    min-width: 0; /* Permite que el texto se ajuste */
+}
+
+/* Posicionamiento del icono de flecha */
+.nav-link > .right, 
+.nav-link > p > .right {
+    margin-left: auto;
+    padding-left: 10px; /* Espacio entre texto e icono */
+    align-self: center; /* Centra verticalmente el icono */
+}
+
+/* Ajuste específico para items con iconos */
+.nav-link > i.nav-icon {
+    margin-right: 10px;
+    flex-shrink: 0; /* Evita que el icono se reduzca */
+}
+
+/* Para los submenús (hijos y nietos) */
+.nav-treeview .nav-link {
+    padding-left: 20px !important;
+}
+
+/* Ajuste responsive adicional para móviles */
+@media (max-width: 991.98px) {
+    .nav-sidebar .nav-link p {
+        white-space: normal !important;
+        margin-right: 30px; /* Más espacio en móviles */
+    }
+    
+    .nav-treeview .nav-link {
+        padding-left: 30px !important;
+    }
+}
+
+ 
+.nav-treeview {
+    display: none;
+}
+
+.menu-open > .nav-treeview {
+    display: block;
+}
+
+.has-treeview > .nav-link > .right {
+    transition: transform 0.3s ease;
+}
+
+.has-treeview.menu-open > .nav-link > .right {
+    transform: rotate(90deg);
+}

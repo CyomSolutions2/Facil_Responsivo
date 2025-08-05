@@ -1,0 +1,64 @@
+{
+  "_from": "select2-bootstrap4-theme@^1.0.0",
+  "_id": "select2-bootstrap4-theme@1.0.0",
+  "_inBundle": false,
+  "_integrity": "sha512-H5v9fd5JWqYKZZ0T8jB5cIrAhWdAIbr3K0pkfuUebcEZqFXlPtZSKoANzJc/qbDzj0/Sle1h/4APpVPveiR/VA==",
+  "_location": "/select2-bootstrap4-theme",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "select2-bootstrap4-theme@^1.0.0",
+    "name": "select2-bootstrap4-theme",
+    "escapedName": "select2-bootstrap4-theme",
+    "rawSpec": "^1.0.0",
+    "saveSpec": null,
+    "fetchSpec": "^1.0.0"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/select2-bootstrap4-theme/-/select2-bootstrap4-theme-1.0.0.tgz",
+  "_shasum": "d637ff18e7fdade8d723ad4c567ef2ba48b73094",
+  "_spec": "select2-bootstrap4-theme@^1.0.0",
+  "_where": "C:\\workspace\\Dashboardpack\\architectui-html-pro",
+  "author": {
+    "name": "Berkan Akyürek",
+    "email": "berkan52@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/berkan52/select2-bootstrap4-theme/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "A theme for Select2 v4 and Bootstrap 4",
+  "devDependencies": {
+    "bootstrap": "^4.0.0-beta.2",
+    "grunt": "^1.0.1",
+    "grunt-banner": "^0.4.0",
+    "grunt-contrib-cssmin": "^2.2.1",
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-postcss": "^0.9.0"
+  },
+  "directories": {
+    "example": "example"
+  },
+  "homepage": "https://github.com/berkan52/select2-bootstrap4-theme",
+  "keywords": [
+    "bootstrap4",
+    "select2",
+    "css",
+    "sass"
+  ],
+  "license": "MIT",
+  "main": "src/select2-bootstrap4.scss",
+  "name": "select2-bootstrap4-theme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/berkan52/select2-bootstrap4-theme.git"
+  },
+  "scripts": {
+    "test": "grunt nodeunit"
+  },
+  "version": "1.0.0"
+}

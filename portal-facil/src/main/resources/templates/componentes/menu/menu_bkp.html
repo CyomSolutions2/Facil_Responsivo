@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <!-- Fragmento del menú -->
+    <div th:fragment="sidebar-menu">
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a th:href="@{/authenticate/socios}" class="brand-link">
+                <img th:src="@{/login/static/img/user.jpg}" alt="Usuario" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">Sistema Fácil</span>
+            </a>
+
+            <!-- Sidebar -->
+			<div class="sidebar">
+			    <nav class="mt-2">
+			        <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
+						<!-- Configuración -->
+			               <li class="nav-item">
+			                   <a th:href="@{/home}" class="nav-link">
+			                       <i class="nav-icon fas fa-home"></i>
+			                       <p>Inicio</p>
+			                   </a>
+			               </li>
+						<!-- Usuarios -->
+			            <li class="nav-item has-treeview">
+			                <a href="#" class="nav-link">
+			                    <i class="nav-icon fas fa-users"></i>
+			                    <p>
+			                        Usuarios
+			                        <i class="right fas fa-angle-left"></i>
+			                    </p>
+			                </a>
+			                <ul class="nav nav-treeview">
+			                    <li class="nav-item">
+			                        <a th:href="@{/panel/usuarios}" class="nav-link">
+			                            <p>Administración de Empleados</p>
+			                        </a>
+			                    </li>
+			                    <li class="nav-item">
+			                        <a th:href="@{/panel/usuarios/nuevo}" class="nav-link">
+			                            <p>Administración de Usuarios</p>
+			                        </a>
+			                    </li>
+								<li class="nav-item">
+			                        <a th:href="@{/usuarios/adminRoles}" class="nav-link">
+			                            <p>Administración de Roles</p>
+			                        </a>
+			                    </li>
+								<li class="nav-item">
+								    <a th:href="@{/usuarios/auth/roles}" class="nav-link">
+								        <p>Autorizaciones por Roles</p>
+								    </a>
+								</li>
+								<li class="nav-item">
+								    <a th:href="@{/panel/usuarios/nuevo}" class="nav-link">
+								        <p>Actualización de la Clave de Acceso</p>
+								    </a>
+								</li>
+								<li class="nav-item">
+								    <a th:href="@{/panel/usuarios/nuevo}" class="nav-link">
+								        <p>Manual de Referencia Usuarios</p>
+								    </a>
+								</li>
+			                </ul>
+			            </li>
+			            
+			            <!-- Membresías -->
+			            <li class="nav-item has-treeview">
+			                <a href="#" class="nav-link">
+			                    <i class="nav-icon fas fa-id-card"></i>
+			                    <p>
+			                        Membresías
+			                        <i class="right fas fa-angle-left"></i>
+			                    </p>
+			                </a>
+			                <ul class="nav nav-treeview">
+			                    <li class="nav-item">
+			                        <a th:href="@{/panel/membresias}" class="nav-link">
+			                            <i class="far fa-circle nav-icon"></i>
+			                            <p>Administrar</p>
+			                        </a>
+			                    </li>
+			                    <li class="nav-item">
+			                        <a th:href="@{/panel/membresias/nueva}" class="nav-link">
+			                            <i class="far fa-circle nav-icon"></i>
+			                            <p>Nueva membresía</p>
+			                        </a>
+			                    </li>
+			                </ul>
+			            </li>
+			            
+			            <!-- Reportes -->
+			            <li class="nav-item has-treeview">
+			                <a href="#" class="nav-link">
+			                    <i class="nav-icon fas fa-chart-bar"></i>
+			                    <p>
+			                        Reportes
+			                        <i class="right fas fa-angle-left"></i>
+			                    </p>
+			                </a>
+			                <ul class="nav nav-treeview">
+			                    <li class="nav-item">
+			                        <a th:href="@{/panel/reportes/ventas}" class="nav-link">
+			                            <i class="far fa-circle nav-icon"></i>
+			                            <p>Ventas</p>
+			                        </a>
+			                    </li>
+			                    <li class="nav-item">
+			                        <a th:href="@{/panel/reportes/usuarios}" class="nav-link">
+			                            <i class="far fa-circle nav-icon"></i>
+			                            <p>Usuarios</p>
+			                        </a>
+			                    </li>
+			                </ul>
+			            </li>
+						<!-- Configuración -->
+			                   <li class="nav-item">
+			                       <a th:href="@{/panel/configuracion}" class="nav-link">
+			                           <i class="nav-icon fas fa-cog"></i>
+			                           <p>Configuración</p>
+			                       </a>
+			                   </li>
+			        </ul>
+			    </nav>
+			</div>
+        </aside>
+    </div>
+</body>
+</html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no">
+    <title>Sistema Fácil</title>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+	<!-- AdminLTE (solo una versión) -->
+	<link rel="stylesheet" th:href="@{/interno/dist/css/adminlte.min.css}">
+
+	<!-- Tu CSS personalizado (debe ir después) -->
+	<link rel="stylesheet" th:href="@{/interno/css/personalizado.css}">
+	<style>
+	.modal {
+	  position: fixed;
+	  top: 0; left: 0; right: 0; bottom: 0;
+	  background: rgba(0,0,0,0.6);
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  z-index: 9999;
+	}
+	.modal-content {
+	  background: white;
+	  padding: 2em;
+	  text-align: center;
+	  border-radius: 8px;
+	}
+	</style>
+	<script th:inline="javascript">
+	   var contextRoot = /*[[@{/}]]*/ '';
+	</script>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand-lg navbar-white navbar-light">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+			<li class="nav-item d-none d-sm-inline-block">
+			    <strong>Hola, <span th:text="${usuario.nombreUsuario}"></span></strong>
+			</li>
+        </ul>
+		
+		<ul class="navbar-nav ml-auto">
+		    <li class="nav-item">
+		        <a th:href="@{/logout}" class="btn btn-danger btn-sm">
+		            <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+		        </a>
+		    </li>
+		</ul>
+		
+		<button class="navbar-toggler order-1 ml-2" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+
+    </nav>
+
+    <!-- Sidebar -->
+<!--    <aside class="main-sidebar sidebar-dark-primary elevation-4">-->
+<!--         Brand Logo -->
+<!--        <a th:href="@{/authenticate/socios}" class="brand-link">-->
+<!--            <img th:src="@{/login/static/img/user.jpg}" alt="Usuario" class="brand-image img-circle elevation-3" style="opacity: .8">-->
+<!--            <span class="brand-text font-weight-light">Sistema Fácil</span>-->
+<!--        </a>-->
+
+<!--         Sidebar -->
+<!--        <div class="sidebar">-->
+<!--             User panel -->
+<!--            <div class="user-panel mt-3 pb-3 mb-3 d-flex">-->
+<!--                <div class="image">-->
+<!--                    <img th:src="'data:image/png;base64, '+${session.fotoPerfil}" alt="Usuario" class="img-circle elevation-2">-->
+<!--                </div>-->
+<!--                <div class="info">-->
+<!--                    <a href="#" class="d-block">Nombre Usuario</a>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--             Search Form -->
+<!--            <form class="form-horizontal" th:object="${socio}" th:action="@{/panel/busqueda/usuario}">-->
+<!--                <div class="form-inline">-->
+<!--                    <div class="input-group">-->
+<!--                        <input class="form-control form-control-sidebar" type="text" placeholder="Membresía" id="membresia" th:field="*{membresia}">-->
+<!--                        <div class="input-group-append">-->
+<!--                            <button class="btn btn-sidebar" type="submit">-->
+<!--                                <i class="fas fa-search fa-fw"></i>-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </form>-->
+
+<!--             Sidebar Menu -->
+<!--            <nav class="mt-2">-->
+<!--                <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">-->
+<!--					 Configuración -->
+<!--                       <li class="nav-item">-->
+<!--                           <a th:href="@{/home}" class="nav-link">-->
+<!--                               <i class="nav-icon fas fa-home"></i>-->
+<!--                               <p>Inicio</p>-->
+<!--                           </a>-->
+<!--                       </li>-->
+<!--					 Usuarios -->
+<!--                    <li class="nav-item has-treeview">-->
+<!--                        <a href="#" class="nav-link">-->
+<!--                            <i class="nav-icon fas fa-users"></i>-->
+<!--                            <p>-->
+<!--                                Usuarios-->
+<!--                                <i class="right fas fa-angle-left"></i>-->
+<!--                            </p>-->
+<!--                        </a>-->
+<!--                        <ul class="nav nav-treeview">-->
+<!--                            <li class="nav-item">-->
+<!--                                <a th:href="@{/panel/usuarios}" class="nav-link">-->
+<!--                                    <p>Administración de Empleados</p>-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item">-->
+<!--                                <a th:href="@{/panel/usuarios/nuevo}" class="nav-link">-->
+<!--                                    <p>Administración de Usuarios</p>-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--							<li class="nav-item">-->
+<!--                                <a th:href="@{/usuarios/adminRoles}" class="nav-link">-->
+<!--                                    <p>Administración de Roles</p>-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--							<li class="nav-item">-->
+<!--							    <a th:href="@{/usuarios/auth/roles}" class="nav-link">-->
+<!--							        <p>Autorizaciones por Roles</p>-->
+<!--							    </a>-->
+<!--							</li>-->
+<!--							<li class="nav-item">-->
+<!--							    <a th:href="@{/panel/usuarios/nuevo}" class="nav-link">-->
+<!--							        <p>Actualización de la Clave de Acceso</p>-->
+<!--							    </a>-->
+<!--							</li>-->
+<!--							<li class="nav-item">-->
+<!--							    <a th:href="@{/panel/usuarios/nuevo}" class="nav-link">-->
+<!--							        <p>Manual de Referencia Usuarios</p>-->
+<!--							    </a>-->
+<!--							</li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+                    
+<!--                     Membresías -->
+<!--                    <li class="nav-item has-treeview">-->
+<!--                        <a href="#" class="nav-link">-->
+<!--                            <i class="nav-icon fas fa-id-card"></i>-->
+<!--                            <p>-->
+<!--                                Membresías-->
+<!--                                <i class="right fas fa-angle-left"></i>-->
+<!--                            </p>-->
+<!--                        </a>-->
+<!--                        <ul class="nav nav-treeview">-->
+<!--                            <li class="nav-item">-->
+<!--                                <a th:href="@{/panel/membresias}" class="nav-link">-->
+<!--                                    <i class="far fa-circle nav-icon"></i>-->
+<!--                                    <p>Administrar</p>-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item">-->
+<!--                                <a th:href="@{/panel/membresias/nueva}" class="nav-link">-->
+<!--                                    <i class="far fa-circle nav-icon"></i>-->
+<!--                                    <p>Nueva membresía</p>-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+                    
+<!--                     Reportes -->
+<!--                    <li class="nav-item has-treeview">-->
+<!--                        <a href="#" class="nav-link">-->
+<!--                            <i class="nav-icon fas fa-chart-bar"></i>-->
+<!--                            <p>-->
+<!--                                Reportes-->
+<!--                                <i class="right fas fa-angle-left"></i>-->
+<!--                            </p>-->
+<!--                        </a>-->
+<!--                        <ul class="nav nav-treeview">-->
+<!--                            <li class="nav-item">-->
+<!--                                <a th:href="@{/panel/reportes/ventas}" class="nav-link">-->
+<!--                                    <i class="far fa-circle nav-icon"></i>-->
+<!--                                    <p>Ventas</p>-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item">-->
+<!--                                <a th:href="@{/panel/reportes/usuarios}" class="nav-link">-->
+<!--                                    <i class="far fa-circle nav-icon"></i>-->
+<!--                                    <p>Usuarios</p>-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--					 Configuración -->
+<!--	                       <li class="nav-item">-->
+<!--	                           <a th:href="@{/panel/configuracion}" class="nav-link">-->
+<!--	                               <i class="nav-icon fas fa-cog"></i>-->
+<!--	                               <p>Configuración</p>-->
+<!--	                           </a>-->
+<!--	                       </li>-->
+<!--                </ul>-->
+<!--            </nav>-->
+<!--        </div>-->
+<!--    </aside>-->
+	<div th:replace="~{componentes/menu/menu :: sidebar-menu}"></div>
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <!-- Content Header -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Mensajes Corporativos</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+					<p>Queremos agradecer sinceramente su compromiso, esfuerzo y dedicación en cada uno de los proyectos que hemos emprendido juntos. Su profesionalismo y entrega constante son la base del crecimiento y éxito de nuestra organización.</p>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+						
+                        <!-- <div class="card card-info">
+							
+                            <div class="card-header">
+                                <h3 class="card-title">Usuarios</h3>
+                            </div>
+                            <!--<form class="form-horizontal" th:object="${socio}" th:action="@{/panel/busqueda/usuario}">-->
+                                <!--<div class="card-body">
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Membresía</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="membresia" th:field="*{membresia}" placeholder="Membresía">
+                                        </div>
+                                    </div>
+                                </div>-->
+								<!--<TABLE BORDER = 10>
+									<TR ALIGN= CENTER>
+										<TH>CHECK</TH> <TH>USUARIO</TH> <TH>NOMBRE COMPLETO</TH> <TH>NUMERO DE EMPLEADO</TH> <TH>DESARROLLO</TH> <TH>FECHA ACTUALIZACION</TH>
+									</TR>
+									<TR ALIGN= CENTER>
+										<TD><input type="checkbox"></TD> <TD>A</TD> <TD>B</TD> <TD>C</TD> <TD>C</TD> <TD>C</TD>
+									</TR>
+									<TR ALIGN= CENTER>
+										<TD><input type="checkbox"></TD> <TD>D</TD> <TD>E</TD> <TD>F</TD> <TD>F</TD> <TD>F</TD>
+									</TR>
+								</TABLE>
+								
+                                <div class="card-footer" ALIGN= CENTER>
+                                    <button type="submit" class="btn btn-info">
+                                        Editar Usuario <i class="fas fa-undo"></i>
+                                    </button>
+									<button type="submit" class="btn btn-info">
+									    Agregar Usuario <i class="far fa-check-circle"></i>
+									</button>
+									<button type="submit" class="btn btn-info">
+									    Eliminar Usuario <i class="fas fa-times-circle"></i>
+									</button>
+                                </div>
+                            </form>
+                        </div>-->
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+	
+	<div id="sessionModal" class="modal" style="display: none;">
+		<div class="modal-dialog" style="max-width: 500px;"> <!-- Aquí controlas el tamaño -->		
+			<div class="modal-content">
+				<i class="fas fa-exclamation-circle text-warning" style="font-size: 60px; margin-bottom: 15px;"></i>
+				<div class="modal-title">¡Sesión expirada!</p>			        		
+				    <p id="modalMessage">¿Deseas continuar conectado?</p>
+				    <p>Tiempo restante: <span id="countdown">30</span> segundos</p>
+					<button id="continueBtn" type="button" class="btn btn-primary">
+						<i class="fas fa-sign-in-alt mr-2"></i>Sí, Seguir conectado
+					</button>
+				    <!--<button id="continueBtn">Continuar sesión</button>-->
+				</div>	
+			</div>
+		</div> 
+	</div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2024-2050 <a href="https://adminlte.io">Coral Clubes</a>.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            <b>Version</b> 1.0.0
+        </div>
+    </footer>
+	
+	<div class="sidebar-overlay"></div>
+	 
+</div>
+
+<!-- JavaScript -->
+<script th:src="@{/interno/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/interno/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/interno/dist/js/adminlte.min.js}"></script>
+
+<!-- Script para el menú -->
+<script>
+$(document).ready(function() {
+	
+	// Menú móvil
+	 $('.navbar-toggler').click(function() {
+	   $('body, .main-sidebar, .sidebar-overlay').toggleClass('sidebar-open');
+	 });
+	 
+	 $('.sidebar-overlay, .nav-link').click(function() {
+	   if($(window).width() < 992) {
+	     $('body, .main-sidebar, .sidebar-overlay').removeClass('sidebar-open');
+	   }
+	 });
+
+	 // Inicialización del treeview
+	 $('[data-widget="treeview"]').Treeview({
+	   trigger: '.nav-item.has-treeview > a',
+	   animationSpeed: 300,
+	   accordion: false
+	 });
+
+	 // Marcar elemento activo
+	 var currentUrl = window.location.pathname;
+	 $('.nav-link').each(function() {
+	   if ($(this).attr('href') === currentUrl) {
+	     $(this).addClass('active');
+	     $(this).closest('.has-treeview').addClass('menu-open');
+	   }
+	 });
+
+});
+
+
+
+
+let inactivityTime = 10 * 60 * 1000; // 10 minutos
+let countdownTime = 30;
+let countdownInterval;
+let inactivityTimer;
+
+function startInactivityTimer() {
+  clearTimeout(inactivityTimer);
+  inactivityTimer = setTimeout(showSessionModal, inactivityTime);
+}
+
+function showSessionModal() {
+	
+  const modal = document.getElementById("sessionModal");
+  const message = document.getElementById("modalMessage");
+  const countdown = document.getElementById("countdown");
+  const continueBtn = document.getElementById("continueBtn");
+
+  countdownTime = 30;
+  countdown.textContent = countdownTime;
+  modal.style.display = "flex";
+
+  countdownInterval = setInterval(() => {
+    countdownTime--;
+    countdown.textContent = countdownTime;
+    if (countdownTime <= 0) {
+      clearInterval(countdownInterval);
+      endSession();
+    }
+  }, 1000);
+
+  continueBtn.onclick = () => {
+    clearInterval(countdownInterval);
+    modal.style.display = "none";
+    fetch("/keep-alive"); // Llama al backend para renovar la sesión
+    startInactivityTimer(); // Reinicia conteo
+  };
+}
+
+function endSession() {
+  const modal = document.getElementById("sessionModal");
+  document.getElementById("modalMessage").textContent = "Sesión terminada. Vuelva a ingresar.";
+  document.getElementById("countdown").style.display = "none";
+  document.getElementById("continueBtn").style.display = "none";
+
+  setTimeout(() => {
+    window.location.href = contextRoot+"logout"; // Redirige al logout
+  }, 3000);
+}
+
+["click", "mousemove", "keydown"].forEach(event =>
+  document.addEventListener(event, startInactivityTimer)
+);
+
+startInactivityTimer();
+
+
+
+</script>
+</body>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>403 - Acceso Denegado</title>
+    <link rel="stylesheet" th:href="@{/adminlte/dist/css/adminlte.min.css}">
+</head>
+<body class="hold-transition sidebar-mini">
+	<div style="text-align: center; padding-top: 20px;">
+	       <img th:src="@{/images/error/error403.png}" alt="Error 403" style="max-width: 80%; height: auto;">
+	   </div>
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <section class="content">
+                <div class="error-page">
+                    <h2 class="headline text-danger">Error 403</h2>
+                    <div class="error-content">
+                        <h3><i class="fas fa-ban text-danger"></i> Acceso no autorizado.</h3>
+                        <p>
+                            No tienes permiso para acceder a esta página.
+                            <a th:href="@{/}">Volver al inicio</a> o contacta al administrador.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script th:src="@{/adminlte/plugins/jquery/jquery.min.js}"></script>
+    <script th:src="@{/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/adminlte/dist/js/adminlte.min.js}"></script>
+</body>
+</html>

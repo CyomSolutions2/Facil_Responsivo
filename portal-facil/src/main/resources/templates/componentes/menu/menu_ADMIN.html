@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Fácil</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <!-- AdminLTE CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
+    
+    <!-- Tu CSS personalizado -->
+    <!--  <link rel="stylesheet" th:href="@{/css/personalizado.css}"> -->
+	
+	<link rel="stylesheet" th:href="@{/interno/css/personalizadoMenu.css}">
+	
+</head>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <div th:fragment="sidebar-menu">
+            <aside class="main-sidebar elevation-4 sidebarStyle" >
+                <span class="brand-link">
+                    <img th:src="@{/login/static/img/user.jpg}" alt="Usuario" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <span class="brand-text font-weight-light">Sistema Fácil</span>
+                </span>
+                
+                <div class="sidebar" >
+                    
+                    <nav class="mt-2">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
+                            <!-- Ítem Inicio -->
+                            <li class="nav-item">
+                                <a th:href="@{/home}" class="nav-link" data-menu-id="inicio">
+                                    <i class="nav-icon fas fa-home"></i>
+                                    <p>Inicio</p>
+                                </a>
+                            </li>
+                            
+                            <!-- Módulos dinámicos -->
+                            <li th:each="modulo : ${modulos}" 
+                                th:class="${#lists.isEmpty(modulo.hijos)} ? 'nav-item' : 'nav-item has-treeview'">
+                                <a th:href="${#lists.isEmpty(modulo.hijos)} ? @{${modulo.mu_path}} : '#'" 
+                                   class="nav-link"
+                                   th:attr="data-menu-id=${modulo.mdl_clave}">
+                                    <i th:class="'nav-icon ' + 
+                                        ${#strings.containsIgnoreCase(modulo.mdl_nombre, 'Telemarketing') ? 'fas fa-phone-alt' :
+                                        #strings.containsIgnoreCase(modulo.mdl_nombre, 'Ventas') ? 'fas fa-shopping-cart' :
+                                        #strings.containsIgnoreCase(modulo.mdl_nombre, 'Cobranza') ? 'fas fa-money-bill-wave' :
+                                        #strings.containsIgnoreCase(modulo.mdl_nombre, 'Consultas') ? 'fas fa-search' :
+                                        #strings.containsIgnoreCase(modulo.mdl_nombre, 'Atención a Clientes') ? 'fas fa-headset' :
+                                        #strings.containsIgnoreCase(modulo.mdl_nombre, 'Accesos') ? 'fas fa-key' :
+                                        #strings.containsIgnoreCase(modulo.mdl_nombre, 'Buró de Crédito') ? 'fas fa-file-invoice-dollar' :
+                                        #strings.containsIgnoreCase(modulo.mdl_nombre, 'Reportes Especiales') ? 'fas fa-file-alt' :
+                                        #strings.containsIgnoreCase(modulo.mdl_nombre, 'Buzón Electrónico') ? 'fas fa-inbox' :
+                                        #strings.containsIgnoreCase(modulo.mdl_nombre, 'Catálogos') ? 'fas fa-book' :
+                                        #strings.containsIgnoreCase(modulo.mdl_nombre, 'Cargos Automáticos') ? 'fas fa-credit-card' :
+                                        #strings.containsIgnoreCase(modulo.mdl_nombre, 'Usuarios') ? 'fas fa-users' :
+                                        #strings.containsIgnoreCase(modulo.mdl_nombre, 'Control de Credenciales') ? 'fas fa-id-card' :
+                                        #strings.containsIgnoreCase(modulo.mdl_nombre, 'Control de Reservaciones') ? 'fas fa-calendar-check' :
+                                        #strings.containsIgnoreCase(modulo.mdl_nombre, 'Eventos') ? 'fas fa-calendar-alt' :
+                                        #strings.containsIgnoreCase(modulo.mdl_nombre, 'Mini Bodegas') ? 'fas fa-warehouse' :
+                                        'fas fa-folder'}"></i>
+                                    <p>
+                                        <span th:text="${modulo.mdl_nombre}"></span>
+                                        <i th:if="${not #lists.isEmpty(modulo.hijos)}" class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                
+                                <!-- Submenús (hijos) -->
+								<ul th:if="${not #lists.isEmpty(modulo.hijos)}" class="nav nav-treeview">
+								    <li th:each="submodulo : ${modulo.hijos}" 
+								        th:class="${#lists.isEmpty(submodulo.hijos)} ? 'nav-item' : 'nav-item has-treeview'">
+								        
+								        <!-- Enlace para Reportes Especiales -->
+								        <a th:if="${#strings.startsWith(submodulo.mu_path, '/repEspeciales')}"
+								           th:href="@{${submodulo.mu_path}(menuId=${submodulo.rom_mdl_id})}" 
+								           class="nav-link"
+								           th:attr="data-menu-id=${submodulo.rom_mdl_id}">
+								            <i class="nav-icon fas fa-file-alt"></i>
+								            <p>
+								                <span th:text="${submodulo.mdl_nombre}"></span>
+								                <i th:if="${not #lists.isEmpty(submodulo.hijos)}" class="right fas fa-angle-left"></i>
+								            </p>
+								        </a>
+								        
+								        <!-- Enlace normal para otros módulos -->
+								        <a th:unless="${#strings.startsWith(submodulo.mu_path, '/repEspeciales')}"
+								           th:href="@{${submodulo.mu_path}}" 
+								           class="nav-link"
+								           th:attr="data-menu-id=${submodulo.rom_mdl_id}">		        
+								            <p>
+								                <span th:text="${submodulo.mdl_nombre}"></span>
+								                <i th:if="${not #lists.isEmpty(submodulo.hijos)}" class="right fas fa-angle-left"></i>
+								            </p>
+								        </a>
+								        
+								        <!-- Submenús (nietos) -->
+								        <ul th:if="${not #lists.isEmpty(submodulo.hijos)}" class="nav nav-treeview">
+								            <li th:each="subsubmodulo : ${submodulo.hijos}" class="nav-item">
+								                <a th:href="@{${subsubmodulo.mu_path}(menuId=${subsubmodulo.rom_mdl_id})}" 
+								                   class="nav-link">
+								                    <p th:text="${subsubmodulo.mdl_nombre}"></p>
+								                </a>
+								            </li>
+								        </ul>
+								    </li>
+								</ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AdminLTE App -->
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js"></script>
+	
+	<!-- Agrega esto justo antes del cierre de </body> -->
+	<!--<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function() {
+	    // 1. Configuración inicial del Treeview
+	    $('[data-widget="treeview"]').Treeview({
+	        trigger: '.nav-link > .fa-angle-left, .nav-link > .right', // Solo abre/cierra con el icono
+	        animationSpeed: 300,
+	        accordion: true,
+	        expandSidebar: false, // Evita que se cierre el sidebar al interactuar
+	        collapseAll: false
+	    });
+
+	    // 2. Evitar que el menú se cierre al hacer clic en enlaces
+	    $('.main-sidebar').on('click', 'a.nav-link', function(e) {
+	        // Solo permite el comportamiento normal si no tiene hijos
+	        if ($(this).parent().hasClass('has-treeview')) {
+	            e.preventDefault();
+	            e.stopPropagation();
+	            
+	            // Alternar manualmente el submenú
+	            var treeview = $(this).parent();
+	            var isOpen = treeview.hasClass('menu-open');
+	            
+	            if (!isOpen) {
+	                treeview.addClass('menu-open');
+	                $(this).find('.right').removeClass('fa-angle-left').addClass('fa-angle-down');
+	                treeview.children('.nav-treeview').slideDown();
+	            }
+	        }
+	    });
+
+	    // 3. Cerrar solo cuando se hace clic en el overlay o botón de toggle
+	    $('.sidebar-overlay').click(function() {
+	        $('body').removeClass('sidebar-open');
+	    });
+	    
+	    // 4. Opcional: Cerrar al seleccionar una opción final (sin hijos)
+	    $('.nav-item:not(.has-treeview) > a.nav-link').click(function() {
+	        if ($(window).width() < 992) {
+	            setTimeout(function() {
+	                $('body').removeClass('sidebar-open');
+	            }, 300); // Pequeño delay para ver la selección
+	        }
+	    });
+	});
+	/*]]>*/
+	</script>-->
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function() {
+	    // Inicialización del treeview
+	    $('[data-widget="treeview"]').Treeview({
+	        trigger: '.nav-link > .right', // Solo abre/cierra con el icono de flecha
+	        animationSpeed: 300,
+	        accordion: true, // Esto habilita el comportamiento de acordeón
+	        expandSidebar: false
+	    });
+
+	    // Manejo manual para asegurar el comportamiento de acordeón
+	    $('.main-sidebar').on('click', 'a.nav-link', function(e) {
+	        var $this = $(this);
+	        var $parent = $this.parent();
+	        
+	        // Solo procesamos elementos con hijos
+	        if ($parent.hasClass('has-treeview')) {
+	            e.preventDefault();
+	            e.stopPropagation();
+	            
+	            // Si ya está abierto, lo cerramos
+	            if ($parent.hasClass('menu-open')) {
+	                $parent.removeClass('menu-open');
+	                $this.find('.right').removeClass('fa-angle-down').addClass('fa-angle-left');
+	                $parent.find('.nav-treeview').slideUp();
+	                return;
+	            }
+	            
+	            // Cerramos todos los demás menús abiertos
+	            $('.nav-item.has-treeview.menu-open').not($parent).each(function() {
+	                $(this).removeClass('menu-open');
+	                $(this).find('.nav-link .right').removeClass('fa-angle-down').addClass('fa-angle-left');
+	                $(this).find('.nav-treeview').slideUp();
+	            });
+	            
+	            // Abrimos el menú actual
+	            $parent.addClass('menu-open');
+	            $this.find('.right').removeClass('fa-angle-left').addClass('fa-angle-down');
+	            $parent.find('.nav-treeview').slideDown();
+	        }
+	    });
+
+	    // Cerrar sidebar en móvil al seleccionar una opción final
+	    $('.nav-item:not(.has-treeview) > a.nav-link').click(function() {
+	        if ($(window).width() < 992) {
+	            setTimeout(function() {
+	                $('body').removeClass('sidebar-open');
+	            }, 300);
+	        }
+	    });
+	});
+	/*]]>*/
+	</script>
+</body>
+</html>

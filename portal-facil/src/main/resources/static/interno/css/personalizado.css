@@ -1,0 +1,832 @@
+/* ==================== */
+/* VARIABLES CSS */
+/* ==================== */
+:root {
+  --color-primary: #007bff;
+  --color-secondary: #6c757d;
+  --color-info: #17a2b8;
+  --color-success: #28a745;
+  --color-warning: #ffc107;
+  --color-danger: #dc3545;
+  --color-light: #f8f9fa;
+  --color-dark: #343a40;
+  --border-radius: 0.25rem;
+  --box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --transition: all 0.2s ease-in-out;
+}
+
+/* ==================== */
+/* ESTILOS BASE */
+/* ==================== */
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  color: var(--color-dark);
+}
+
+/* ==================== */
+/* ESTILO ESPECÍFICO PARA FILTROS DE BÚSQUEDA */
+/* ==================== */
+.card.card-info .card-header .card-title {
+  color: white !important;
+}
+
+/* ==================== */
+/* COMPONENTES DE TARJETAS */
+/* ==================== */
+.card {
+  margin-bottom: 1.5rem;
+  border: none;
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+  position: static !important; /* Añadido para datepicker */
+}
+
+.card:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.sidebarStyle {
+  background: lightgray; 
+  font-size: 12px;
+}
+
+.nav-link:hover {
+    background-color: #f8f9fa;
+}
+
+.nav-treeview {
+    display: none;
+    padding-left: 20px;
+    margin-left: 15px;
+    border-left: 1px dashed #dee2e6;
+}
+
+.card-header {
+  background-color: var(--color-light);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.card-header .card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-primary);
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-header .card-tools {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.card-header .btn-tool {
+  padding: 0.35rem 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-secondary);
+  background: transparent;
+  border: none;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  line-height: 1;
+}
+
+.card-header .btn-tool:hover {
+  color: var(--color-dark);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.card-primary.card-outline {
+  border-top: 3px solid var(--color-primary);
+}
+
+.card-body {
+  padding: 1.25rem;
+  overflow: visible !important; /* Añadido para datepicker */
+}
+
+.card-body.p-1 {
+  padding: 0.5rem;
+}
+
+/* ==================== */
+/* SELECTS MÚLTIPLES */
+/* ==================== */
+select[multiple] {
+  min-height: 120px;
+  width: 100%;
+  border: 1px solid #ced4da;
+  border-radius: var(--border-radius);
+  font-size: 0.875rem;
+  padding: 0.375rem 0.75rem;
+  transition: var(--transition);
+}
+
+select[multiple]:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+select[multiple] option {
+  padding: 0.25rem 0.5rem;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+select[multiple] option:hover {
+  background-color: #f5f5f5;
+}
+
+select[multiple] option:checked {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+/* Selects específicos */
+#desarrollosDisponibles, 
+#desarrollosSeleccionados,
+#tiposMovDisponibles, 
+#tiposMovSeleccionados,
+#carteraDisponibles,
+#carteraSeleccionados,
+#clasificacionMembresiaDisponibles,
+#clasificacionMembresiaSeleccionados,
+#empleadosDisponibles,
+#empleadosMembresiaSeleccionados,
+#estadosDisponibles,
+#estadosSeleccionados,
+#estatusRecibosDisponibles,
+#estatusRecibosSeleccionados,
+#estatusUnidadesDisponibles,
+#estatusUnidadesSeleccionados,
+#locacionesDisponibles,
+#locacionesSeleccionados,
+#promotoresDisponibles,
+#promotoresSeleccionados,
+#seriesRecibosDisponibles,
+#seriesRecibosSeleccionados,
+#tipoCuponesDescuentoPaqDisponibles,
+#tipoCuponesDescuentoPaqSeleccionados,
+#tiposProductosDisponibles,
+#tiposProductosSeleccionados,
+#usuariosDisponibles,
+#usuariosSeleccionados  {
+   height: auto;
+   min-height: 230px;
+}
+
+/* ==================== */
+/* BOTONES DE TRANSFERENCIA */
+/* ==================== */
+.transfer-buttons-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  height: 100%;
+}
+
+.transfer-button {
+  margin: 0;
+  padding: 0.25rem 0.5rem;
+  min-width: 30px;
+  max-width: 40px;
+  width: 100%;
+  background-color: var(--color-light);
+  border: 1px solid #dee2e6;
+  color: var(--color-dark);
+  transition: var(--transition);
+  border-radius: var(--border-radius);
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.transfer-button:hover {
+  background-color: #e9ecef;
+  border-color: #ced4da;
+}
+
+.transfer-button i {
+  font-size: 0.75rem;
+}
+
+/* ==================== */
+/* FORMULARIOS */
+/* ==================== */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: var(--color-dark);
+  margin-bottom: 0.25rem;
+  display: block;
+  font-size: 0.875rem;
+}
+
+/* ==================== */
+/* UTILIDADES */
+/* ==================== */
+.fondoAzul {
+  background-color: #ADD8E6;
+  color: #fff5ee;
+}
+
+.textoLabel {
+  color: var(--color-dark);
+}
+
+.h-100 {
+  height: 100% !important;
+}
+
+/* ==================== */
+/* ESTILOS PARA DATEPICKER - SOLUCIÓN COMPLETA */
+/* ==================== */
+.input-group.date {
+  position: relative !important; /* Fundamental para el datepicker */
+  z-index: auto !important;
+}
+
+.bootstrap-datetimepicker-widget {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  width: 19rem !important;
+  z-index: 99999 !important;
+  display: none;
+  margin-top: 0.125rem !important;
+  padding: 0.5rem !important;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+  transform: none !important;
+}
+
+.bootstrap-datetimepicker-widget.show {
+  display: block !important;
+}
+
+.bootstrap-datetimepicker-widget .datepicker-days,
+.bootstrap-datetimepicker-widget .datepicker-months,
+.bootstrap-datetimepicker-widget .datepicker-years {
+  padding: 0.5rem;
+}
+
+/* Asegurar que el wrapper del content no tenga overflow */
+.content-wrapper {
+  overflow: visible !important;
+}
+
+/* ==================== */
+/* MEDIA QUERIES */
+/* ==================== */
+@media (max-width: 991.98px) {
+  .transfer-buttons-container {
+    flex-direction: row;
+    padding: 0.5rem;
+  }
+  
+  .transfer-button {
+    margin: 0 0.25rem;
+  }
+  
+  .card-header {
+    padding: 0.5rem;
+  }
+
+  /* Ajustes para datepicker en móviles */
+  .bootstrap-datetimepicker-widget {
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+}
+
+@media (min-height: 768px) {
+  .card-body {
+    max-height: 600px;
+    overflow-y: auto;
+  }
+}
+
+/* ==================== */
+/* ESTILOS ESPECÍFICOS */
+/* ==================== */
+/* Tipos de Movimientos */
+#tiposMovDisponibles option:checked, 
+#tiposMovSeleccionados option:checked {
+  background-color: var(--color-info);
+  color: white;
+}
+
+/* Tablas */
+.table thead th {
+  position: sticky;
+  top: 0;
+  background-color: var(--color-light);
+  z-index: 10;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(23, 162, 184, 0.1);
+}
+
+/* Módulos */
+.modulo-padre {
+  font-weight: bold;
+}
+
+.modulo-hijo {
+  padding-left: 20px;
+}
+
+.modulo-checkbox {
+  margin-right: 0.625rem;
+  transform: scale(1.2);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Añade esto al final de tu CSS */
+.bootstrap-datetimepicker-widget {
+    z-index: 1060 !important; /* Mayor que el modal de AdminLTE */
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Si estás usando un modal */
+.modal .bootstrap-datetimepicker-widget {
+    z-index: 1061 !important; /* Mayor que el modal */
+}
+
+/* Fuerza la visibilidad */
+.bootstrap-datetimepicker-widget.show {
+    display: block !important;
+    opacity: 1 !important;
+}
+
+#buscarDesarrollos {
+    border-radius: 0.25rem 0 0 0.25rem !important;
+}
+
+#btnLimpiarBusqueda {
+    border-radius: 0 0.25rem 0.25rem 0 !important;
+    border-left: none !important;
+}
+
+#buscarTiposMov {
+    border-radius: 0.25rem 0 0 0.25rem !important;
+}
+
+#buscarCartera  {
+    border-radius: 0.25rem 0 0 0.25rem !important;
+}
+
+#btnLimpiarBusquedaTiposMov {
+    border-radius: 0 0.25rem 0.25rem 0 !important;
+    border-left: none !important;
+}
+
+/*.card-desarrollos, .card-tipos-movimiento, .card-cartera, .card-clasificacion-membresia, .card-empleados, .card-estados, .card-estatus-recibos, .card-estatus-unidades, .card-locaciones,
+.card-promotores, .card-series-recibos, .card-tipos-cupones-descuento-pqa, .card-tipos-productos, .card-usuarios  {
+    display: none; 
+}*/
+
+/* Asegurar que el scroll sea visible */
+#modalColumnas .modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+#modalColumnas .modal-body::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+/* Mejorar el aspecto de los items */
+.list-group-item {
+    border-left: 0;
+    border-right: 0;
+    padding: 0.5rem 1rem;
+}
+.custom-control-label {
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Ajustes específicos para el navbar */
+.main-header .navbar {
+    padding: 0.25rem 0.5rem;
+}
+
+/* Posicionamiento del botón hamburguesa */
+.navbar-toggler {
+    order: -1; /* Lo coloca primero */
+    margin-right: 0.5rem;
+    margin-left: 0;
+}
+
+/* En móviles ajustamos el espaciado */
+@media (max-width: 991.98px) {
+    .navbar-toggler {
+        margin-right: 0.75rem;
+    }
+    
+    .main-header .navbar-nav.ml-auto {
+        margin-left: auto !important;
+    }
+    
+    .main-header .navbar-nav.ml-auto .nav-item {
+        margin-left: 0;
+    }
+}
+
+/* Asegura que el modal esté por encima de todo */
+.modal {
+    z-index: 1060 !important; /* Bootstrap usa 1050 por defecto */
+}
+
+/* El backdrop (fondo oscuro) debe estar detrás del modal pero sobre otros elementos */
+.modal-backdrop {
+    z-index: 1040 !important;
+}
+
+/* Si usas sidebar, asegúrate que no interfiera */
+.main-sidebar {
+    z-index: 1030 !important;
+}
+
+/* Overlay del menú móvil debe estar debajo del modal */
+.sidebar-overlay {
+    z-index: 1020 !important;
+}
+
+/* SOLUCIÓN DEFINITIVA PARA MODALES */
+.modal {
+    z-index: 1060 !important; /* Mayor que el valor por defecto de Bootstrap (1050) */
+    background-color: rgba(0,0,0,0.5) !important; /* Fondo oscuro */
+}
+
+.modal-backdrop {
+    z-index: 1040 !important; /* Detrás del modal pero sobre otros elementos */
+}
+
+/* Asegurar que el modal no esté detrás del sidebar */
+.main-sidebar {
+    z-index: 1030 !important;
+}
+
+.sidebar-overlay {
+    z-index: 1020 !important;
+}
+
+/* Forzar visibilidad del modal */
+.modal.show {
+    display: block !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+/* Contenedor del modal - posición fija */
+.modal-dialog {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Asegurar que el contenido del modal sea visible */
+.modal-content {
+    position: relative !important;
+    z-index: 1061 !important;
+}
+
+/* Deshabilitar scroll del body cuando el modal está abierto */
+body.modal-open {
+    overflow: hidden !important;
+    padding-right: 0 !important;
+}
+
+
+
+/* SOLUCIÓN PARA MODAL EN MÓVILES */
+@media (max-width: 991.98px) {
+    .modal {
+        padding: 15px !important;
+    }
+    
+    .modal-dialog {
+        width: 95% !important;
+        margin: 10px auto !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .modal {
+        padding: 10px !important;
+    }
+    
+    .modal-dialog {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    
+    .modal-content {
+        border-radius: 0 !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+  .modal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 15px !important;
+    overflow-y: auto !important;
+  }
+  
+  .modal-dialog {
+    width: 100% !important;
+    margin: 0 !important;
+    max-width: none !important;
+    min-height: 100% !important;
+  }
+  
+  .modal-content {
+    height: auto !important;
+    min-height: 100% !important;
+    border-radius: 0 !important;
+  }
+}
+
+/* Modal de Edición - Tamaño fijo para desktop */
+@media (min-width: 992px) {
+    #editarRolModal .modal-dialog {
+        width: 800px;
+        max-width: 95%;
+        margin: 1.75rem auto;
+    }
+    
+    #editarRolModal .modal-content {
+        min-height: 800px;
+    }
+    
+    #editarRolModal .modal-body {
+        height: 680px;
+    }
+    
+    #editarRolModal .modulos-scroll-container {
+        height: 580px;
+    }
+}
+
+/* ==================== */
+/* AJUSTES PARA CARDS DE TRANSFERENCIA EN MÓVIL */
+/* ==================== */
+@media (max-width: 991.98px) {
+  /* Afecta SOLO a las cards con selectores múltiples (excluye el card de filtros) */
+  .card[data-order] .card-body .row {
+    display: flex !important;
+    /*flex-wrap: nowrap;*/ /* Evita saltos de línea */
+    overflow-x: auto; /* Scroll horizontal si no cabe */
+    gap: 0.5rem; /* Espacio entre columnas */
+  }
+
+  /* Columnas izquierda/derecha (selects) */
+  .card[data-order] .card-body .row > .col-md-5 {
+    flex: 0 0 45%; /* Ancho fijo del 45% */
+    min-width: 150px; /* Mínimo para que no se compriman */
+  }
+
+  /* Contenedor de botones de transferencia */
+  .card[data-order] .transfer-buttons-container {
+    flex-direction: column; /* Botones en vertical */
+    justify-content: center;
+    padding: 0;
+    min-width: 50px; /* Ancho mínimo */
+  }
+
+  /* Ajuste de altura para los selects */
+  .card[data-order] select[multiple] {
+    min-height: 150px; /* Altura fija */
+  }
+
+  /* Etiqueta "Seleccionados" */
+  .card[data-order] .col-md-5 > label {
+    white-space: nowrap; /* Evita que el texto se corte */
+  }
+}
+
+@media (max-width: 991.98px) {
+    #editarRolModal .modal-dialog {
+        margin: 10px auto;
+        width: 95%;
+        max-width: 100%;
+    }
+    
+    #editarRolModal .modal-content {
+        min-height: auto;
+    }
+    
+    #editarRolModal .modal-body {
+        height: auto;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+    
+    #editarRolModal .modulos-scroll-container {
+        height: auto;
+        max-height: 60vh;
+    }
+}
+
+/* ==================== */
+/* ESTILOS PARA MODAL DE COLUMNAS */
+/* ==================== */
+#modalColumnas .modal-dialog {
+  max-width: 800px; /* Tamaño máximo en desktop */
+}
+
+#modalColumnas .modal-body {
+  max-height: 70vh; /* Altura máxima */
+  overflow-y: auto; /* Scroll vertical si hay muchas columnas */
+}
+
+/* Ajustes para móvil */
+@media (max-width: 767.98px) {
+  #modalColumnas .modal-dialog {
+    width: 95%;
+    margin: 0.5rem auto;
+  }
+  
+  #modalColumnas .modal-content {
+    max-height: 90vh; /* Aprovecha mejor la pantalla */
+  }
+  
+  #modalColumnas .modal-body {
+    max-height: 60vh; /* Más espacio para la lista */
+    padding: 0.5rem;
+  }
+  
+  /* Ajuste para la tabla de columnas */
+  #modalColumnas .table {
+    font-size: 0.875rem; /* Texto un poco más pequeño */
+  }
+  
+  /* Botones de selección/deselección */
+  #modalColumnas .input-group-append {
+    flex-wrap: wrap; /* Evita desbordamiento */
+    gap: 0.3rem;
+  }
+}
+
+@media (max-width: 991.98px) {
+    /* Evita que el menú se cierre al hacer clic en enlaces */
+    .main-sidebar .nav-item.has-treeview .nav-link {
+        pointer-events: auto;
+        text-align: justify;
+    }
+    
+    /* Asegura que los submenús sean accesibles */
+    .main-sidebar .nav-treeview {
+        display: none;
+    }
+    
+    .main-sidebar .nav-item.menu-open .nav-treeview {
+        display: block;
+    }
+}
+
+
+@media (max-width: 991.98px) {
+    .main-sidebar .nav-item.menu-open > .nav-treeview {
+        display: block;
+    }
+
+    .main-sidebar .nav-item.menu-open .nav-treeview .nav-treeview {
+        display: none;
+    }
+}
+
+/* Ajustes para textos largos en el menú lateral */
+.nav-treeview .nav-link {
+    white-space: normal !important; /* Permite múltiples líneas */
+    line-height: 1.4; /* Mejor espaciado entre líneas */
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+    display: flex;
+    align-items: flex-start; /* Alineación superior */
+}
+
+/* Contenedor de texto principal */
+.nav-treeview .nav-link p {
+    margin-bottom: 0; /* Elimina margen inferior innecesario */
+    text-align: left; /* Alineación consistente */
+    flex-grow: 1; /* Ocupa todo el espacio disponible */
+    word-break: break-word; /* Rompe palabras largas */
+    padding-right: 10px; /* Espacio para el ícono */
+}
+
+/* Flechas indicadoras de submenú */
+.nav-treeview .nav-link > p > .right {
+    margin-left: auto; /* Posiciona flecha a la derecha */
+    align-self: center; /* Centra verticalmente */
+    flex-shrink: 0; /* Evita que se comprima */
+}
+
+/* Íconos principales */
+.nav-treeview .nav-link > .nav-icon {
+    margin-top: 0.25rem; /* Alinea mejor los íconos */
+    margin-right: 0.5rem;
+    flex-shrink: 0; /* Evita que los íconos se compriman */
+}
+
+/* Ajustes específicos para elementos sin ícono */
+.nav-treeview .nav-link > p {
+    margin-left: 1.8rem; /* Espacio equivalente al ícono */
+}
+
+/* Ajustes para tercer nivel (nietos) */
+.nav-treeview .nav-treeview .nav-link p {
+    padding-left: 0;
+    margin-left: 0;
+}
+
+/* Reduce padding en móviles para ahorrar espacio */
+@media (max-width: 991.98px) {
+    .nav-treeview .nav-link {
+        padding-left: 15px !important;
+    }
+}
+
+/* Fuerza la reorganización de elementos */
+.nav-sidebar .nav-link {
+    display: flex !important;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+}
+
+.nav-sidebar .nav-link > i:first-child {
+    flex-shrink: 0;
+    margin-top: 3px;
+}
+
+.nav-sidebar .nav-link > p {
+    flex-grow: 1;
+    min-width: 0; /* Permite que el texto se ajuste */
+}
+
+.nav-sidebar .nav-link > p > span {
+    display: inline-block;
+    width: calc(100% - 20px); /* Reserva espacio para la flecha */
+}
+
+.nav-sidebar .right {
+    flex-shrink: 0;
+    align-self: center;
+}

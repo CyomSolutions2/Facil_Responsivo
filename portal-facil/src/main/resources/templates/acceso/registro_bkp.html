@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<title>Registro de socios</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/registro/css/style.css}">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+    <link th:href="@{/registro/js/jquery-ui.css}" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/a81368914c.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	 <script th:inline="javascript">
+		var contextRoot = /*[[@{/}]]*/ '';
+	</script>
+</head>
+<body>
+	<div class="container">
+		<div class="img">
+			<img th:src="@{/registro/img/logo.jpg}" />
+		</div>
+		<div class="login-content">
+			<form name="form" method="POST" th:object="${socio}" th:action="@{/registro}" >
+				<img th:src="@{/registro/img/logo.jpg}" class="circle" >
+				<h2 class="title">EMPLEADO</h2>
+           		<div class="input-div one">
+           		   <div class="i">
+           		   		<i class="fas fa-user"></i>
+           		   </div>
+           		   <div class="div">
+           		   		<h5 id="membresiaTexto" >Usuario</h5>
+           		   		<input type="text" th:field="*{membresia}" class="input" required autofocus id="Usuario" >
+           		   </div>
+           		</div>
+				<div class="input-div one">
+           		   <div class="i">
+           		   		<i class="fas fa-at"></i>
+           		   </div>
+           		   <div class="div">
+           		   		<h5 id="correoTexto">Correo</h5>
+           		   		<input type="text" th:field="*{correo}" class="input" required autofocus id="correo" >
+           		   </div>
+           		</div>
+           		<div class="input-div pass">
+           		   <div class="i"> 
+           		    	<i class="fas fa-calendar-week"></i>
+           		   </div>
+           		   <div class="div">
+           		    	<h5 id="datepickerTexto" >Fecha Nacimiento</h5>
+           		    	<input type="text" th:field="*{fechaNacimiento}" class="input" id="datepicker" readonly required autofocus >
+            	   </div>
+            	</div>
+				<div class="input-div pass">
+           		   <div class="i"> 
+           		    	<i class="fas fa-lock"></i>
+           		   </div>
+           		   <div class="div">
+           		    	<h5 id="passwordTexto" >Contraseña</h5>
+           		    	<input type="password" class="input" th:field="*{password}" required autofocus id="password" >
+            	   </div>
+            	</div>
+				<div class="input-div pass">
+           		   <div class="i"> 
+           		    	<i class="fas fa-lock"></i>
+           		   </div>
+           		   <div class="div">
+           		    	<h5 id="comfirmacionTexto" >Confirmar contraseña</h5>
+           		    	<input type="password" class="input" required th:field="*{comfirmacion}" autofocus id="comfirmacion" >
+            	   </div>
+            	</div>
+            	<input type="submit" class="btn" value="Registrate"  >
+            	<input type="button" class="btn" value="Inicio" onClick="irHome()" />
+            	<div th:if="${mensaje!=null}" >
+		           <span th:text="${mensaje}" class="mensaje" > </span>
+		        </div>
+            </form>
+            
+        </div>
+    </div>
+
+ <script type="text/javascript" th:src="@{/registro/js/jquery.min.js}"></script>
+ <script type="text/javascript" th:src="@{/registro/js/jquery-ui.min.js}"></script>
+
+ <script type="text/javascript" th:src="@{/registro/js/datepicker-es.js}"></script>
+
+ <script>
+     
+		
+						$(function() {
+							
+							//$("#membresiaTexto").hide();
+
+							$("#datepicker").datepicker({
+								altFormat : "dd-mm-yyyy",
+								language : 'es',
+								yearRange : "1940:2025",
+								/*defaultDate: '-25000',*/
+								changeMonth : true,
+								changeYear : true
+							});
+							
+							$('#membresia').on('focus', function() {
+								 $("#membresiaTexto").hide();
+						    });
+						    $('#membresia').on('blur', function() {
+						    	let valor = $('#membresia').val();
+						    	if ( valor.trim() == '' ) {
+						    		$("#membresiaTexto").show();
+						    	}
+						    });
+						    $( "#membresia" ).on( "click", function() {
+						    	 $("#membresiaTexto").hide();
+						    } );
+						    
+						    
+						    
+						    
+						    
+						    $('#correo').on('focus', function() {
+								 $("#correoTexto").hide();
+						    });
+						    $('#correo').on('blur', function() {
+						    	let valor = $('#correo').val();
+						    	if ( valor.trim() == '' ) {
+						    		$("#correoTexto").show();
+						    	}
+						    });
+						    $( "#correo" ).on( "click", function() {
+						    	 $("#correoTexto").hide();
+						    } );
+						    
+						    
+						    
+						    
+						    
+						    $('#datepicker').on('focus', function() {
+								 $("#datepickerTexto").hide();
+						    });
+						    $('#datepicker').on('blur', function() {
+						    	let valor = $('#datepicker').val();
+						    	if ( valor.trim() == '' ) {
+						    		$("#datepickerTexto").show();
+						    	}
+						    });
+						    $( "#datepicker" ).on( "click", function() {
+						    	 $("#datepickerTexto").hide();
+						    } );
+						    $( "#datepicker" ).on( "change", function() {
+						    	 $("#datepickerTexto").hide();
+							} );
+						    
+						    
+						    
+						    $('#password').on('focus', function() {
+								 $("#passwordTexto").hide();
+						    });
+						    $('#password').on('blur', function() {
+						    	let valor = $('#password').val();
+						    	if ( valor.trim() == '' ) {
+						    		$("#passwordTexto").show();
+						    	}
+						    });
+						    $( "#password" ).on( "click", function() {
+						    	 $("#passwordTexto").hide();
+						    } );
+						    
+						    
+						    
+						    
+						    $('#comfirmacion').on('focus', function() {
+								 $("#comfirmacionTexto").hide();
+						    });
+						    $('#comfirmacion').on('blur', function() {
+						    	let valor = $('#comfirmacion').val();
+						    	if ( valor.trim() == '' ) {
+						    		$("#comfirmacionTexto").show();
+						    	}
+						    });
+						    $( "#comfirmacion" ).on( "click", function() {
+						    	 $("#comfirmacionTexto").hide();
+						    } );
+						    
+						    
+
+						    
+						    
+						    
+						    
+
+})
+
+
+function irHome() {
+	window.location.replace(contextRoot);
+}
+
+					</script>
+
+</body>
+</html>

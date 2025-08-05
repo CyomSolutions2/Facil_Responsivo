@@ -1,0 +1,147 @@
+{
+  "_from": "@chenfengyuan/datepicker@^1.0.10",
+  "_id": "@chenfengyuan/datepicker@1.0.10",
+  "_inBundle": false,
+  "_integrity": "sha512-w016ygdUgBY6hhV7HFKRy2DeSiRPPczekA6FJfIpmqQYh5leKne4WvW/YWOCY1xrQVvamdLyhMhbsn8vN5iQAg==",
+  "_location": "/@chenfengyuan/datepicker",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@chenfengyuan/datepicker@^1.0.10",
+    "name": "@chenfengyuan/datepicker",
+    "escapedName": "@chenfengyuan%2fdatepicker",
+    "scope": "@chenfengyuan",
+    "rawSpec": "^1.0.10",
+    "saveSpec": null,
+    "fetchSpec": "^1.0.10"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@chenfengyuan/datepicker/-/datepicker-1.0.10.tgz",
+  "_shasum": "33d544d80f8f0a10dcb6194136ea5639d285b3d5",
+  "_spec": "@chenfengyuan/datepicker@^1.0.10",
+  "_where": "C:\\workspace\\Dashboardpack\\architectui-html-pro",
+  "author": {
+    "name": "Chen Fengyuan",
+    "url": "https://chenfengyuan.com/"
+  },
+  "browser": "dist/datepicker.js",
+  "browserslist": [
+    "last 2 versions",
+    "> 1%",
+    "not ie <= 8"
+  ],
+  "bugs": {
+    "url": "https://github.com/fengyuanchen/datepicker/issues"
+  },
+  "bundleDependencies": false,
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "deprecated": false,
+  "description": "A simple jQuery datepicker plugin.",
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "cpy-cli": "^3.1.1",
+    "create-banner": "^1.0.0",
+    "cssnano": "^4.1.10",
+    "del-cli": "^3.0.1",
+    "eslint": "^7.10.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "husky": "^4.3.0",
+    "jquery": "^3.5.1",
+    "lint-staged": "^10.4.0",
+    "npm-run-all": "^4.1.5",
+    "postcss-cli": "^8.0.0",
+    "postcss-header": "^3.0.1",
+    "postcss-import": "^12.0.1",
+    "postcss-preset-env": "^6.7.0",
+    "rollup": "^2.28.2",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "stylelint": "^13.7.2",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-order": "^4.1.0",
+    "uglify-js": "^3.11.0"
+  },
+  "files": [
+    "src",
+    "dist",
+    "i18n"
+  ],
+  "homepage": "https://fengyuanchen.github.io/datepicker",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "keywords": [
+    "date",
+    "picker",
+    "datepicker",
+    "jquery",
+    "plugin",
+    "jquery-plugin",
+    "html",
+    "css",
+    "javascript",
+    "front-end",
+    "web"
+  ],
+  "license": "MIT",
+  "lint-staged": {
+    "{src,test}/**/*.js|*.conf*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "{src,docs}/**/*.{css,scss,html}": [
+      "stylelint --fix",
+      "git add"
+    ]
+  },
+  "main": "dist/datepicker.common.js",
+  "module": "dist/datepicker.esm.js",
+  "name": "@chenfengyuan/datepicker",
+  "peerDependencies": {
+    "jquery": ">=1.9.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fengyuanchen/datepicker.git"
+  },
+  "scripts": {
+    "build": "npm run build:css && npm run build:js",
+    "build:css": "postcss src/index.css -o dist/datepicker.css --no-map",
+    "build:js": "rollup -c",
+    "clear": "del-cli dist",
+    "compress": "npm run compress:css && npm run compress:js",
+    "compress:css": "postcss dist/datepicker.css -u cssnano -o dist/datepicker.min.css --no-map",
+    "compress:js": "uglifyjs dist/datepicker.js -o dist/datepicker.min.js -c -m --comments /^!/",
+    "copy": "npm run copy:css && npm run copy:i18n",
+    "copy:css": "cpy dist/datepicker.css docs/css/",
+    "copy:i18n": "cpy i18n/* docs/js",
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint:css": "stylelint {src,docs,examples}/**/*.{css,scss,html} --fix",
+    "lint:js": "eslint src *.js --fix",
+    "release": "npm run clear && npm run lint && npm run build && npm run compress && npm run copy && npm test",
+    "start": "npm-run-all --parallel watch:*",
+    "test": "node-qunit-phantomjs test/index.html --timeout 10",
+    "watch:css": "postcss src/index.css -o docs/css/datepicker.css -m -w",
+    "watch:js": "rollup -c -m -w"
+  },
+  "style": "dist/datepicker.css",
+  "version": "1.0.10"
+}

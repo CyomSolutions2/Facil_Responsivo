@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal</title>
+
+    <!-- Cargar fuentes -->
+    <link rel="stylesheet" th:href="@{/portal/assets/fonts/fontawesome-free-6.1.2-web/css/all.min.css}" />
+    <link rel="stylesheet" th:href="@{/portal/assets/fonts/dmsans/dmsans.css}" />
+
+    <!-- Cargar estilos -->
+    <link rel="stylesheet" th:href="@{/portal/assets/css/reset.css}" />
+    <link rel="stylesheet" th:href="@{/portal/assets/css/styles.css}" />
+    <!--
+    <link rel="stylesheet" href="assets/css/dark.css" />
+     -->
+    <link rel="stylesheet" th:href="@{/portal/assets/css/responsive.css}" />
+
+    <!-- Cargar JS -->
+    <script th:src="@{/portal/assets/js/menu-mobile.js}"></script>
+    <script th:src="@{/portal/assets/js/navbar-fixed.js}"></script>
+    <script th:src="@{/portal/assets/js/dark.js}"></script>
+    
+    <script th:inline="javascript">
+		var contextRoot = /*[[@{/}]]*/ '';
+	</script>
+
+</head>
+
+<body>
+
+    <!-- Botón modo oscuro -->
+    <div class="switcher">
+        <button class="switcher__btn">
+
+            <span class="switcher__icon-light">
+                <i class="fa-solid fa-moon switcher__icon"></i>
+            </span>
+            <span class="switcher__icon-dark">
+                <i class="fa-solid fa-lightbulb switcher__icon"></i>
+            </span>
+
+        </button>
+    </div>
+
+    <section class="layout__menu">
+        <header class="menu__navbar">
+
+            <!-- LOGO -->
+            <div class="navbar__logo">
+                <a href="#" class="navbar__link-logo">
+                    <img th:src="@{/portal/assets/img/LOGO-CUERNA.png}" class="navbar__logo-light" />
+                </a>
+            </div>
+
+            <!-- NAVEGACIÓN -->
+            <nav class="navbar__nav">
+                <ul class="nav__list">
+
+                    <li class="nav__item">
+                        <a href="#" class="nav__title">Inicio</a>
+                    </li>
+
+                </ul>
+            </nav>
+
+            <!-- NAVEGACIÓN -->
+            <nav class="navbar__nav">
+                <ul class="nav__list">
+
+                    <li class="nav__item">
+                        <i class="fas fa-user-circle"></i>
+                    </li>
+
+                </ul>
+            </nav>
+
+
+        </header>
+    </section>
+
+    <div class="layout__socio" >
+        <section class="layout__socio--banner">
+            <div class="banner__izquierda">
+                    <img th:src="@{/portal/assets/img/cc.jpg}" class="fslider__img" style="width: 1878px;" />
+                
+            </div>
+        </section>
+    </div>
+
+    <div class="stats__container">
+        <header class="banner__content">
+         <h2 class="banner__title">Bienvenido <span th:text="${informacion.getNombre_Completo_Socio}"></span></h2>
+        </header>
+     </div>
+
+    <div class="stats__container">
+        <header class="stats__header">
+         <h2 class="stats__title">¿Qu&eacute; deseas hacer hoy?</h2>
+        </header>
+     </div>
+
+    <div class="layout__opciones">
+        <div class="opciones__contenedor">
+           <section class="contenedor__menu">
+   
+               <div class="circle">
+                   <a th:href="@{/tu-club}" class="fslider__link">
+                   <img th:src="@{/portal/assets/img/2.svg}" class="fslider__img" />
+                   Tu Club
+                   </a>
+               </div>
+   
+           </section>
+
+           <section class="contenedor__menu">
+   
+               <div class="circle">
+                   
+                   <a th:href="@{/cupon}" class="fslider__link">
+                     <img th:src="@{/portal/assets/img/6.svg}" class="fslider__img" />
+                     Cupones
+                   </a>
+               </div>
+   
+           </section>
+   
+           <section class="contenedor__menu">
+   
+               <div class="circle2">  
+                   <a th:href="@{/pago}" class="fslider__link">
+                     <img th:src="@{/portal/assets/img/group-3.png}" class="fslider__img" />
+                       Pago en línea
+                   </a>
+               </div>
+   
+           </section>
+        </div>
+    </div>
+
+    <div class="layout__opciones">
+        <div class="opciones__contenedor">
+           <section class="contenedor__menu">
+   
+               <div class="circle">
+                   <a th:href="@{/reserva}" class="fslider__link">
+                   <img th:src="@{/portal/assets/img/group.png}" class="fslider__img" />
+                     Reservaciones
+                   </a>
+               </div>
+   
+           </section>
+   
+           <section class="contenedor__menu">
+   
+               <div class="circle">
+                
+                <a th:href="@{/buzon}" class="fslider__link">
+                 <img th:src="@{/portal/assets/img/7.svg}" class="fslider__img" />
+                   Buz&oacute;n
+                </a>
+               </div>
+   
+           </section>
+   
+           <section class="contenedor__menu">
+   
+               <div class="circle">
+               
+                <a th:href="@{/beneficiario}" class="fslider__link">
+                   <img th:src="@{/portal/assets/img/3.svg}" class="fslider__img" />
+                   Beneficiarios
+                </a>
+               </div>
+   
+           </section>
+        </div>
+    </div>
+
+    <div class="layout__opciones">
+        <div class="opciones__contenedor">
+           <section class="contenedor__menu">
+   
+               <div class="circle">
+                <a th:href="@{/promocion}" class="fslider__link">
+                  <img th:src="@{/portal/assets/img/9.svg}" class="fslider__img" />
+                     Promociones
+                </a>
+               </div>
+   
+           </section>
+   
+           <section class="contenedor__menu">
+   
+               <div class="circle">
+                
+                <a th:href="@{/servicio}" class="fslider__link">
+                  <img th:src="@{/portal/assets/img/8.svg}" class="fslider__img" />
+                  Otros Servicios
+                </a>
+               </div>
+   
+           </section>
+   
+           <section class="contenedor__menu">
+   
+               <div class="circle">
+               
+                <a th:href="@{/pregunta-frecuente}" class="fslider__link">
+                   <img th:src="@{/portal/assets/img/1.svg}" class="fslider__img" />
+                   Preguntas frecuentes
+                </a>
+               </div>
+   
+           </section>
+        </div>
+    </div>
+
+    <section class="footer__description">
+        <div class="footer__text">
+            <i class="fab fa-facebook-f"></i>
+            <i class="fab fa-instagram"></i>
+        </div>
+    </section>
+    
+    <script th:src="@{/interno/plugins/jquery/jquery.min.js}"></script>
+    <script th:src="@{/interno/sweetalert/2.1.2/sweetalert.min.js}"></script>
+    <script th:src="@{/negocio/movimientos.js}"></script>
+    
+    <div th:replace="componentes/alertas/swalPregunta :: index"></div>
+    
+</body>
+
+</html>

@@ -1,0 +1,4251 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	<title th:text="'Sistema Fácil | ' + ${menuReporteNombre}"></title>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/interno/plugins/fontawesome-free/css/all.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/interno/dist/css/adminlte.min.css}">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" th:href="@{/interno/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+	<!-- sweetalert2 -->
+	<link rel="stylesheet" th:href="@{/interno/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css}">
+	<!-- tempusdominus -->
+	<link rel="stylesheet" th:href="@{/interno/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
+	<!-- Personalizado -->
+	<link rel="stylesheet" th:href="@{/interno/css/personalizadoReportes.css}">
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+	 <meta name="_csrf-header" th:content="${_csrf.headerName}"/>
+	 <style>
+	 	.modal {
+	 	  position: fixed;
+	 	  top: 0; left: 0; right: 0; bottom: 0;
+	 	  background: rgba(0,0,0,0.6);
+	 	  display: flex;
+	 	  align-items: center;
+	 	  justify-content: center;
+	 	  z-index: 9999;
+	 	}
+	 	.modal-content {
+	 	  background: white;
+	 	  padding: 2em;
+	 	  text-align: center;
+	 	  border-radius: 8px;
+	 	}
+	 	</style>
+	 	<script th:inline="javascript">
+	 	   var contextRoot = /*[[@{/}]]*/ '';
+	 	</script>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+	<!-- Navbar -->
+	<nav class="main-header navbar navbar-expand-lg navbar-white navbar-light">
+				
+				<button class="navbar-toggler order-1 ml-2" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+				  <span class="navbar-toggler-icon"></span>
+				</button>
+						
+		        <!-- Left navbar links -->
+		        <ul class="navbar-nav">
+		            <li class="nav-item d-none d-sm-inline-block">
+		                <strong>Hola, <span th:text="${usuario.nombreUsuario}"></span></strong>
+		            </li>
+		        </ul>
+		        
+		        <ul class="navbar-nav ml-auto">
+		            <li class="nav-item">
+		                <a th:href="@{/logout}" class="btn btn-danger btn-sm">
+		                    <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+		                </a>
+		            </li>
+		        </ul>
+				
+				
+		    </nav>
+
+
+	
+	<div th:replace="~{componentes/menu/menu :: sidebar-menu}"></div>
+
+
+    <!-- Content Wrapper -->
+	<!-- Content Wrapper -->
+	<div class="content-wrapper">
+	    <!-- Content Header -->
+	    <div class="content-header">
+	        <div class="container-fluid">
+	            <div class="row mb-2">
+	                <div class="col-sm-6">
+	                    <h1 class="m-0"><span th:text="${menuReporteNombre}"></span></h1>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+
+	    <!-- Main content -->
+	    <section class="content">
+	        <div class="container-fluid">
+	            <!-- Filtros de búsqueda -->
+				<div class="row">
+				    <div class="col-md-12">
+				        <div class="card card-info">
+				            <div class="card-header p-2">
+				                <h3 class="card-title">Filtros de búsqueda</h3>
+				                <div class="card-tools">
+				                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+				                        <i class="fas fa-minus"></i>
+				                    </button>
+				                </div>
+				            </div>
+				            <div class="card-body p-2">
+				                <div class="row">
+				                    <!-- Fecha Inicio -->
+				                    <div class="col-md-4">
+				                        <div class="form-group mb-2">
+				                            <label class="mb-0">Fecha Inicio:</label>
+				                            <div class="input-group date" id="fechaInicio" data-target-input="nearest">
+				                                <input type="text" class="form-control form-control-sm datetimepicker-input" data-target="#fechaInicio"/>
+				                                <div class="input-group-append" data-target="#fechaInicio" data-toggle="datetimepicker">
+				                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+				                                </div>
+				                            </div>
+				                        </div>
+				                    </div>
+				                    
+				                    <!-- Fecha Fin -->
+				                    <div class="col-md-4">
+				                        <div class="form-group mb-2">
+				                            <label class="mb-0">Fecha Fin:</label>
+				                            <div class="input-group date" id="fechaFin" data-target-input="nearest">
+				                                <input type="text" class="form-control form-control-sm datetimepicker-input" data-target="#fechaFin"/>
+				                                <div class="input-group-append" data-target="#fechaFin" data-toggle="datetimepicker">
+				                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+				                                </div>
+				                            </div>
+				                        </div>
+				                    </div>
+				                    
+				                    <!-- Combobox -->
+				                    <div class="col-md-4">
+				                        <div class="form-group mb-2">
+				                            <label class="mb-0">Reporte:</label>
+				                            <select id="reportesCobranza" class="form-control form-control-sm">
+				                                <option value="">-- Seleccione --</option>
+				                            </select>
+				                        </div>
+				                    </div>
+									
+									<input type="hidden" id="menuReporteId" th:value="${menuReporteId}" />
+				                </div>
+				            </div>
+				            <div class="card-footer p-2 text-right">
+								<button type="button" class="btn btn-primary btn-sm" id="btnBuscar">
+								    <i class="fas fa-search"></i> Buscar
+								</button>
+				                <button type="button" class="btn btn-default btn-sm">
+				                    <i class="fas fa-sync"></i> Limpiar
+				                </button>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				
+				
+				<!-- Sección de Cartera -->
+				<div class="card card-primary card-outline card-cartera" data-order="0" style="display: none;">
+				    <div class="card-header p-1">
+				        <h3 class="card-title" style="font-size: 1rem;">CARTERA</h3>
+				        <div class="card-tools">
+				            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+				                <i class="fas fa-minus"></i>
+				            </button>
+				        </div>
+				    </div>
+				    <div class="card-body p-1">
+				        <div class="form-group">
+				            <div class="row">
+				                <div class="col-md-5">
+				                    <div class="input-group input-group-sm mb-1">
+				                        <input type="text" id="buscarCartera" class="form-control form-control-sm" placeholder="Buscar...">
+				                        <div class="input-group-append">
+				                            <button class="btn btn-default" type="button" id="btnLimpiarBusquedaCartera">
+				                                <i class="fas fa-times"></i>
+				                            </button>
+				                        </div>
+				                    </div>
+				                    <select id="carteraDisponibles" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				                
+				                <!-- Botones de transferencia -->
+				                <div class="col-md-2 text-center">
+				                    <div class="transfer-buttons-container">
+				                        <button type="button" id="btnAddCartera" class="btn btn-default btn-xs transfer-button" title="Agregar">
+				                            <i class="fas fa-arrow-right"></i>
+				                        </button>
+				                        <button type="button" id="btnAddAllCartera" class="btn btn-default btn-xs transfer-button" title="Agregar todos">
+				                            <i class="fas fa-forward"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveCartera" class="btn btn-default btn-xs transfer-button" title="Quitar">
+				                            <i class="fas fa-arrow-left"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveAllCartera" class="btn btn-default btn-xs transfer-button" title="Quitar todos">
+				                            <i class="fas fa-backward"></i>
+				                        </button>
+				                    </div>
+				                </div>
+				                
+				                <!-- Columna derecha - Seleccionados -->
+				                <div class="col-md-5">
+				                    <label class="mb-0" style="font-size: 0.875rem;">Seleccionados</label>
+				                    <select id="carteraSeleccionados" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				
+				<!-- Sección de Clasificación de Membresía -->
+				<div class="card card-primary card-outline card-clasificacion-membresia" data-order="0" style="display: none;">
+				    <div class="card-header p-1">
+				        <h3 class="card-title" style="font-size: 1rem;">CLASIFICACIÓN DE MEMBRESÍA</h3>
+				        <div class="card-tools">
+				            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+				                <i class="fas fa-minus"></i>
+				            </button>
+				        </div>
+				    </div>
+				    <div class="card-body p-1">
+				        <div class="form-group">
+				            <div class="row">
+				                <!-- Columna izquierda - Disponibles -->
+				                <div class="col-md-5">
+				                    <div class="input-group input-group-sm mb-1">
+				                        <input type="text" id="buscarClasificacionMembresia" class="form-control form-control-sm" placeholder="Buscar...">
+				                        <div class="input-group-append">
+				                            <button class="btn btn-default" type="button" id="btnLimpiarBusquedaClasificacionMembresia">
+				                                <i class="fas fa-times"></i>
+				                            </button>
+				                        </div>
+				                    </div>
+				                    <select id="clasificacionMembresiaDisponibles" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				                
+				                <!-- Botones de transferencia -->
+				                <div class="col-md-2 text-center">
+				                    <div class="transfer-buttons-container">
+				                        <button type="button" id="btnAddClasificacionMembresia" class="btn btn-default btn-xs transfer-button" title="Agregar">
+				                            <i class="fas fa-arrow-right"></i>
+				                        </button>
+				                        <button type="button" id="btnAddAllClasificacionMembresia" class="btn btn-default btn-xs transfer-button" title="Agregar todos">
+				                            <i class="fas fa-forward"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveClasificacionMembresia" class="btn btn-default btn-xs transfer-button" title="Quitar">
+				                            <i class="fas fa-arrow-left"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveAllClasificacionMembresia" class="btn btn-default btn-xs transfer-button" title="Quitar todos">
+				                            <i class="fas fa-backward"></i>
+				                        </button>
+				                    </div>
+				                </div>
+				                
+				                <!-- Columna derecha - Seleccionados -->
+				                <div class="col-md-5">
+				                    <label class="mb-0" style="font-size: 0.875rem;">Seleccionados</label>
+				                    <select id="clasificacionMembresiaSeleccionados" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				
+				<!-- Sección de Empleados -->
+				<div class="card card-primary card-outline card-empleados" data-order="0" style="display: none;">
+				    <div class="card-header p-1">
+				        <h3 class="card-title" style="font-size: 1rem;">EMPLEADOS</h3>
+				        <div class="card-tools">
+				            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+				                <i class="fas fa-minus"></i>
+				            </button>
+				        </div>
+				    </div>
+				    <div class="card-body p-1">
+				        <div class="form-group">
+				            <div class="row">
+				                <!-- Columna izquierda - Disponibles -->
+				                <div class="col-md-5">
+				                    <div class="input-group input-group-sm mb-1">
+				                        <input type="text" id="buscarEmpleados" class="form-control form-control-sm" placeholder="Buscar...">
+				                        <div class="input-group-append">
+				                            <button class="btn btn-default" type="button" id="btnLimpiarBusquedaEmpleados">
+				                                <i class="fas fa-times"></i>
+				                            </button>
+				                        </div>
+				                    </div>
+				                    <select id="empleadosDisponibles" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				                
+				                <!-- Botones de transferencia -->
+				                <div class="col-md-2 text-center">
+				                    <div class="transfer-buttons-container">
+				                        <button type="button" id="btnAddEmpleado" class="btn btn-default btn-xs transfer-button" title="Agregar">
+				                            <i class="fas fa-arrow-right"></i>
+				                        </button>
+				                        <button type="button" id="btnAddAllEmpleado" class="btn btn-default btn-xs transfer-button" title="Agregar todos">
+				                            <i class="fas fa-forward"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveEmpleado" class="btn btn-default btn-xs transfer-button" title="Quitar">
+				                            <i class="fas fa-arrow-left"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveAllEmpleado" class="btn btn-default btn-xs transfer-button" title="Quitar todos">
+				                            <i class="fas fa-backward"></i>
+				                        </button>
+				                    </div>
+				                </div>
+				                
+				                <!-- Columna derecha - Seleccionados -->
+				                <div class="col-md-5">
+				                    <label class="mb-0" style="font-size: 0.875rem;">Seleccionados</label>
+				                    <select id="empleadosSeleccionados" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				
+				<!-- Sección de Estados -->
+				<div class="card card-primary card-outline card-estados" data-order="0" style="display: none;">
+				    <div class="card-header p-1">
+				        <h3 class="card-title" style="font-size: 1rem;">ESTADOS</h3>
+				        <div class="card-tools">
+				            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+				                <i class="fas fa-minus"></i>
+				            </button>
+				        </div>
+				    </div>
+				    <div class="card-body p-1">
+				        <div class="form-group">
+				            <div class="row">
+				                <!-- Columna izquierda - Disponibles -->
+				                <div class="col-md-5">
+				                    <div class="input-group input-group-sm mb-1">
+				                        <input type="text" id="buscarEstados" class="form-control form-control-sm" placeholder="Buscar...">
+				                        <div class="input-group-append">
+				                            <button class="btn btn-default" type="button" id="btnLimpiarBusquedaEstados">
+				                                <i class="fas fa-times"></i>
+				                            </button>
+				                        </div>
+				                    </div>
+				                    <select id="estadosDisponibles" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				                
+				                <!-- Botones de transferencia -->
+				                <div class="col-md-2 text-center">
+				                    <div class="transfer-buttons-container">
+				                        <button type="button" id="btnAddEstado" class="btn btn-default btn-xs transfer-button" title="Agregar">
+				                            <i class="fas fa-arrow-right"></i>
+				                        </button>
+				                        <button type="button" id="btnAddAllEstado" class="btn btn-default btn-xs transfer-button" title="Agregar todos">
+				                            <i class="fas fa-forward"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveEstado" class="btn btn-default btn-xs transfer-button" title="Quitar">
+				                            <i class="fas fa-arrow-left"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveAllEstado" class="btn btn-default btn-xs transfer-button" title="Quitar todos">
+				                            <i class="fas fa-backward"></i>
+				                        </button>
+				                    </div>
+				                </div>
+				                
+				                <!-- Columna derecha - Seleccionados -->
+				                <div class="col-md-5">
+				                    <label class="mb-0" style="font-size: 0.875rem;">Seleccionados</label>
+				                    <select id="estadosSeleccionados" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				
+				<!-- Sección de Estatus de Recibos -->
+				<div class="card card-primary card-outline card-estatus-recibos" data-order="0" style="display: none;">
+				    <div class="card-header p-1">
+				        <h3 class="card-title" style="font-size: 1rem;">ESTATUS DE RECIBOS</h3>
+				        <div class="card-tools">
+				            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+				                <i class="fas fa-minus"></i>
+				            </button>
+				        </div>
+				    </div>
+				    <div class="card-body p-1">
+				        <div class="form-group">
+				            <div class="row">
+				                <!-- Columna izquierda - Disponibles -->
+				                <div class="col-md-5">
+				                    <div class="input-group input-group-sm mb-1">
+				                        <input type="text" id="buscarEstatusRecibos" class="form-control form-control-sm" placeholder="Buscar...">
+				                        <div class="input-group-append">
+				                            <button class="btn btn-default" type="button" id="btnLimpiarBusquedaEstatusRecibos">
+				                                <i class="fas fa-times"></i>
+				                            </button>
+				                        </div>
+				                    </div>
+				                    <select id="estatusRecibosDisponibles" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				                
+				                <!-- Botones de transferencia -->
+				                <div class="col-md-2 text-center">
+				                    <div class="transfer-buttons-container">
+				                        <button type="button" id="btnAddEstatusRecibo" class="btn btn-default btn-xs transfer-button" title="Agregar">
+				                            <i class="fas fa-arrow-right"></i>
+				                        </button>
+				                        <button type="button" id="btnAddAllEstatusRecibo" class="btn btn-default btn-xs transfer-button" title="Agregar todos">
+				                            <i class="fas fa-forward"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveEstatusRecibo" class="btn btn-default btn-xs transfer-button" title="Quitar">
+				                            <i class="fas fa-arrow-left"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveAllEstatusRecibo" class="btn btn-default btn-xs transfer-button" title="Quitar todos">
+				                            <i class="fas fa-backward"></i>
+				                        </button>
+				                    </div>
+				                </div>
+				                
+				                <!-- Columna derecha - Seleccionados -->
+				                <div class="col-md-5">
+				                    <label class="mb-0" style="font-size: 0.875rem;">Seleccionados</label>
+				                    <select id="estatusRecibosSeleccionados" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				
+				<!-- Sección de Estatus de Unidades -->
+				<div class="card card-primary card-outline card-estatus-unidades" data-order="0" style="display: none;">
+				    <div class="card-header p-1">
+				        <h3 class="card-title" style="font-size: 1rem;">ESTATUS DE UNIDADES</h3>
+				        <div class="card-tools">
+				            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+				                <i class="fas fa-minus"></i>
+				            </button>
+				        </div>
+				    </div>
+				    <div class="card-body p-1">
+				        <div class="form-group">
+				            <div class="row">
+				                <!-- Columna izquierda - Disponibles -->
+				                <div class="col-md-5">
+				                    <div class="input-group input-group-sm mb-1">
+				                        <input type="text" id="buscarEstatusUnidades" class="form-control form-control-sm" placeholder="Buscar...">
+				                        <div class="input-group-append">
+				                            <button class="btn btn-default" type="button" id="btnLimpiarBusquedaEstatusUnidades">
+				                                <i class="fas fa-times"></i>
+				                            </button>
+				                        </div>
+				                    </div>
+				                    <select id="estatusUnidadesDisponibles" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				                
+				                <!-- Botones de transferencia -->
+				                <div class="col-md-2 text-center">
+				                    <div class="transfer-buttons-container">
+				                        <button type="button" id="btnAddEstatusUnidad" class="btn btn-default btn-xs transfer-button" title="Agregar">
+				                            <i class="fas fa-arrow-right"></i>
+				                        </button>
+				                        <button type="button" id="btnAddAllEstatusUnidad" class="btn btn-default btn-xs transfer-button" title="Agregar todos">
+				                            <i class="fas fa-forward"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveEstatusUnidad" class="btn btn-default btn-xs transfer-button" title="Quitar">
+				                            <i class="fas fa-arrow-left"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveAllEstatusUnidad" class="btn btn-default btn-xs transfer-button" title="Quitar todos">
+				                            <i class="fas fa-backward"></i>
+				                        </button>
+				                    </div>
+				                </div>
+				                
+				                <!-- Columna derecha - Seleccionados -->
+				                <div class="col-md-5">
+				                    <label class="mb-0" style="font-size: 0.875rem;">Seleccionados</label>
+				                    <select id="estatusUnidadesSeleccionados" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				
+				<!-- Sección de Locaciones -->
+				<div class="card card-primary card-outline card-locaciones" data-order="0" style="display: none;">
+				    <div class="card-header p-1">
+				        <h3 class="card-title" style="font-size: 1rem;">LOCACIONES</h3>
+				        <div class="card-tools">
+				            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+				                <i class="fas fa-minus"></i>
+				            </button>
+				        </div>
+				    </div>
+				    <div class="card-body p-1">
+				        <div class="form-group">
+				            <div class="row">
+				                <!-- Columna izquierda - Disponibles -->
+				                <div class="col-md-5">
+				                    <div class="input-group input-group-sm mb-1">
+				                        <input type="text" id="buscarLocaciones" class="form-control form-control-sm" placeholder="Buscar...">
+				                        <div class="input-group-append">
+				                            <button class="btn btn-default" type="button" id="btnLimpiarBusquedaLocaciones">
+				                                <i class="fas fa-times"></i>
+				                            </button>
+				                        </div>
+				                    </div>
+				                    <select id="locacionesDisponibles" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				                
+				                <!-- Botones de transferencia -->
+				                <div class="col-md-2 text-center">
+				                    <div class="transfer-buttons-container">
+				                        <button type="button" id="btnAddLocacion" class="btn btn-default btn-xs transfer-button" title="Agregar">
+				                            <i class="fas fa-arrow-right"></i>
+				                        </button>
+				                        <button type="button" id="btnAddAllLocacion" class="btn btn-default btn-xs transfer-button" title="Agregar todos">
+				                            <i class="fas fa-forward"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveLocacion" class="btn btn-default btn-xs transfer-button" title="Quitar">
+				                            <i class="fas fa-arrow-left"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveAllLocacion" class="btn btn-default btn-xs transfer-button" title="Quitar todos">
+				                            <i class="fas fa-backward"></i>
+				                        </button>
+				                    </div>
+				                </div>
+				                
+				                <!-- Columna derecha - Seleccionados -->
+				                <div class="col-md-5">
+				                    <label class="mb-0" style="font-size: 0.875rem;">Seleccionados</label>
+				                    <select id="locacionesSeleccionados" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				
+				<!-- Sección de Promotores -->
+				<div class="card card-primary card-outline card-promotores" data-order="0" style="display: none;">
+				    <div class="card-header p-1">
+				        <h3 class="card-title" style="font-size: 1rem;">PROMOTORES</h3>
+				        <div class="card-tools">
+				            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+				                <i class="fas fa-minus"></i>
+				            </button>
+				        </div>
+				    </div>
+				    <div class="card-body p-1">
+				        <div class="form-group">
+				            <div class="row">
+				                <!-- Columna izquierda - Disponibles -->
+				                <div class="col-md-5">
+				                    <div class="input-group input-group-sm mb-1">
+				                        <input type="text" id="buscarPromotores" class="form-control form-control-sm" placeholder="Buscar...">
+				                        <div class="input-group-append">
+				                            <button class="btn btn-default" type="button" id="btnLimpiarBusquedaPromotores">
+				                                <i class="fas fa-times"></i>
+				                            </button>
+				                        </div>
+				                    </div>
+				                    <select id="promotoresDisponibles" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				                
+				                <!-- Botones de transferencia -->
+				                <div class="col-md-2 text-center">
+				                    <div class="transfer-buttons-container">
+				                        <button type="button" id="btnAddPromotor" class="btn btn-default btn-xs transfer-button" title="Agregar">
+				                            <i class="fas fa-arrow-right"></i>
+				                        </button>
+				                        <button type="button" id="btnAddAllPromotor" class="btn btn-default btn-xs transfer-button" title="Agregar todos">
+				                            <i class="fas fa-forward"></i>
+				                        </button>
+				                        <button type="button" id="btnRemovePromotor" class="btn btn-default btn-xs transfer-button" title="Quitar">
+				                            <i class="fas fa-arrow-left"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveAllPromotor" class="btn btn-default btn-xs transfer-button" title="Quitar todos">
+				                            <i class="fas fa-backward"></i>
+				                        </button>
+				                    </div>
+				                </div>
+				                
+				                <!-- Columna derecha - Seleccionados -->
+				                <div class="col-md-5">
+				                    <label class="mb-0" style="font-size: 0.875rem;">Seleccionados</label>
+				                    <select id="promotoresSeleccionados" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				
+				<!-- Sección de Series de Recibos -->
+				<div class="card card-primary card-outline card-series-recibos" data-order="0" style="display: none;">
+				    <div class="card-header p-1">
+				        <h3 class="card-title" style="font-size: 1rem;">SERIES DE RECIBOS</h3>
+				        <div class="card-tools">
+				            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+				                <i class="fas fa-minus"></i>
+				            </button>
+				        </div>
+				    </div>
+				    <div class="card-body p-1">
+				        <div class="form-group">
+				            <div class="row">
+				                <!-- Columna izquierda - Disponibles -->
+				                <div class="col-md-5">
+				                    <div class="input-group input-group-sm mb-1">
+				                        <input type="text" id="buscarSeriesRecibos" class="form-control form-control-sm" placeholder="Buscar...">
+				                        <div class="input-group-append">
+				                            <button class="btn btn-default" type="button" id="btnLimpiarBusquedaSeriesRecibos">
+				                                <i class="fas fa-times"></i>
+				                            </button>
+				                        </div>
+				                    </div>
+				                    <select id="seriesRecibosDisponibles" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				                
+				                <!-- Botones de transferencia -->
+				                <div class="col-md-2 text-center">
+				                    <div class="transfer-buttons-container">
+				                        <button type="button" id="btnAddSerieRecibo" class="btn btn-default btn-xs transfer-button" title="Agregar">
+				                            <i class="fas fa-arrow-right"></i>
+				                        </button>
+				                        <button type="button" id="btnAddAllSerieRecibo" class="btn btn-default btn-xs transfer-button" title="Agregar todos">
+				                            <i class="fas fa-forward"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveSerieRecibo" class="btn btn-default btn-xs transfer-button" title="Quitar">
+				                            <i class="fas fa-arrow-left"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveAllSerieRecibo" class="btn btn-default btn-xs transfer-button" title="Quitar todos">
+				                            <i class="fas fa-backward"></i>
+				                        </button>
+				                    </div>
+				                </div>
+				                
+				                <!-- Columna derecha - Seleccionados -->
+				                <div class="col-md-5">
+				                    <label class="mb-0" style="font-size: 0.875rem;">Seleccionados</label>
+				                    <select id="seriesRecibosSeleccionados" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				
+				<!-- Sección de Tipos de Cupones de Descuento para Paquetes -->
+				<div class="card card-primary card-outline card-tipos-cupones-descuento-pqa" data-order="0" style="display: none;">
+				    <div class="card-header p-1">
+				        <h3 class="card-title" style="font-size: 1rem;">TIPOS DE CUPONES DESCUENTO PAQ</h3>
+				        <div class="card-tools">
+				            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+				                <i class="fas fa-minus"></i>
+				            </button>
+				        </div>
+				    </div>
+				    <div class="card-body p-1">
+				        <div class="form-group">
+				            <div class="row">
+				                <!-- Columna izquierda - Disponibles -->
+				                <div class="col-md-5">
+				                    <div class="input-group input-group-sm mb-1">
+				                        <input type="text" id="buscarTipoCuponesDescuentoPaq" class="form-control form-control-sm" placeholder="Buscar...">
+				                        <div class="input-group-append">
+				                            <button class="btn btn-default" type="button" id="btnLimpiarBusquedaTipoCuponesDescuentoPaq">
+				                                <i class="fas fa-times"></i>
+				                            </button>
+				                        </div>
+				                    </div>
+				                    <select id="tipoCuponesDescuentoPaqDisponibles" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				                
+				                <!-- Botones de transferencia -->
+				                <div class="col-md-2 text-center">
+				                    <div class="transfer-buttons-container">
+				                        <button type="button" id="btnAddTipoCuponDescuentoPaq" class="btn btn-default btn-xs transfer-button" title="Agregar">
+				                            <i class="fas fa-arrow-right"></i>
+				                        </button>
+				                        <button type="button" id="btnAddAllTipoCuponDescuentoPaq" class="btn btn-default btn-xs transfer-button" title="Agregar todos">
+				                            <i class="fas fa-forward"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveTipoCuponDescuentoPaq" class="btn btn-default btn-xs transfer-button" title="Quitar">
+				                            <i class="fas fa-arrow-left"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveAllTipoCuponDescuentoPaq" class="btn btn-default btn-xs transfer-button" title="Quitar todos">
+				                            <i class="fas fa-backward"></i>
+				                        </button>
+				                    </div>
+				                </div>
+				                
+				                <!-- Columna derecha - Seleccionados -->
+				                <div class="col-md-5">
+				                    <label class="mb-0" style="font-size: 0.875rem;">Seleccionados</label>
+				                    <select id="tipoCuponesDescuentoPaqSeleccionados" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				
+				<!-- Sección de Tipos de Productos -->
+				<div class="card card-primary card-outline card-tipos-productos" data-order="0" style="display: none;">
+				    <div class="card-header p-1">
+				        <h3 class="card-title" style="font-size: 1rem;">TIPOS DE PRODUCTOS</h3>
+				        <div class="card-tools">
+				            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+				                <i class="fas fa-minus"></i>
+				            </button>
+				        </div>
+				    </div>
+				    <div class="card-body p-1">
+				        <div class="form-group">
+				            <div class="row">
+				                <!-- Columna izquierda - Disponibles -->
+				                <div class="col-md-5">
+				                    <div class="input-group input-group-sm mb-1">
+				                        <input type="text" id="buscarTiposProductos" class="form-control form-control-sm" placeholder="Buscar...">
+				                        <div class="input-group-append">
+				                            <button class="btn btn-default" type="button" id="btnLimpiarBusquedaTiposProductos">
+				                                <i class="fas fa-times"></i>
+				                            </button>
+				                        </div>
+				                    </div>
+				                    <select id="tiposProductosDisponibles" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				                
+				                <!-- Botones de transferencia -->
+				                <div class="col-md-2 text-center">
+				                    <div class="transfer-buttons-container">
+				                        <button type="button" id="btnAddTipoProducto" class="btn btn-default btn-xs transfer-button" title="Agregar">
+				                            <i class="fas fa-arrow-right"></i>
+				                        </button>
+				                        <button type="button" id="btnAddAllTipoProducto" class="btn btn-default btn-xs transfer-button" title="Agregar todos">
+				                            <i class="fas fa-forward"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveTipoProducto" class="btn btn-default btn-xs transfer-button" title="Quitar">
+				                            <i class="fas fa-arrow-left"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveAllTipoProducto" class="btn btn-default btn-xs transfer-button" title="Quitar todos">
+				                            <i class="fas fa-backward"></i>
+				                        </button>
+				                    </div>
+				                </div>
+				                
+				                <!-- Columna derecha - Seleccionados -->
+				                <div class="col-md-5">
+				                    <label class="mb-0" style="font-size: 0.875rem;">Seleccionados</label>
+				                    <select id="tiposProductosSeleccionados" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				
+				<!-- Sección de Usuarios -->
+				<div class="card card-primary card-outline card-usuarios" data-order="0" style="display: none;">
+				    <div class="card-header p-1">
+				        <h3 class="card-title" style="font-size: 1rem;">USUARIOS</h3>
+				        <div class="card-tools">
+				            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+				                <i class="fas fa-minus"></i>
+				            </button>
+				        </div>
+				    </div>
+				    <div class="card-body p-1">
+				        <div class="form-group">
+				            <div class="row">
+				                <!-- Columna izquierda - Disponibles -->
+				                <div class="col-md-5">
+				                    <div class="input-group input-group-sm mb-1">
+				                        <input type="text" id="buscarUsuarios" class="form-control form-control-sm" placeholder="Buscar...">
+				                        <div class="input-group-append">
+				                            <button class="btn btn-default" type="button" id="btnLimpiarBusquedaUsuarios">
+				                                <i class="fas fa-times"></i>
+				                            </button>
+				                        </div>
+				                    </div>
+				                    <select id="usuariosDisponibles" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				                
+				                <!-- Botones de transferencia -->
+				                <div class="col-md-2 text-center">
+				                    <div class="transfer-buttons-container">
+				                        <button type="button" id="btnAddUsuario" class="btn btn-default btn-xs transfer-button" title="Agregar">
+				                            <i class="fas fa-arrow-right"></i>
+				                        </button>
+				                        <button type="button" id="btnAddAllUsuario" class="btn btn-default btn-xs transfer-button" title="Agregar todos">
+				                            <i class="fas fa-forward"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveUsuario" class="btn btn-default btn-xs transfer-button" title="Quitar">
+				                            <i class="fas fa-arrow-left"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveAllUsuario" class="btn btn-default btn-xs transfer-button" title="Quitar todos">
+				                            <i class="fas fa-backward"></i>
+				                        </button>
+				                    </div>
+				                </div>
+				                
+				                <!-- Columna derecha - Seleccionados -->
+				                <div class="col-md-5">
+				                    <label class="mb-0" style="font-size: 0.875rem;">Seleccionados</label>
+				                    <select id="usuariosSeleccionados" multiple class="form-control form-control-sm" style="height: 120px;">
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>				
+				
+				<!-- Desarrollos -->
+				<div class="row">
+				    <div class="col-md-12">
+				        <div class="card card-primary card-outline card-desarrollos" data-order="0" style="display: none;"> <!-- card-outline para mejor contorno -->
+				            <div class="card-header p-1"> <!-- Reducir padding -->
+				                <h3 class="card-title" style="font-size: 1rem;">DESARROLLOS</h3> <!-- Tamaño de fuente más pequeño -->
+				                <div class="card-tools">
+				                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+				                        <i class="fas fa-minus"></i>
+				                    </button>
+				                </div>
+				            </div>
+				            <div class="card-body p-1"> <!-- Reducir padding -->
+				                <div class="row">
+				                    <!-- Columna izquierda - Disponibles -->
+				                    <div class="col-md-5">
+				                        <div class="form-group mb-1"> <!-- Reducir margen inferior -->
+											<div class="input-group input-group-sm mb-1">
+				                                <input type="text" id="buscarDesarrollos" class="form-control form-control-sm" placeholder="Buscar...">
+				                                <div class="input-group-append">
+				                                    <button class="btn btn-default" type="button" id="btnLimpiarBusquedaDesarrollos">
+				                                        <i class="fas fa-times"></i>
+				                                    </button>
+				                                </div>
+				                            </div>
+				                            <select multiple class="form-control form-control-sm" id="desarrollosDisponibles" size="5" style="height: 120px;"> <!-- Reducir altura -->
+				                                <!-- Los elementos se cargarán dinámicamente -->
+				                            </select>
+				                        </div>
+				                    </div>
+				                    
+				                    <!-- Botones de transferencia -->
+									<div class="col-md-2">
+									    <div class="transfer-buttons-container">
+									        <button type="button" class="btn btn-default btn-xs transfer-button" id="btnMoverDerecha" title="Mover seleccionado">
+									            <i class="fas fa-arrow-right"></i>
+									        </button>
+									        <button type="button" class="btn btn-default btn-xs transfer-button" id="btnMoverTodoDerecha" title="Mover todos">
+									            <i class="fas fa-forward"></i>
+									        </button>
+									        <button type="button" class="btn btn-default btn-xs transfer-button" id="btnMoverIzquierda" title="Quitar seleccionado">
+									            <i class="fas fa-arrow-left"></i>
+									        </button>
+									        <button type="button" class="btn btn-default btn-xs transfer-button" id="btnMoverTodoIzquierda" title="Quitar todos">
+									            <i class="fas fa-backward"></i>
+									        </button>
+									    </div>
+									</div>
+				                    
+				                    <!-- Columna derecha - Seleccionados -->
+				                    <div class="col-md-5">
+				                        <div class="form-group mb-1">
+				                            <label class="mb-0" style="font-size: 0.875rem;">Seleccionados</label>
+				                            <select multiple class="form-control form-control-sm" id="desarrollosSeleccionados" size="5" style="height: 120px;">
+				                                <!-- Los elementos seleccionados aparecerán aquí -->
+				                            </select>
+				                        </div>
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				
+				<!-- Sección de Tipos de Movimientos -->
+				<div class="card card-primary card-outline card-tipos-movimiento" data-order="0" style="display: none;">
+				    <div class="card-header p-1"> <!-- Añadido p-1 para consistencia -->
+				        <h3 class="card-title" style="font-size: 1rem;">TIPOS DE MOVIMIENTOS</h3> <!-- Tamaño consistente -->
+				        <div class="card-tools">
+				            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+				                <i class="fas fa-minus"></i> <!-- Icono de FontAwesome -->
+				            </button>
+				        </div>
+				    </div>
+				    <div class="card-body p-1"> <!-- Añadido p-1 para consistencia -->
+				        <div class="form-group">
+				            <div class="row">
+				                <div class="col-md-5">
+									<div class="input-group input-group-sm mb-1">
+				                        <input type="text" id="buscarTiposMov" class="form-control form-control-sm" placeholder="Buscar...">
+				                        <div class="input-group-append">
+				                            <button class="btn btn-default" type="button" id="btnLimpiarBusquedaTiposMov">
+				                                <i class="fas fa-times"></i>
+				                            </button>
+				                        </div>
+				                    </div>
+				                    <select id="tiposMovDisponibles" multiple class="form-control form-control-sm" style="height: 120px;"> <!-- Añadido form-control-sm y altura -->
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				                <div class="col-md-2 text-center">
+				                    <div class="transfer-buttons-container">
+				                        <button type="button" id="btnAddTipoMov" class="btn btn-default btn-xs transfer-button" title="Agregar">
+				                            <i class="fas fa-arrow-right"></i>
+				                        </button>
+				                        <button type="button" id="btnAddAllTipoMov" class="btn btn-default btn-xs transfer-button" title="Agregar todos">
+				                            <i class="fas fa-forward"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveTipoMov" class="btn btn-default btn-xs transfer-button" title="Quitar">
+				                            <i class="fas fa-arrow-left"></i>
+				                        </button>
+				                        <button type="button" id="btnRemoveAllTipoMov" class="btn btn-default btn-xs transfer-button" title="Quitar todos">
+				                            <i class="fas fa-backward"></i>
+				                        </button>
+				                    </div>
+				                </div>
+				                <div class="col-md-5">
+				                    <label class="mb-0" style="font-size: 0.875rem;">Seleccionados</label> <!-- Estilo consistente -->
+				                    <select id="tiposMovSeleccionados" multiple class="form-control form-control-sm" style="height: 120px;"> <!-- Añadido form-control-sm y altura -->
+				                        <!-- Opciones se cargarán dinámicamente -->
+				                    </select>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				
+				<!-- Modal para selección de columnas -->
+				<div class="modal fade" id="modalColumnas" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" 				style="
+				    display: none;
+				">
+				    <div class="modal-dialog modal-md" role="document">
+				        <div class="modal-content" style="max-height: 80vh;">
+				            <div class="modal-header bg-primary p-2">
+				                <h5 class="modal-title pl-2" style="font-size: 1rem;">Seleccionar columnas</h5>
+				                <button type="button" class="close pr-2" data-dismiss="modal" aria-label="Close">
+				                    <span aria-hidden="true">&times;</span>
+				                </button>
+				            </div>
+				            
+				            <div class="modal-body p-0" style="overflow-y: auto;">
+				                <!-- Barra de búsqueda con botón de limpiar -->
+				                <div class="p-2 border-bottom">
+				                    <div class="input-group input-group-sm">
+				                        <input type="text" id="buscarColumnas" class="form-control" placeholder="Buscar columnas...">
+				                        <div class="input-group-append">
+				                            <button class="btn btn-outline-secondary" type="button" id="btnLimpiarBusqueda">
+				                                <i class="fas fa-times"></i>
+				                            </button>
+				                            <button class="btn btn-outline-primary" type="button" id="btnSeleccionarTodos">
+				                                <i class="fas fa-check mr-1"></i> Todos
+				                            </button>
+				                            <button class="btn btn-outline-primary" type="button" id="btnDeseleccionarTodos">
+				                                <i class="far fa-square mr-1"></i> Ninguno
+				                            </button>
+				                        </div>
+				                    </div>
+				                </div>
+				                
+				                <!-- Lista de columnas -->
+				                <div style="height: 600px; overflow-y: auto;">
+				                    <table class="table table-sm table-hover mb-0">
+				                        <thead>
+				                            <tr class="bg-light">
+				                                <th style="width: 40px; text-align: center">Selección</th>
+				                                <th>Nombre de Columna</th>
+				                            </tr>
+				                        </thead>
+				                        <tbody id="listaColumnas">
+				                            <!-- Las columnas se cargarán aquí -->
+				                        </tbody>
+				                    </table>
+				                </div>
+				            </div>
+				            
+				            <div class="modal-footer p-2">
+				                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancelar</button>
+				                <button type="button" class="btn btn-primary btn-sm" id="btnGenerarReporte">
+				                    <i class="fas fa-file-excel mr-1"></i> Generar Reporte
+				                </button>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				
+				
+	           
+	        </div>
+	    </section>
+	</div>
+	
+	
+	
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2024-2050 <a href="https://adminlte.io">Coral Clubes</a>.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            <b>Version</b> 1.0.0
+        </div>
+    </footer>
+	<div class="sidebar-overlay"></div>
+</div>
+
+
+<div id="sessionModal" class="modal" style="display: none;">
+		<div class="modal-dialog" style="max-width: 500px;"> <!-- Aquí controlas el tamaño -->		
+			<div class="modal-content">
+				<i class="fas fa-exclamation-circle text-warning" style="font-size: 60px; margin-bottom: 15px;"></i>
+				<div class="modal-title">¡Sesión expirada!</p>			        		
+				    <p id="modalMessage">¿Deseas continuar conectado?</p>
+				    <p>Tiempo restante: <span id="countdown">30</span> segundos</p>
+					<button id="continueBtn" type="button" class="btn btn-primary">
+						<i class="fas fa-sign-in-alt mr-2"></i>Sí, Seguir conectado
+					</button>
+				    <!--<button id="continueBtn">Continuar sesión</button>-->
+				</div>	
+			</div>
+		</div> 
+	</div>
+
+
+
+
+<!-- JavaScript -->
+<script th:src="@{/interno/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/interno/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/interno/dist/js/adminlte.min.js}"></script>
+<script th:src="@{/interno/plugins/toastr/toastr.min.js}"></script>
+<script th:src="@{/interno/plugins/sweetalert2/sweetalert2.min.js}"></script>
+<script th:src="@{/interno/plugins/moment/moment.min.js}"></script>
+<script th:src="@{/interno/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js}"></script>
+
+<!-- Script para el menú -->
+<script th:inline="javascript">
+/*<![CDATA[*/
+$(document).ready(function() {
+	
+	//$('	.card-desarrollos, .card-tipos-movimiento, .card-cartera, .card-clasificacion-membresia, .card-empleados, .card-estados, .card-estatus-recibos, .card-estatus-unidades, .card-locaciones, .card-promotores, .card-series-recibos, .card-tipos-cupones-descuento-pqa, .card-tipos-productos, .card-usuarios ').hide();
+	
+	
+	// Inicialización de los datepickers
+	
+	$('.navbar-toggler').click(function() {
+	       $('body, .main-sidebar, .sidebar-overlay').toggleClass('sidebar-open');
+	   });
+	   
+	   $('.sidebar-overlay, .nav-link').click(function() {
+	       if($(window).width() < 992) {
+	           $('body, .main-sidebar, .sidebar-overlay').removeClass('sidebar-open');
+	       }
+	   });
+	
+	moment.locale('es', {
+	        months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
+	        monthsShort: 'Ene._Feb._Mar._Abr._May._Jun._Jul._Ago._Sep._Oct._Nov._Dic.'.split('_'),
+	        weekdays: 'Domingo_Lunes_Martes_Miércoles_Jueves_Viernes_Sábado'.split('_'),
+	        weekdaysShort: 'Dom._Lun._Mar._Mié._Jue._Vie._Sáb.'.split('_'),
+	        weekdaysMin: 'Do_Lu_Ma_Mi_Ju_Vi_Sá'.split('_')
+	    });
+		
+	/*	$('#fechaInicio').datetimepicker({
+	        format: 'DD/MM/YYYY',
+	        locale: 'es',
+	        buttons: {
+	            showToday: true,
+	            showClear: true,
+	            showClose: true
+	        },
+			allowInputToggle: true,
+		    keepOpen: false
+	    });
+	    
+	    $('#fechaFin').datetimepicker({
+	        format: 'DD/MM/YYYY',
+	        locale: 'es',
+	        useCurrent: false,
+	        buttons: {
+	            showToday: true,
+	            showClear: true,
+	            showClose: true
+	        },
+			allowInputToggle: true,
+		    keepOpen: false
+	    });*/
+		
+		// Asegura que los contenedores tengan posición relativa
+		// Inicialización con opciones corregidas
+		var fechaInicioPicker = $('#fechaInicio').datetimepicker({
+		       format: 'DD/MM/YYYY',
+		       locale: 'es',
+		       buttons: {
+		           showToday: true,
+		           showClear: true,
+		           showClose: true
+		       },
+		       allowInputToggle: true
+		   });
+		   
+		   // Evento show.datetimepicker corregido
+		   $('#fechaInicio').on('show.datetimepicker', function(e) {
+		       console.log('Mostrando datepicker de inicio');
+		       // Asegurar que el widget sea visible
+		      /* e.widget.css({
+		           'z-index': '999999',
+		           'opacity': '1',
+		           'display': 'block',
+		           'visibility': 'visible'
+		       });*/
+		   });
+
+		   // Inicialización para fechaFin
+		   $('#fechaFin').datetimepicker({
+		       format: 'DD/MM/YYYY',
+		       locale: 'es',
+		       useCurrent: false,
+		       buttons: {
+		           showToday: true,
+		           showClear: true,
+		           showClose: true
+		       },
+		       allowInputToggle: true
+		   });
+
+	    
+	    // Validación para que fecha fin no sea menor que fecha inicio
+	    $("#fechaInicio").on("change.datetimepicker", function (e) {
+	        $('#fechaFin').datetimepicker('minDate', e.date);
+	    });
+	    
+	    $("#fechaFin").on("change.datetimepicker", function (e) {
+	        $('#fechaInicio').datetimepicker('maxDate', e.date);
+	    });
+		
+		// Obtener el token CSRF
+		    var token = $("meta[name='_csrf']").attr("content");
+		    var header = $("meta[name='_csrf-header']").attr("content");
+		    
+		    // Configurar los headers AJAX para incluir el token CSRF
+		    $.ajaxSetup({
+		        beforeSend: function(xhr) {
+		            if (header && token) {
+		                xhr.setRequestHeader(header, token);
+		            }
+		        }
+		    });
+
+		    // Llamada AJAX para cargar los reportes de cobranza			
+			var menuReporteId = document.getElementById('menuReporteId').value;
+		    $.ajax({
+		        url: '/portal-facil/repEspeciales/reportes/cargarReportes',
+		        type: 'POST',
+		        dataType: 'json',
+				data: {
+				        menuReporteId: document.getElementById('menuReporteId').value
+				    },
+		        success: function(data) {
+		            var select = $('#reportesCobranza');
+		            select.empty(); // Limpiar opciones existentes
+		            select.append('<option value="">-- Seleccione --</option>');
+		            
+		            // Llenar el select con las opciones					
+					$.each(data, function(index, item) {
+					    select.append(
+					        $('<option>', {
+					            value: item.id,  // Esto ya lo tenías
+					            text: item.reporte,
+					            // Agregamos todos los datos como atributos data
+					            'data-id': item.id,
+					            'data-reporte': item.reporte,
+					            'data-tabla': item.tabla || '',
+					            'data-clave': item.clave || ''
+					        })
+					    );
+					});
+		        },
+		        error: function(xhr, status, error) {
+		            console.error('Error al cargar los reportes:', error);
+		            // Puedes mostrar un mensaje de error al usuario si lo deseas
+		            Swal.fire({
+		                icon: 'error',
+		                title: 'Error',
+		                text: 'No se pudieron cargar los reportes. Por favor, intente nuevamente.'
+		            });
+		        }
+		    });
+			
+			// Inicialización del colapso para el panel de desarrollos
+			    $('[data-card-widget="collapse"]').click(function() {
+			        var icon = $(this).find('i');
+			        if (icon.hasClass('fa-minus')) {
+			            icon.removeClass('fa-minus').addClass('fa-plus');
+			        } else {
+			            icon.removeClass('fa-plus').addClass('fa-minus');
+			        }
+			    });
+			
+			$('#reportesCobranza').change(function() {
+				debugger
+			    var selectedOption = $(this).find('option:selected');
+				
+				var id = selectedOption.val(); // o selectedOption.data('id')
+				var nombreReporte = selectedOption.data('reporte');
+				var tabla = selectedOption.data('tabla');
+				var clave = selectedOption.data('clave');
+				    
+				console.log("ID:", id);
+				console.log("Nombre del Reporte:", nombreReporte);
+				console.log("Tabla:", tabla);
+				console.log("Clave:", clave);
+				
+				if(id){
+				obtenerParametrosReporte(id);
+				}else{
+					$('.card[data-order]').hide();
+					//Limpiar parametros
+					limpiarParametrosReporte();
+				}
+			});
+			
+			cargarDesarrollos();
+			
+			$('#btnMoverDerecha').click(moverDerecha);
+			$('#btnMoverTodoDerecha').click(moverTodoDerecha);
+			$('#btnMoverIzquierda').click(moverIzquierda);
+			$('#btnMoverTodoIzquierda').click(moverTodoIzquierda);
+
+			// Doble clic para mover elementos
+			$('#desarrollosDisponibles').dblclick(moverDerecha);
+			$('#desarrollosSeleccionados').dblclick(moverIzquierda);
+			
+			var seleccionados = [];
+			$('#desarrollosSeleccionados option').each(function() {
+			    seleccionados.push({
+			        id: $(this).val(),
+			        desarrollo: $(this).text(),
+			        tabla: $(this).data('tabla'),
+			        clave: $(this).data('clave')
+			    });
+			});
+			
+			// Cargar los tipos de movimiento al iniciar
+			    cargarTiposMovimiento();
+
+			    // Función genérica para mover opciones seleccionadas
+				
+				$('#btnAddTipoMov').click(function() {
+				    $('#tiposMovDisponibles option:selected').each(function() {
+				        $(this).remove().appendTo('#tiposMovSeleccionados');
+						$(this).prop('selected', false);
+				    });
+				    ordenarSelect('#tiposMovSeleccionados');
+				});
+
+				$('#btnAddAllTipoMov').click(function() {
+				    $('#tiposMovDisponibles option').each(function() {
+				        $(this).remove().appendTo('#tiposMovSeleccionados');
+						$(this).prop('selected', false);
+				    });
+				    ordenarSelect('#tiposMovSeleccionados');
+				});
+
+				$('#btnRemoveTipoMov').click(function() {
+				    $('#tiposMovSeleccionados option:selected').each(function() {
+				        var option = $(this).remove();
+				        insertarTipoMovEnOrdenOriginal(option);
+						option.prop('selected', false);
+				    });
+				});
+
+				$('#btnRemoveAllTipoMov').click(function() {
+				    $('#tiposMovSeleccionados option').each(function() {
+				        var option = $(this).remove();
+				        insertarTipoMovEnOrdenOriginal(option);
+						option.prop('selected', false);
+				    });
+				});
+
+				// Agrega los eventos para el campo de búsqueda
+				$('#buscarTiposMov').on('input', function() {
+				    filtrarTiposMov($(this).val());
+				});
+
+				$('#btnLimpiarBusquedaTiposMov').click(function() {
+				    $('#buscarTiposMov').val('');
+				    $('#tiposMovDisponibles option').show();
+				    
+				    // Reordenar según el orden original
+				    var container = $('#tiposMovDisponibles');
+				    var options = container.find('option').detach();
+				    
+				    ordenOriginalTiposMov.forEach(function(id) {
+				        var option = options.filter('[value="' + id + '"]');
+				        if (option.length) {
+				            container.append(option);
+				        }
+				    });
+					
+					$('#tiposMovDisponibles option').prop('selected', false);
+				});
+				
+			    function moverOpciones(origen, destino) {
+			        $(origen + ' option:selected').each(function() {
+			            $(destino).append($(this).clone());
+			            $(this).remove();
+			        });
+			        // Ordenar alfabéticamente
+			        ordenarSelect(destino);
+			    }
+			    
+			    // Función genérica para mover todas las opciones
+			    function moverTodos(origen, destino) {
+			        $(origen + ' option').each(function() {
+			            $(destino).append($(this).clone());
+			            $(this).remove();
+			        });
+			        // Ordenar alfabéticamente
+			        ordenarSelect(destino);
+			    }
+				
+				// Función para ordenar un select alfabéticamente
+				    function ordenarSelect(selectId) {
+				        const select = $(selectId);
+				        const options = select.find('option');
+				        options.sort(function(a, b) {
+				            return $(a).text().localeCompare($(b).text());
+				        });
+				        select.empty().append(options);
+				    }
+					
+					$(document).on('focus', '.datetimepicker-input', function() {
+					    $(this).closest('.input-group').datetimepicker('show');
+					});
+
+					$(document).on('click', '.input-group-append', function() {
+					    $(this).closest('.input-group').find('.datetimepicker-input').focus();
+					});
+					
+					cargarCartera();
+					    
+					    // Eventos para cartera
+					    $('#btnAddCartera').click(function() {
+					        $('#carteraDisponibles option:selected').each(function() {
+					            $(this).remove().appendTo('#carteraSeleccionados');
+					            $(this).prop('selected', false);
+					        });
+					        ordenarSelect('#carteraSeleccionados');
+					    });
+
+					    $('#btnAddAllCartera').click(function() {
+					        $('#carteraDisponibles option').each(function() {
+					            $(this).remove().appendTo('#carteraSeleccionados');
+					            $(this).prop('selected', false);
+					        });
+					        ordenarSelect('#carteraSeleccionados');
+					    });
+
+					    $('#btnRemoveCartera').click(function() {
+					        $('#carteraSeleccionados option:selected').each(function() {
+					            var option = $(this).remove();
+					            insertarCarteraEnOrdenOriginal(option);
+					            option.prop('selected', false);
+					        });
+					    });
+
+					    $('#btnRemoveAllCartera').click(function() {
+					        $('#carteraSeleccionados option').each(function() {
+					            var option = $(this).remove();
+					            insertarCarteraEnOrdenOriginal(option);
+					            option.prop('selected', false);
+					        });
+					    });
+
+					    // Búsqueda en cartera
+					    $('#buscarCartera').on('input', function() {
+					        filtrarCartera($(this).val());
+					    });
+
+					    $('#btnLimpiarBusquedaCartera').click(function() {
+					        $('#buscarCartera').val('');
+					        $('#carteraDisponibles option').show();
+					        
+					        // Reordenar según el orden original
+					        var container = $('#carteraDisponibles');
+					        var options = container.find('option').detach();
+					        
+					        ordenOriginalCartera.forEach(function(id) {
+					            var option = options.filter('[value="' + id + '"]');
+					            if (option.length) {
+					                container.append(option);
+					            }
+					        });
+					        
+					        $('#carteraDisponibles option').prop('selected', false);
+					    });
+					    
+					    // Doble clic para mover elementos
+					    $('#carteraDisponibles').dblclick(function() {
+					        $('#carteraDisponibles option:selected').each(function() {
+					            $(this).remove().appendTo('#carteraSeleccionados');
+					            $(this).prop('selected', false);
+					        });
+					        ordenarSelect('#carteraSeleccionados');
+					    });
+					    
+					    $('#carteraSeleccionados').dblclick(function() {
+					        $('#carteraSeleccionados option:selected').each(function() {
+					            var option = $(this).remove();
+					            insertarCarteraEnOrdenOriginal(option);
+					            option.prop('selected', false);
+					        });
+					    });
+						
+						
+				     cargarClasificacionMembresia()
+					 
+					 // Eventos para clasificación de membresía (idénticos a cartera)
+					 $('#btnAddClasificacionMembresia').click(function() {
+					     $('#clasificacionMembresiaDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#clasificacionMembresiaSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#clasificacionMembresiaSeleccionados');
+					 });
+
+					 $('#btnAddAllClasificacionMembresia').click(function() {
+					     $('#clasificacionMembresiaDisponibles option').each(function() {
+					         $(this).remove().appendTo('#clasificacionMembresiaSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#clasificacionMembresiaSeleccionados');
+					 });
+
+					 $('#btnRemoveClasificacionMembresia').click(function() {
+					     $('#clasificacionMembresiaSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarClasificacionMembresiaEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 $('#btnRemoveAllClasificacionMembresia').click(function() {
+					     $('#clasificacionMembresiaSeleccionados option').each(function() {
+					         var option = $(this).remove();
+					         insertarClasificacionMembresiaEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 // Búsqueda en clasificación de membresía
+					 $('#buscarClasificacionMembresia').on('input', function() {
+					     filtrarClasificacionMembresia($(this).val());
+					 });
+
+					 $('#btnLimpiarBusquedaClasificacionMembresia').click(function() {
+					     $('#buscarClasificacionMembresia').val('');
+					     $('#clasificacionMembresiaDisponibles option').show();
+					     
+					     // Reordenar según el orden original
+					     var container = $('#clasificacionMembresiaDisponibles');
+					     var options = container.find('option').detach();
+					     
+					     ordenOriginalClasificacionMembresia.forEach(function(id) {
+					         var option = options.filter('[value="' + id + '"]');
+					         if (option.length) {
+					             container.append(option);
+					         }
+					     });
+					     
+					     $('#clasificacionMembresiaDisponibles option').prop('selected', false);
+					 });
+
+					 // Doble clic para mover elementos
+					 $('#clasificacionMembresiaDisponibles').dblclick(function() {
+					     $('#clasificacionMembresiaDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#clasificacionMembresiaSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#clasificacionMembresiaSeleccionados');
+					 });
+
+					 $('#clasificacionMembresiaSeleccionados').dblclick(function() {
+					     $('#clasificacionMembresiaSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarClasificacionMembresiaEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+					 
+					 cargarEmpleados();
+					 
+					 // Eventos para empleados (idénticos a cartera)
+					 $('#btnAddEmpleado').click(function() {
+					     $('#empleadosDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#empleadosSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#empleadosSeleccionados');
+					 });
+
+					 $('#btnAddAllEmpleado').click(function() {
+					     $('#empleadosDisponibles option').each(function() {
+					         $(this).remove().appendTo('#empleadosSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#empleadosSeleccionados');
+					 });
+
+					 $('#btnRemoveEmpleado').click(function() {
+					     $('#empleadosSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarEmpleadoEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 $('#btnRemoveAllEmpleado').click(function() {
+					     $('#empleadosSeleccionados option').each(function() {
+					         var option = $(this).remove();
+					         insertarEmpleadoEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 // Búsqueda en empleados
+					 $('#buscarEmpleados').on('input', function() {
+					     filtrarEmpleados($(this).val());
+					 });
+
+					 $('#btnLimpiarBusquedaEmpleados').click(function() {
+					     $('#buscarEmpleados').val('');
+					     $('#empleadosDisponibles option').show();
+					     
+					     // Reordenar según el orden original
+					     var container = $('#empleadosDisponibles');
+					     var options = container.find('option').detach();
+					     
+					     ordenOriginalEmpleados.forEach(function(id) {
+					         var option = options.filter('[value="' + id + '"]');
+					         if (option.length) {
+					             container.append(option);
+					         }
+					     });
+					     
+					     $('#empleadosDisponibles option').prop('selected', false);
+					 });
+
+					 // Doble clic para mover elementos
+					 $('#empleadosDisponibles').dblclick(function() {
+					     $('#empleadosDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#empleadosSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#empleadosSeleccionados');
+					 });
+
+					 $('#empleadosSeleccionados').dblclick(function() {
+					     $('#empleadosSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarEmpleadoEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+					 
+					 cargarEstados();
+					 
+					 // Eventos para estados (idénticos a cartera)
+					 $('#btnAddEstado').click(function() {
+					     $('#estadosDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#estadosSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#estadosSeleccionados');
+					 });
+
+					 $('#btnAddAllEstado').click(function() {
+					     $('#estadosDisponibles option').each(function() {
+					         $(this).remove().appendTo('#estadosSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#estadosSeleccionados');
+					 });
+
+					 $('#btnRemoveEstado').click(function() {
+					     $('#estadosSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarEstadoEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 $('#btnRemoveAllEstado').click(function() {
+					     $('#estadosSeleccionados option').each(function() {
+					         var option = $(this).remove();
+					         insertarEstadoEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 // Búsqueda en estados
+					 $('#buscarEstados').on('input', function() {
+					     filtrarEstados($(this).val());
+					 });
+
+					 $('#btnLimpiarBusquedaEstados').click(function() {
+					     $('#buscarEstados').val('');
+					     $('#estadosDisponibles option').show();
+					     
+					     // Reordenar según el orden original
+					     var container = $('#estadosDisponibles');
+					     var options = container.find('option').detach();
+					     
+					     ordenOriginalEstados.forEach(function(id) {
+					         var option = options.filter('[value="' + id + '"]');
+					         if (option.length) {
+					             container.append(option);
+					         }
+					     });
+					     
+					     $('#estadosDisponibles option').prop('selected', false);
+					 });
+
+					 // Doble clic para mover elementos
+					 $('#estadosDisponibles').dblclick(function() {
+					     $('#estadosDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#estadosSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#estadosSeleccionados');
+					 });
+
+					 $('#estadosSeleccionados').dblclick(function() {
+					     $('#estadosSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarEstadoEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+					 
+					 cargarEstatusRecibos();					 
+					 
+					 // Eventos para estatus de recibos
+					 $('#btnAddEstatusRecibo').click(function() {
+					     $('#estatusRecibosDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#estatusRecibosSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#estatusRecibosSeleccionados');
+					 });
+
+					 $('#btnAddAllEstatusRecibo').click(function() {
+					     $('#estatusRecibosDisponibles option').each(function() {
+					         $(this).remove().appendTo('#estatusRecibosSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#estatusRecibosSeleccionados');
+					 });
+
+					 $('#btnRemoveEstatusRecibo').click(function() {
+					     $('#estatusRecibosSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarEstatusReciboEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 $('#btnRemoveAllEstatusRecibo').click(function() {
+					     $('#estatusRecibosSeleccionados option').each(function() {
+					         var option = $(this).remove();
+					         insertarEstatusReciboEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 // Búsqueda en estatus de recibos
+					 $('#buscarEstatusRecibos').on('input', function() {
+					     filtrarEstatusRecibos($(this).val());
+					 });
+
+					 $('#btnLimpiarBusquedaEstatusRecibos').click(function() {
+					     $('#buscarEstatusRecibos').val('');
+					     $('#estatusRecibosDisponibles option').show();
+					     
+					     // Reordenar según el orden original
+					     var container = $('#estatusRecibosDisponibles');
+					     var options = container.find('option').detach();
+					     
+					     ordenOriginalEstatusRecibos.forEach(function(id) {
+					         var option = options.filter('[value="' + id + '"]');
+					         if (option.length) {
+					             container.append(option);
+					         }
+					     });
+					     
+					     $('#estatusRecibosDisponibles option').prop('selected', false);
+					 });
+
+					 // Doble clic para mover elementos
+					 $('#estatusRecibosDisponibles').dblclick(function() {
+					     $('#estatusRecibosDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#estatusRecibosSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#estatusRecibosSeleccionados');
+					 });
+
+					 $('#estatusRecibosSeleccionados').dblclick(function() {
+					     $('#estatusRecibosSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarEstatusReciboEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+					 
+					 cargarEstatusUnidades();
+					 
+					 // Eventos para estatus de unidades
+					 $('#btnAddEstatusUnidad').click(function() {
+					     $('#estatusUnidadesDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#estatusUnidadesSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#estatusUnidadesSeleccionados');
+					 });
+
+					 $('#btnAddAllEstatusUnidad').click(function() {
+					     $('#estatusUnidadesDisponibles option').each(function() {
+					         $(this).remove().appendTo('#estatusUnidadesSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#estatusUnidadesSeleccionados');
+					 });
+
+					 $('#btnRemoveEstatusUnidad').click(function() {
+					     $('#estatusUnidadesSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarEstatusUnidadEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 $('#btnRemoveAllEstatusUnidad').click(function() {
+					     $('#estatusUnidadesSeleccionados option').each(function() {
+					         var option = $(this).remove();
+					         insertarEstatusUnidadEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 // Búsqueda en estatus de unidades
+					 $('#buscarEstatusUnidades').on('input', function() {
+					     filtrarEstatusUnidades($(this).val());
+					 });
+
+					 $('#btnLimpiarBusquedaEstatusUnidades').click(function() {
+					     $('#buscarEstatusUnidades').val('');
+					     $('#estatusUnidadesDisponibles option').show();
+					     
+					     // Reordenar según el orden original
+					     var container = $('#estatusUnidadesDisponibles');
+					     var options = container.find('option').detach();
+					     
+					     ordenOriginalEstatusUnidades.forEach(function(id) {
+					         var option = options.filter('[value="' + id + '"]');
+					         if (option.length) {
+					             container.append(option);
+					         }
+					     });
+					     
+					     $('#estatusUnidadesDisponibles option').prop('selected', false);
+					 });
+
+					 // Doble clic para mover elementos
+					 $('#estatusUnidadesDisponibles').dblclick(function() {
+					     $('#estatusUnidadesDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#estatusUnidadesSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#estatusUnidadesSeleccionados');
+					 });
+
+					 $('#estatusUnidadesSeleccionados').dblclick(function() {
+					     $('#estatusUnidadesSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarEstatusUnidadEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+					 
+					 cargarLocaciones();
+					 
+					 // Eventos para locaciones (similar a cartera)
+					 $('#btnAddLocacion').click(function() {
+					     $('#locacionesDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#locacionesSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#locacionesSeleccionados');
+					 });
+
+					 $('#btnAddAllLocacion').click(function() {
+					     $('#locacionesDisponibles option').each(function() {
+					         $(this).remove().appendTo('#locacionesSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#locacionesSeleccionados');
+					 });
+
+					 $('#btnRemoveLocacion').click(function() {
+					     $('#locacionesSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarLocacionEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 $('#btnRemoveAllLocacion').click(function() {
+					     $('#locacionesSeleccionados option').each(function() {
+					         var option = $(this).remove();
+					         insertarLocacionEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 // Búsqueda en locaciones
+					 $('#buscarLocaciones').on('input', function() {
+					     filtrarLocaciones($(this).val());
+					 });
+
+					 $('#btnLimpiarBusquedaLocaciones').click(function() {
+					     $('#buscarLocaciones').val('');
+					     $('#locacionesDisponibles option').show();
+					     
+					     // Reordenar según el orden original
+					     var container = $('#locacionesDisponibles');
+					     var options = container.find('option').detach();
+					     
+					     ordenOriginalLocaciones.forEach(function(id) {
+					         var option = options.filter('[value="' + id + '"]');
+					         if (option.length) {
+					             container.append(option);
+					         }
+					     });
+					     
+					     $('#locacionesDisponibles option').prop('selected', false);
+					 });
+
+					 // Doble clic para mover elementos
+					 $('#locacionesDisponibles').dblclick(function() {
+					     $('#locacionesDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#locacionesSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#locacionesSeleccionados');
+					 });
+
+					 $('#locacionesSeleccionados').dblclick(function() {
+					     $('#locacionesSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarLocacionEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+					 
+					 
+					 cargarPromotores();
+					 
+					 // Eventos para promotores (similar a cartera)
+					 $('#btnAddPromotor').click(function() {
+					     $('#promotoresDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#promotoresSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#promotoresSeleccionados');
+					 });
+
+					 $('#btnAddAllPromotor').click(function() {
+					     $('#promotoresDisponibles option').each(function() {
+					         $(this).remove().appendTo('#promotoresSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#promotoresSeleccionados');
+					 });
+
+					 $('#btnRemovePromotor').click(function() {
+					     $('#promotoresSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarPromotorEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 $('#btnRemoveAllPromotor').click(function() {
+					     $('#promotoresSeleccionados option').each(function() {
+					         var option = $(this).remove();
+					         insertarPromotorEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 // Búsqueda en promotores
+					 $('#buscarPromotores').on('input', function() {
+					     filtrarPromotores($(this).val());
+					 });
+
+					 $('#btnLimpiarBusquedaPromotores').click(function() {
+					     $('#buscarPromotores').val('');
+					     $('#promotoresDisponibles option').show();
+					     
+					     // Reordenar según el orden original
+					     var container = $('#promotoresDisponibles');
+					     var options = container.find('option').detach();
+					     
+					     ordenOriginalPromotores.forEach(function(id) {
+					         var option = options.filter('[value="' + id + '"]');
+					         if (option.length) {
+					             container.append(option);
+					         }
+					     });
+					     
+					     $('#promotoresDisponibles option').prop('selected', false);
+					 });
+
+					 // Doble clic para mover elementos
+					 $('#promotoresDisponibles').dblclick(function() {
+					     $('#promotoresDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#promotoresSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#promotoresSeleccionados');
+					 });
+
+					 $('#promotoresSeleccionados').dblclick(function() {
+					     $('#promotoresSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarPromotorEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+					 
+					 cargarSeriesRecibos();
+
+					 // Eventos para series de recibos
+					 $('#btnAddSerieRecibo').click(function() {
+					     $('#seriesRecibosDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#seriesRecibosSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#seriesRecibosSeleccionados');
+					 });
+
+					 $('#btnAddAllSerieRecibo').click(function() {
+					     $('#seriesRecibosDisponibles option').each(function() {
+					         $(this).remove().appendTo('#seriesRecibosSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#seriesRecibosSeleccionados');
+					 });
+
+					 $('#btnRemoveSerieRecibo').click(function() {
+					     $('#seriesRecibosSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarSerieReciboEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 $('#btnRemoveAllSerieRecibo').click(function() {
+					     $('#seriesRecibosSeleccionados option').each(function() {
+					         var option = $(this).remove();
+					         insertarSerieReciboEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 // Búsqueda en series de recibos
+					 $('#buscarSeriesRecibos').on('input', function() {
+					     filtrarSeriesRecibos($(this).val());
+					 });
+
+					 $('#btnLimpiarBusquedaSeriesRecibos').click(function() {
+					     $('#buscarSeriesRecibos').val('');
+					     $('#seriesRecibosDisponibles option').show();
+					     
+					     // Reordenar según el orden original
+					     var container = $('#seriesRecibosDisponibles');
+					     var options = container.find('option').detach();
+					     
+					     ordenOriginalSeriesRecibos.forEach(function(id) {
+					         var option = options.filter('[value="' + id + '"]');
+					         if (option.length) {
+					             container.append(option);
+					         }
+					     });
+					     
+					     $('#seriesRecibosDisponibles option').prop('selected', false);
+					 });
+
+					 // Doble clic para mover elementos
+					 $('#seriesRecibosDisponibles').dblclick(function() {
+					     $('#seriesRecibosDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#seriesRecibosSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#seriesRecibosSeleccionados');
+					 });
+
+					 $('#seriesRecibosSeleccionados').dblclick(function() {
+					     $('#seriesRecibosSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarSerieReciboEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+					 
+					 cargarTiposCuponesDescuentoPaq();
+
+					 // Eventos para tipos de cupones de descuento
+					 $('#btnAddTipoCuponDescuentoPaq').click(function() {
+					     $('#tipoCuponesDescuentoPaqDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#tipoCuponesDescuentoPaqSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#tipoCuponesDescuentoPaqSeleccionados');
+					 });
+
+					 $('#btnAddAllTipoCuponDescuentoPaq').click(function() {
+					     $('#tipoCuponesDescuentoPaqDisponibles option').each(function() {
+					         $(this).remove().appendTo('#tipoCuponesDescuentoPaqSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#tipoCuponesDescuentoPaqSeleccionados');
+					 });
+
+					 $('#btnRemoveTipoCuponDescuentoPaq').click(function() {
+					     $('#tipoCuponesDescuentoPaqSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarTipoCuponDescuentoPaqEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 $('#btnRemoveAllTipoCuponDescuentoPaq').click(function() {
+					     $('#tipoCuponesDescuentoPaqSeleccionados option').each(function() {
+					         var option = $(this).remove();
+					         insertarTipoCuponDescuentoPaqEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 // Búsqueda en tipos de cupones de descuento
+					 $('#buscarTipoCuponesDescuentoPaq').on('input', function() {
+					     filtrarTipoCuponesDescuentoPaq($(this).val());
+					 });
+
+					 $('#btnLimpiarBusquedaTipoCuponesDescuentoPaq').click(function() {
+					     $('#buscarTipoCuponesDescuentoPaq').val('');
+					     $('#tipoCuponesDescuentoPaqDisponibles option').show();
+					     
+					     // Reordenar según el orden original
+					     var container = $('#tipoCuponesDescuentoPaqDisponibles');
+					     var options = container.find('option').detach();
+					     
+					     ordenOriginalTipoCuponesDescuentoPaq.forEach(function(id) {
+					         var option = options.filter('[value="' + id + '"]');
+					         if (option.length) {
+					             container.append(option);
+					         }
+					     });
+					     
+					     $('#tipoCuponesDescuentoPaqDisponibles option').prop('selected', false);
+					 });
+
+					 // Doble clic para mover elementos
+					 $('#tipoCuponesDescuentoPaqDisponibles').dblclick(function() {
+					     $('#tipoCuponesDescuentoPaqDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#tipoCuponesDescuentoPaqSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#tipoCuponesDescuentoPaqSeleccionados');
+					 });
+
+					 $('#tipoCuponesDescuentoPaqSeleccionados').dblclick(function() {
+					     $('#tipoCuponesDescuentoPaqSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarTipoCuponDescuentoPaqEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 cargarTiposProductos();
+
+					 // Eventos para tipos de productos
+					 $('#btnAddTipoProducto').click(function() {
+					     $('#tiposProductosDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#tiposProductosSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#tiposProductosSeleccionados');
+					 });
+
+					 $('#btnAddAllTipoProducto').click(function() {
+					     $('#tiposProductosDisponibles option').each(function() {
+					         $(this).remove().appendTo('#tiposProductosSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#tiposProductosSeleccionados');
+					 });
+
+					 $('#btnRemoveTipoProducto').click(function() {
+					     $('#tiposProductosSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarTipoProductoEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 $('#btnRemoveAllTipoProducto').click(function() {
+					     $('#tiposProductosSeleccionados option').each(function() {
+					         var option = $(this).remove();
+					         insertarTipoProductoEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 // Búsqueda en tipos de productos
+					 $('#buscarTiposProductos').on('input', function() {
+					     filtrarTiposProductos($(this).val());
+					 });
+
+					 $('#btnLimpiarBusquedaTiposProductos').click(function() {
+					     $('#buscarTiposProductos').val('');
+					     $('#tiposProductosDisponibles option').show();
+					     
+					     // Reordenar según el orden original
+					     var container = $('#tiposProductosDisponibles');
+					     var options = container.find('option').detach();
+					     
+					     ordenOriginalTiposProductos.forEach(function(id) {
+					         var option = options.filter('[value="' + id + '"]');
+					         if (option.length) {
+					             container.append(option);
+					         }
+					     });
+					     
+					     $('#tiposProductosDisponibles option').prop('selected', false);
+					 });
+
+					 // Doble clic para mover elementos
+					 $('#tiposProductosDisponibles').dblclick(function() {
+					     $('#tiposProductosDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#tiposProductosSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#tiposProductosSeleccionados');
+					 });
+
+					 $('#tiposProductosSeleccionados').dblclick(function() {
+					     $('#tiposProductosSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarTipoProductoEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+					 
+					 
+					 cargarUsuarios();
+					 
+					 // Eventos para usuarios
+					 $('#btnAddUsuario').click(function() {
+					     $('#usuariosDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#usuariosSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#usuariosSeleccionados');
+					 });
+
+					 $('#btnAddAllUsuario').click(function() {
+					     $('#usuariosDisponibles option').each(function() {
+					         $(this).remove().appendTo('#usuariosSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#usuariosSeleccionados');
+					 });
+
+					 $('#btnRemoveUsuario').click(function() {
+					     $('#usuariosSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarUsuarioEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 $('#btnRemoveAllUsuario').click(function() {
+					     $('#usuariosSeleccionados option').each(function() {
+					         var option = $(this).remove();
+					         insertarUsuarioEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 // Búsqueda en usuarios
+					 $('#buscarUsuarios').on('input', function() {
+					     filtrarUsuarios($(this).val());
+					 });
+
+					 $('#btnLimpiarBusquedaUsuarios').click(function() {
+					     $('#buscarUsuarios').val('');
+					     $('#usuariosDisponibles option').show();
+					     
+					     // Reordenar según el orden original
+					     var container = $('#usuariosDisponibles');
+					     var options = container.find('option').detach();
+					     
+					     ordenOriginalUsuarios.forEach(function(id) {
+					         var option = options.filter('[value="' + id + '"]');
+					         if (option.length) {
+					             container.append(option);
+					         }
+					     });
+					     
+					     $('#usuariosDisponibles option').prop('selected', false);
+					 });
+
+					 // Doble clic para mover elementos
+					 $('#usuariosDisponibles').dblclick(function() {
+					     $('#usuariosDisponibles option:selected').each(function() {
+					         $(this).remove().appendTo('#usuariosSeleccionados');
+					         $(this).prop('selected', false);
+					     });
+					     ordenarSelect('#usuariosSeleccionados');
+					 });
+
+					 $('#usuariosSeleccionados').dblclick(function() {
+					     $('#usuariosSeleccionados option:selected').each(function() {
+					         var option = $(this).remove();
+					         insertarUsuarioEnOrdenOriginal(option);
+					         option.prop('selected', false);
+					     });
+					 });
+
+					 // Buscar Reporte
+					 
+					
+					//$('#btnBuscar').click(function() {
+						$('#btnBuscar').off('click').on('click', function() {
+					    
+					   debugger
+						var fechaInicio = $('#fechaInicio').datetimepicker('viewDate');
+					    var fechaFin = $('#fechaFin').datetimepicker('viewDate');
+					    var reporteSeleccionado = $('#reportesCobranza').val();
+						var fechaInicioVal = $('#fechaInicio').find('input').val();
+						var fechaFinVal = $('#fechaFin').find('input').val();
+						var nombreReporte = $('#reportesCobranza option:selected').data('reporte') || 'Reporte';
+						// Validación básica
+						debugger					
+						if (!fechaInicioVal) {
+					        Swal.fire({
+					            icon: 'warning',
+					            title: 'Seleccione fecha de inicio',
+					            text: 'Por favor seleccione una fecha inicio para continuar'
+					        });
+					        return;
+					    }
+						
+						if (!fechaFinVal) {
+					        Swal.fire({
+					            icon: 'warning',
+					            title: 'Seleccione fecha final',
+					            text: 'Por favor seleccione una fecha final para continuar'
+					        });
+					        return;
+					    }
+						
+						if (!reporteSeleccionado) {
+					        Swal.fire({
+					            icon: 'warning',
+					            title: 'Seleccione un reporte',
+					            text: 'Por favor seleccione un reporte para continuar'
+					        });
+					        return;
+					    }
+					    // Mostrar loading
+					    Swal.fire({
+					        title: 'Generando reporte...',
+					        html: 'Por favor espere',
+					        allowOutsideClick: false,
+					        didOpen: () => {
+					            Swal.showLoading();
+					        }
+					    });
+						
+						debugger
+						//const formData1= new FormData();
+						const parametrosReporte = obtenerParametrosTarjetasVisibles();
+					    //formData1.append('parametrosReporte', JSON.stringify(parametrosReporte));
+					    debugger
+						
+						/*for (let pair of formData1.entries()) {
+						    console.log(pair[0] + ': ' + pair[1]);
+						}
+						debugger*/
+					    // Crear FormData para enviar los parámetros
+						
+						var $btn = $(this);
+						$btn.prop('disabled', true);
+						try {
+					    const formData = new FormData();
+					    formData.append('fechaInicio', fechaInicioVal);
+					    formData.append('fechaFin', fechaFinVal);
+					    formData.append('reporteId', reporteSeleccionado);
+						formData.append('nombreReporte', nombreReporte);
+						formData.append('parametrosReporte', JSON.stringify(parametrosReporte));
+					    
+	    
+					    // Enviar solicitud
+					    $.ajax({
+					        url: '/portal-facil/repEspeciales/reportes/searchReport',
+					        type: 'POST',
+					        data: formData,
+					        processData: false,
+					        contentType: false,
+					       /* xhrFields: {
+					            responseType: 'blob' // Indicar que esperamos un archivo binario
+					        },*/
+					        success: function(data) {
+					            Swal.close();
+								$btn.prop('disabled', false);
+								// Mostrar modal con columnas disponibles
+								debugger
+								           mostrarSelectorColumnas(data.columns, data.uuid);
+					        },
+					        error: function(xhr) {
+					            Swal.close();
+								$btn.prop('disabled', false);
+					            if (xhr.status === 400) {
+					                // Error de validación
+					                Swal.fire({
+					                    icon: 'error',
+					                    title: 'Error en los parámetros',
+					                    text: xhr.responseText
+					                });
+					            } else {
+					                // Otro tipo de error
+					                Swal.fire({
+					                    icon: 'error',
+					                    title: 'Error',
+					                    text: 'Ocurrió un error al generar el reporte'
+					                });
+					            }
+					        },
+							complete: function() {
+							$btn.prop('disabled', false);
+					       }
+					    });
+					} catch (e) {
+					        $btn.prop('disabled', false);
+					        console.error('Error inesperado:', e);
+					        Swal.fire({
+					            icon: 'error',
+					            title: 'Error inesperado',
+					            text: 'Ocurrió un error inesperado al procesar la solicitud'
+					        });
+					        throw e;
+					    }
+					});
+					
+					// Evento para el campo de búsqueda
+					$('#buscarDesarrollos').on('input', function() {
+					    filtrarDesarrollos($(this).val());
+					});
+
+					// Evento para el botón limpiar búsqueda
+					$('#btnLimpiarBusquedaDesarrollos').click(function() {
+					    $('#buscarDesarrollos').val('');
+					    $('#desarrollosDisponibles option').show();
+					    
+					    // Reordenar según el orden original
+					    var container = $('#desarrollosDisponibles');
+					    var options = container.find('option').detach();
+					    
+					    ordenOriginalDesarrollos.forEach(function(id) {
+					        var option = options.filter('[value="' + id + '"]');
+					        if (option.length) {
+					            container.append(option);
+					        }
+					    });
+						$('#desarrollosDisponibles option').prop('selected', false);
+						    
+					});
+});
+
+// Función para cargar los desarrollos
+var ordenOriginalDesarrollos = [];
+function cargarDesarrollos() {
+    $.ajax({
+        url: '/portal-facil/repEspeciales/reportes/params/obtenerParametroDesarrollo',
+        type: 'POST',
+        dataType: 'json',
+        success: function(data) {
+            var selectDisponibles = $('#desarrollosDisponibles');
+            selectDisponibles.empty();
+            
+            if(data.length === 0) {
+                selectDisponibles.append('<option disabled>No hay desarrollos disponibles</option>');
+                return;
+            }
+            
+            // Ordenar los desarrollos por ID
+            data.sort((a, b) => parseInt(a.id) - parseInt(b.id));
+			
+			// Guardar el orden original
+			 ordenOriginalDesarrollos = data.map(item => item.id);
+            
+            // Agregar los elementos al select
+            data.forEach(function(item) {
+                selectDisponibles.append(
+                    $('<option>', {
+                        value: item.id,
+                        text: `${item.id}-${item.desarrollo}`,
+                        'data-tabla': item.tabla,
+                        'data-clave': item.clave
+                    })
+                );
+            });
+            
+            // Inicializar el primer elemento como seleccionado
+            if(data.length > 0) {
+                selectDisponibles.find('option:first').prop('selected', true);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar los desarrollos:', error);
+            $('#desarrollosDisponibles').html('<option disabled>Error al cargar desarrollos</option>');
+        }
+    });
+}
+
+function insertarEnOrdenOriginal(option) {
+    var id = option.val();
+    var indexOriginal = ordenOriginalDesarrollos.indexOf(id);
+    var inserted = false;
+    
+    $('#desarrollosDisponibles option').each(function() {
+        var currentId = $(this).val();
+        var currentIndex = ordenOriginalDesarrollos.indexOf(currentId);
+        
+        if (currentIndex > indexOriginal) {
+            option.insertBefore($(this));
+            inserted = true;
+            return false; // Salir del bucle each
+        }
+    });
+    
+    // Si no se insertó antes de ningún elemento, agregar al final
+    if (!inserted) {
+        $('#desarrollosDisponibles').append(option);
+    }
+}
+
+// Funciones para manejar la transferencia de elementos
+function moverDerecha() {
+    $('#desarrollosDisponibles option:selected').each(function() {
+        $(this).remove().appendTo('#desarrollosSeleccionados');
+		$(this).prop('selected', false);
+    });
+}
+
+function moverTodoDerecha() {
+    $('#desarrollosDisponibles option').each(function() {
+        $(this).remove().appendTo('#desarrollosSeleccionados');
+		$(this).prop('selected', false);
+    });
+}
+
+/*function moverIzquierda() {
+    $('#desarrollosSeleccionados option:selected').each(function() {
+		insertarEnOrdenOriginal(option);
+        $(this).remove().appendTo('#desarrollosDisponibles');
+    });
+}
+
+function moverTodoIzquierda() {
+    $('#desarrollosSeleccionados option').each(function() {
+        $(this).remove().appendTo('#desarrollosDisponibles');
+    });
+}*/
+
+function moverIzquierda() {
+    $('#desarrollosSeleccionados option:selected').each(function() {
+        var option = $(this).remove();
+        insertarEnOrdenOriginal(option);
+		option.prop('selected', false);
+    });
+}
+
+function moverTodoIzquierda() {
+    $('#desarrollosSeleccionados option').each(function() {
+        var option = $(this).remove();
+        insertarEnOrdenOriginal(option);
+		option.prop('selected', false);
+    });
+}
+
+// Función para cargar los tipos de movimiento disponibles
+var ordenOriginalTiposMov = [];
+function cargarTiposMovimiento() {
+    $.ajax({
+        url: '/portal-facil/repEspeciales/reportes/params/obtenerParametroTiposMovimiento',
+        type: 'POST',
+        success: function(response) {
+            const selectDisponibles = $('#tiposMovDisponibles');
+            selectDisponibles.empty();
+			
+			// Guardar el orden original
+			ordenOriginalTiposMov = response.map(item => item.id);
+            
+            response.forEach(function(tipoMov) {
+                selectDisponibles.append(
+                    $('<option></option>')
+                        .val(tipoMov.id)
+                        .text(tipoMov.desarrollo)
+                        .data('descripcion', tipoMov.desarrollo)
+                );
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar tipos de movimiento:', error);
+            mostrarError('No se pudieron cargar los tipos de movimiento');
+        }
+    });
+}
+
+var ordenOriginalCartera = [];
+function cargarCartera() {
+    $.ajax({
+        url: '/portal-facil/repEspeciales/reportes/params/obtenerParametroCartera',
+        type: 'POST',
+        success: function(response) {
+            const selectDisponibles = $('#carteraDisponibles');
+            selectDisponibles.empty();
+			
+			// Guardar el orden original
+			ordenOriginalCartera = response.map(item => item.id);
+            
+            response.forEach(function(cartera) {
+                selectDisponibles.append(
+                    $('<option></option>')
+                        .val(cartera.id)
+                        .text(cartera.desc)
+                        .data('descripcion', cartera.desc)
+                );
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar cartera:', error);
+            mostrarError('No se pudieron cargar cartera');
+        }
+    });
+}
+
+var ordenOriginalClasificacionMembresia  = [];
+function cargarClasificacionMembresia() {
+    $.ajax({
+        url: '/portal-facil/repEspeciales/reportes/params/obtenerParametroClasificacionMembresia',
+        type: 'POST',
+        success: function(response) {
+            const selectDisponibles = $('#clasificacionMembresiaDisponibles');
+            selectDisponibles.empty();
+			
+			// Guardar el orden original
+			ordenOriginalClasificacionMembresia = response.map(item => item.id);
+            
+            response.forEach(function(cartera) {
+                selectDisponibles.append(
+                    $('<option></option>')
+                        .val(cartera.id)
+                        .text(cartera.desc)
+                        .data('descripcion', cartera.desc)
+                );
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar clasificacion de membresia:', error);
+            mostrarError('No se pudieron cargar clasificacion de membresia');
+        }
+    });
+}
+
+var ordenOriginalEmpleados  = [];
+function cargarEmpleados() {
+    $.ajax({
+        url: '/portal-facil/repEspeciales/reportes/params/obtenerParametroEmpleados',
+        type: 'POST',
+        success: function(response) {
+            const selectDisponibles = $('#empleadosDisponibles');
+            selectDisponibles.empty();
+			
+			// Guardar el orden original
+			ordenOriginalEmpleados = response.map(item => item.id);
+            
+            response.forEach(function(cartera) {
+                selectDisponibles.append(
+                    $('<option></option>')
+                        .val(cartera.id)
+                        .text(cartera.desc)
+                        .data('descripcion', cartera.desc)
+                );
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar empleados:', error);
+            mostrarError('No se pudieron cargar empleados');
+        }
+    });
+}
+
+var ordenOriginalEstados  = [];
+function cargarEstados() {
+    $.ajax({
+        url: '/portal-facil/repEspeciales/reportes/params/obtenerParametroEstados',
+        type: 'POST',
+        success: function(response) {
+            const selectDisponibles = $('#estadosDisponibles');
+            selectDisponibles.empty();
+			
+			// Guardar el orden original
+			ordenOriginalEstados = response.map(item => item.id);
+            
+            response.forEach(function(cartera) {
+                selectDisponibles.append(
+                    $('<option></option>')
+                        .val(cartera.id)
+                        .text(cartera.desc)
+                        .data('descripcion', cartera.desc)
+                );
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar estados:', error);
+            mostrarError('No se pudieron cargar estados');
+        }
+    });
+}
+
+var ordenOriginalEstatusRecibos  = [];
+function cargarEstatusRecibos() {
+    $.ajax({
+        url: '/portal-facil/repEspeciales/reportes/params/obtenerParametroEstatusRecibos',
+        type: 'POST',
+        success: function(response) {
+            const selectDisponibles = $('#estatusRecibosDisponibles');
+            selectDisponibles.empty();
+			
+			// Guardar el orden original
+			ordenOriginalEstatusRecibos = response.map(item => item.id);
+            
+            response.forEach(function(cartera) {
+                selectDisponibles.append(
+                    $('<option></option>')
+                        .val(cartera.id)
+                        .text(cartera.desc)
+                        .data('descripcion', cartera.desc)
+                );
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar estatus recibos:', error);
+            mostrarError('No se pudieron cargar estatus recibos');
+        }
+    });
+}
+
+var ordenOriginalEstatusUnidades  = [];
+function cargarEstatusUnidades() {
+    $.ajax({
+        url: '/portal-facil/repEspeciales/reportes/params/obtenerParametroEstatusUnidades',
+        type: 'POST',
+        success: function(response) {
+            const selectDisponibles = $('#estatusUnidadesDisponibles');
+            selectDisponibles.empty();
+			
+			// Guardar el orden original
+			ordenOriginalEstatusUnidades = response.map(item => item.id);
+            
+            response.forEach(function(cartera) {
+                selectDisponibles.append(
+                    $('<option></option>')
+                        .val(cartera.id)
+                        .text(cartera.desc)
+                        .data('descripcion', cartera.desc)
+                );
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar estatus unidades:', error);
+            mostrarError('No se pudieron cargar estatus unidades');
+        }
+    });
+}
+
+var ordenOriginalLocaciones  = [];
+function cargarLocaciones() {
+    $.ajax({
+        url: '/portal-facil/repEspeciales/reportes/params/obtenerParametroLocaciones',
+        type: 'POST',
+        success: function(response) {
+            const selectDisponibles = $('#locacionesDisponibles');
+            selectDisponibles.empty();
+			
+			// Guardar el orden original
+			ordenOriginalLocaciones = response.map(item => item.id);
+            
+            response.forEach(function(cartera) {
+                selectDisponibles.append(
+                    $('<option></option>')
+                        .val(cartera.id)
+                        .text(cartera.desc)
+                        .data('descripcion', cartera.desc)
+                );
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar locaciones:', error);
+            mostrarError('No se pudieron cargar locaciones');
+        }
+    });
+}
+
+var ordenOriginalPromotores  = [];
+function cargarPromotores() {
+    $.ajax({
+        url: '/portal-facil/repEspeciales/reportes/params/obtenerParametroPromotores',
+        type: 'POST',
+        success: function(response) {
+            const selectDisponibles = $('#promotoresDisponibles');
+            selectDisponibles.empty();
+			
+			// Guardar el orden original
+			ordenOriginalPromotores = response.map(item => item.id);
+            
+            response.forEach(function(cartera) {
+                selectDisponibles.append(
+                    $('<option></option>')
+                        .val(cartera.id)
+                        .text(cartera.desc)
+                        .data('descripcion', cartera.desc)
+                );
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar promotores:', error);
+            mostrarError('No se pudieron cargar promotores');
+        }
+    });
+}
+
+var ordenOriginalSeriesRecibos  = [];
+function cargarSeriesRecibos() {
+    $.ajax({
+        url: '/portal-facil/repEspeciales/reportes/params/obtenerParametroSeriesRecibos',
+        type: 'POST',
+        success: function(response) {
+            const selectDisponibles = $('#seriesRecibosDisponibles');
+            selectDisponibles.empty();
+			
+			// Guardar el orden original
+			ordenOriginalSeriesRecibos = response.map(item => item.id);
+            
+            response.forEach(function(cartera) {
+                selectDisponibles.append(
+                    $('<option></option>')
+                        .val(cartera.id)
+                        .text(cartera.desc)
+                        .data('descripcion', cartera.desc)
+                );
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar series recibos:', error);
+            mostrarError('No se pudieron cargar series recibos');
+        }
+    });
+}
+
+var ordenOriginalTipoCuponesDescuentoPaq  = [];
+function cargarTiposCuponesDescuentoPaq() {
+    $.ajax({
+        url: '/portal-facil/repEspeciales/reportes/params/obtenerParametroTipoCuponesDescuentoPaq',
+        type: 'POST',
+        success: function(response) {
+            const selectDisponibles = $('#tipoCuponesDescuentoPaqDisponibles');
+            selectDisponibles.empty();
+			
+			// Guardar el orden original
+			ordenOriginalTipoCuponesDescuentoPaq = response.map(item => item.id);
+            
+            response.forEach(function(cartera) {
+                selectDisponibles.append(
+                    $('<option></option>')
+                        .val(cartera.id)
+                        .text(cartera.desc)
+                        .data('descripcion', cartera.desc)
+                );
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar tipo cupones descuento paq:', error);
+            mostrarError('No se pudieron cargar tipo cupones descuento paq');
+        }
+    });
+}
+
+var ordenOriginalTiposProductos  = [];
+function cargarTiposProductos() {
+    $.ajax({
+        url: '/portal-facil/repEspeciales/reportes/params/obtenerParametroTiposProductos',
+        type: 'POST',
+        success: function(response) {
+            const selectDisponibles = $('#tiposProductosDisponibles');
+            selectDisponibles.empty();
+			
+			// Guardar el orden original
+			ordenOriginalTiposProductos = response.map(item => item.id);
+            
+            response.forEach(function(cartera) {
+                selectDisponibles.append(
+                    $('<option></option>')
+                        .val(cartera.id)
+                        .text(cartera.desc)
+                        .data('descripcion', cartera.desc)
+                );
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar tipos productos:', error);
+            mostrarError('No se pudieron cargar tipos productos');
+        }
+    });
+}
+
+var ordenOriginalUsuarios = [];
+function cargarUsuarios() {
+    $.ajax({
+        url: '/portal-facil/repEspeciales/reportes/params/obtenerParametroUsuarios',
+        type: 'POST',
+        success: function(response) {
+            const selectDisponibles = $('#usuariosDisponibles');
+            selectDisponibles.empty();
+            
+            // Guardar el orden original
+            ordenOriginalUsuarios = response.map(item => item.id);
+            
+            response.forEach(function(usuario) {
+                selectDisponibles.append(
+                    $('<option></option>')
+                        .val(usuario.id)
+                        .text(usuario.desc)
+                        .data('descripcion', usuario.desc)
+                );
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar usuarios:', error);
+            mostrarError('No se pudieron cargar usuarios');
+        }
+    });
+}
+
+
+function obtenerTiposMovimientoSeleccionados() {
+    const seleccionados = [];
+    $('#tiposMovSeleccionados option').each(function() {
+        seleccionados.push({
+            id: $(this).val(),
+            descripcion: $(this).text()
+        });
+    });
+    return seleccionados;
+}
+
+// Función para filtrar tipos de movimiento
+function filtrarTiposMov(termino) {
+    termino = termino.toLowerCase();
+    $('#tiposMovDisponibles option').each(function() {
+        var texto = $(this).text().toLowerCase();
+        $(this).toggle(texto.includes(termino));
+    });
+    
+    // Reordenar manteniendo el orden original
+    var container = $('#tiposMovDisponibles');
+    var options = container.find('option:visible').detach();
+    
+    var orderedOptions = [];
+    ordenOriginalTiposMov.forEach(function(id) {
+        var option = options.filter('[value="' + id + '"]');
+        if (option.length) {
+            orderedOptions.push(option);
+        }
+    });
+    
+    orderedOptions.forEach(function(option) {
+        container.append(option);
+    });
+}
+
+// Función para insertar tipos de movimiento en orden original
+function insertarTipoMovEnOrdenOriginal(option) {
+    var id = option.val();
+    var indexOriginal = ordenOriginalTiposMov.indexOf(id);
+    var inserted = false;
+    
+    $('#tiposMovDisponibles option').each(function() {
+        var currentId = $(this).val();
+        var currentIndex = ordenOriginalTiposMov.indexOf(currentId);
+        
+        if (currentIndex > indexOriginal) {
+            option.insertBefore($(this));
+            inserted = true;
+            return false;
+        }
+    });
+    
+    if (!inserted) {
+        $('#tiposMovDisponibles').append(option);
+    }
+}
+
+// Función para filtrar cartera
+function filtrarCartera(termino) {
+    termino = termino.toLowerCase();
+    
+    $('#carteraDisponibles option').each(function() {
+        var texto = $(this).text().toLowerCase();
+        $(this).toggle(texto.includes(termino));
+    });
+    
+    // Reordenar manteniendo el orden original solo para los visibles
+    var container = $('#carteraDisponibles');
+    var options = container.find('option:visible').detach();
+    
+    // Ordenar las opciones visibles según el orden original
+    var orderedOptions = [];
+    ordenOriginalCartera.forEach(function(id) {
+        var option = options.filter('[value="' + id + '"]');
+        if (option.length) {
+            orderedOptions.push(option);
+        }
+    });
+    
+    // Agregar las opciones ordenadas al contenedor
+    orderedOptions.forEach(function(option) {
+        container.append(option);
+    });
+}
+
+// Función para insertar cartera en orden original
+function insertarCarteraEnOrdenOriginal(option) {
+    var id = option.val();
+    var indexOriginal = ordenOriginalCartera.indexOf(id);
+    var inserted = false;
+    
+    $('#carteraDisponibles option').each(function() {
+        var currentId = $(this).val();
+        var currentIndex = ordenOriginalCartera.indexOf(currentId);
+        
+        if (currentIndex > indexOriginal) {
+            option.insertBefore($(this));
+            inserted = true;
+            return false;
+        }
+    });
+    
+    if (!inserted) {
+        $('#carteraDisponibles').append(option);
+    }
+}
+
+
+// Función para filtrar clasificación de membresía
+function filtrarClasificacionMembresia(termino) {
+    termino = termino.toLowerCase();
+    $('#clasificacionMembresiaDisponibles option').each(function() {
+        var texto = $(this).text().toLowerCase();
+        $(this).toggle(texto.includes(termino));
+    });
+    
+    // Reordenar manteniendo el orden original
+    var container = $('#clasificacionMembresiaDisponibles');
+    var options = container.find('option:visible').detach();
+    
+    var orderedOptions = [];
+    ordenOriginalClasificacionMembresia.forEach(function(id) {
+        var option = options.filter('[value="' + id + '"]');
+        if (option.length) {
+            orderedOptions.push(option);
+        }
+    });
+    
+    orderedOptions.forEach(function(option) {
+        container.append(option);
+    });
+}
+
+// Función para insertar clasificación de membresía en orden original
+function insertarClasificacionMembresiaEnOrdenOriginal(option) {
+    var id = option.val();
+    var indexOriginal = ordenOriginalClasificacionMembresia.indexOf(id);
+    var inserted = false;
+    
+    $('#clasificacionMembresiaDisponibles option').each(function() {
+        var currentId = $(this).val();
+        var currentIndex = ordenOriginalClasificacionMembresia.indexOf(currentId);
+        
+        if (currentIndex > indexOriginal) {
+            option.insertBefore($(this));
+            inserted = true;
+            return false;
+        }
+    });
+    
+    if (!inserted) {
+        $('#clasificacionMembresiaDisponibles').append(option);
+    }
+}
+
+// Función para filtrar empleados
+function filtrarEmpleados(termino) {
+    termino = termino.toLowerCase();
+    $('#empleadosDisponibles option').each(function() {
+        var texto = $(this).text().toLowerCase();
+        $(this).toggle(texto.includes(termino));
+    });
+    
+    // Reordenar manteniendo el orden original
+    var container = $('#empleadosDisponibles');
+    var options = container.find('option:visible').detach();
+    
+    var orderedOptions = [];
+    ordenOriginalEmpleados.forEach(function(id) {
+        var option = options.filter('[value="' + id + '"]');
+        if (option.length) {
+            orderedOptions.push(option);
+        }
+    });
+    
+    orderedOptions.forEach(function(option) {
+        container.append(option);
+    });
+}
+
+// Función para insertar empleados en orden original
+function insertarEmpleadoEnOrdenOriginal(option) {
+    var id = option.val();
+    var indexOriginal = ordenOriginalEmpleados.indexOf(id);
+    var inserted = false;
+    
+    $('#empleadosDisponibles option').each(function() {
+        var currentId = $(this).val();
+        var currentIndex = ordenOriginalEmpleados.indexOf(currentId);
+        
+        if (currentIndex > indexOriginal) {
+            option.insertBefore($(this));
+            inserted = true;
+            return false;
+        }
+    });
+    
+    if (!inserted) {
+        $('#empleadosDisponibles').append(option);
+    }
+}
+
+// Función para filtrar estados
+function filtrarEstados(termino) {
+    termino = termino.toLowerCase();
+    $('#estadosDisponibles option').each(function() {
+        var texto = $(this).text().toLowerCase();
+        $(this).toggle(texto.includes(termino));
+    });
+    
+    // Reordenar manteniendo el orden original
+    var container = $('#estadosDisponibles');
+    var options = container.find('option:visible').detach();
+    
+    var orderedOptions = [];
+    ordenOriginalEstados.forEach(function(id) {
+        var option = options.filter('[value="' + id + '"]');
+        if (option.length) {
+            orderedOptions.push(option);
+        }
+    });
+    
+    orderedOptions.forEach(function(option) {
+        container.append(option);
+    });
+}
+
+// Función para insertar estados en orden original
+function insertarEstadoEnOrdenOriginal(option) {
+    var id = option.val();
+    var indexOriginal = ordenOriginalEstados.indexOf(id);
+    var inserted = false;
+    
+    $('#estadosDisponibles option').each(function() {
+        var currentId = $(this).val();
+        var currentIndex = ordenOriginalEstados.indexOf(currentId);
+        
+        if (currentIndex > indexOriginal) {
+            option.insertBefore($(this));
+            inserted = true;
+            return false;
+        }
+    });
+    
+    if (!inserted) {
+        $('#estadosDisponibles').append(option);
+    }
+}
+
+// Función para filtrar estatus de recibos
+function filtrarEstatusRecibos(termino) {
+    termino = termino.toLowerCase();
+    $('#estatusRecibosDisponibles option').each(function() {
+        var texto = $(this).text().toLowerCase();
+        $(this).toggle(texto.includes(termino));
+    });
+    
+    // Reordenar manteniendo el orden original
+    var container = $('#estatusRecibosDisponibles');
+    var options = container.find('option:visible').detach();
+    
+    var orderedOptions = [];
+    ordenOriginalEstatusRecibos.forEach(function(id) {
+        var option = options.filter('[value="' + id + '"]');
+        if (option.length) {
+            orderedOptions.push(option);
+        }
+    });
+    
+    orderedOptions.forEach(function(option) {
+        container.append(option);
+    });
+}
+
+// Función para insertar estatus de recibos en orden original
+function insertarEstatusReciboEnOrdenOriginal(option) {
+    var id = option.val();
+    var indexOriginal = ordenOriginalEstatusRecibos.indexOf(id);
+    var inserted = false;
+    
+    $('#estatusRecibosDisponibles option').each(function() {
+        var currentId = $(this).val();
+        var currentIndex = ordenOriginalEstatusRecibos.indexOf(currentId);
+        
+        if (currentIndex > indexOriginal) {
+            option.insertBefore($(this));
+            inserted = true;
+            return false;
+        }
+    });
+    
+    if (!inserted) {
+        $('#estatusRecibosDisponibles').append(option);
+    }
+}
+
+// Función para filtrar estatus de unidades
+function filtrarEstatusUnidades(termino) {
+    termino = termino.toLowerCase();
+    $('#estatusUnidadesDisponibles option').each(function() {
+        var texto = $(this).text().toLowerCase();
+        $(this).toggle(texto.includes(termino));
+    });
+    
+    // Reordenar manteniendo el orden original
+    var container = $('#estatusUnidadesDisponibles');
+    var options = container.find('option:visible').detach();
+    
+    var orderedOptions = [];
+    ordenOriginalEstatusUnidades.forEach(function(id) {
+        var option = options.filter('[value="' + id + '"]');
+        if (option.length) {
+            orderedOptions.push(option);
+        }
+    });
+    
+    orderedOptions.forEach(function(option) {
+        container.append(option);
+    });
+}
+
+// Función para insertar estatus de unidades en orden original
+function insertarEstatusUnidadEnOrdenOriginal(option) {
+    var id = option.val();
+    var indexOriginal = ordenOriginalEstatusUnidades.indexOf(id);
+    var inserted = false;
+    
+    $('#estatusUnidadesDisponibles option').each(function() {
+        var currentId = $(this).val();
+        var currentIndex = ordenOriginalEstatusUnidades.indexOf(currentId);
+        
+        if (currentIndex > indexOriginal) {
+            option.insertBefore($(this));
+            inserted = true;
+            return false;
+        }
+    });
+    
+    if (!inserted) {
+        $('#estatusUnidadesDisponibles').append(option);
+    }
+}
+
+// Función para filtrar locaciones
+function filtrarLocaciones(termino) {
+    termino = termino.toLowerCase();
+    $('#locacionesDisponibles option').each(function() {
+        var texto = $(this).text().toLowerCase();
+        $(this).toggle(texto.includes(termino));
+    });
+    
+    // Reordenar manteniendo el orden original
+    var container = $('#locacionesDisponibles');
+    var options = container.find('option:visible').detach();
+    
+    var orderedOptions = [];
+    ordenOriginalLocaciones.forEach(function(id) {
+        var option = options.filter('[value="' + id + '"]');
+        if (option.length) {
+            orderedOptions.push(option);
+        }
+    });
+    
+    orderedOptions.forEach(function(option) {
+        container.append(option);
+    });
+}
+
+// Función para insertar locaciones en orden original
+function insertarLocacionEnOrdenOriginal(option) {
+    var id = option.val();
+    var indexOriginal = ordenOriginalLocaciones.indexOf(id);
+    var inserted = false;
+    
+    $('#locacionesDisponibles option').each(function() {
+        var currentId = $(this).val();
+        var currentIndex = ordenOriginalLocaciones.indexOf(currentId);
+        
+        if (currentIndex > indexOriginal) {
+            option.insertBefore($(this));
+            inserted = true;
+            return false;
+        }
+    });
+    
+    if (!inserted) {
+        $('#locacionesDisponibles').append(option);
+    }
+}
+
+// Función para filtrar promotores
+function filtrarPromotores(termino) {
+    termino = termino.toLowerCase();
+    $('#promotoresDisponibles option').each(function() {
+        var texto = $(this).text().toLowerCase();
+        $(this).toggle(texto.includes(termino));
+    });
+    
+    // Reordenar manteniendo el orden original
+    var container = $('#promotoresDisponibles');
+    var options = container.find('option:visible').detach();
+    
+    var orderedOptions = [];
+    ordenOriginalPromotores.forEach(function(id) {
+        var option = options.filter('[value="' + id + '"]');
+        if (option.length) {
+            orderedOptions.push(option);
+        }
+    });
+    
+    orderedOptions.forEach(function(option) {
+        container.append(option);
+    });
+}
+
+// Función para insertar promotores en orden original
+function insertarPromotorEnOrdenOriginal(option) {
+    var id = option.val();
+    var indexOriginal = ordenOriginalPromotores.indexOf(id);
+    var inserted = false;
+    
+    $('#promotoresDisponibles option').each(function() {
+        var currentId = $(this).val();
+        var currentIndex = ordenOriginalPromotores.indexOf(currentId);
+        
+        if (currentIndex > indexOriginal) {
+            option.insertBefore($(this));
+            inserted = true;
+            return false;
+        }
+    });
+    
+    if (!inserted) {
+        $('#promotoresDisponibles').append(option);
+    }
+}
+
+// Función para filtrar series de recibos
+function filtrarSeriesRecibos(termino) {
+    termino = termino.toLowerCase();
+    $('#seriesRecibosDisponibles option').each(function() {
+        var texto = $(this).text().toLowerCase();
+        $(this).toggle(texto.includes(termino));
+    });
+    
+    // Reordenar manteniendo el orden original
+    var container = $('#seriesRecibosDisponibles');
+    var options = container.find('option:visible').detach();
+    
+    var orderedOptions = [];
+    ordenOriginalSeriesRecibos.forEach(function(id) {
+        var option = options.filter('[value="' + id + '"]');
+        if (option.length) {
+            orderedOptions.push(option);
+        }
+    });
+    
+    orderedOptions.forEach(function(option) {
+        container.append(option);
+    });
+}
+
+// Función para insertar series de recibos en orden original
+function insertarSerieReciboEnOrdenOriginal(option) {
+    var id = option.val();
+    var indexOriginal = ordenOriginalSeriesRecibos.indexOf(id);
+    var inserted = false;
+    
+    $('#seriesRecibosDisponibles option').each(function() {
+        var currentId = $(this).val();
+        var currentIndex = ordenOriginalSeriesRecibos.indexOf(currentId);
+        
+        if (currentIndex > indexOriginal) {
+            option.insertBefore($(this));
+            inserted = true;
+            return false;
+        }
+    });
+    
+    if (!inserted) {
+        $('#seriesRecibosDisponibles').append(option);
+    }
+}
+
+// Función para filtrar tipos de cupones de descuento
+function filtrarTipoCuponesDescuentoPaq(termino) {
+    termino = termino.toLowerCase();
+    $('#tipoCuponesDescuentoPaqDisponibles option').each(function() {
+        var texto = $(this).text().toLowerCase();
+        $(this).toggle(texto.includes(termino));
+    });
+    
+    // Reordenar manteniendo el orden original
+    var container = $('#tipoCuponesDescuentoPaqDisponibles');
+    var options = container.find('option:visible').detach();
+    
+    var orderedOptions = [];
+    ordenOriginalTipoCuponesDescuentoPaq.forEach(function(id) {
+        var option = options.filter('[value="' + id + '"]');
+        if (option.length) {
+            orderedOptions.push(option);
+        }
+    });
+    
+    orderedOptions.forEach(function(option) {
+        container.append(option);
+    });
+}
+
+// Función para insertar tipos de cupones de descuento en orden original
+function insertarTipoCuponDescuentoPaqEnOrdenOriginal(option) {
+    var id = option.val();
+    var indexOriginal = ordenOriginalTipoCuponesDescuentoPaq.indexOf(id);
+    var inserted = false;
+    
+    $('#tipoCuponesDescuentoPaqDisponibles option').each(function() {
+        var currentId = $(this).val();
+        var currentIndex = ordenOriginalTipoCuponesDescuentoPaq.indexOf(currentId);
+        
+        if (currentIndex > indexOriginal) {
+            option.insertBefore($(this));
+            inserted = true;
+            return false;
+        }
+    });
+    
+    if (!inserted) {
+        $('#tipoCuponesDescuentoPaqDisponibles').append(option);
+    }
+}
+
+// Función para filtrar tipos de productos
+function filtrarTiposProductos(termino) {
+    termino = termino.toLowerCase();
+    $('#tiposProductosDisponibles option').each(function() {
+        var texto = $(this).text().toLowerCase();
+        $(this).toggle(texto.includes(termino));
+    });
+    
+    // Reordenar manteniendo el orden original
+    var container = $('#tiposProductosDisponibles');
+    var options = container.find('option:visible').detach();
+    
+    var orderedOptions = [];
+    ordenOriginalTiposProductos.forEach(function(id) {
+        var option = options.filter('[value="' + id + '"]');
+        if (option.length) {
+            orderedOptions.push(option);
+        }
+    });
+    
+    orderedOptions.forEach(function(option) {
+        container.append(option);
+    });
+}
+
+// Función para insertar tipos de productos en orden original
+function insertarTipoProductoEnOrdenOriginal(option) {
+    var id = option.val();
+    var indexOriginal = ordenOriginalTiposProductos.indexOf(id);
+    var inserted = false;
+    
+    $('#tiposProductosDisponibles option').each(function() {
+        var currentId = $(this).val();
+        var currentIndex = ordenOriginalTiposProductos.indexOf(currentId);
+        
+        if (currentIndex > indexOriginal) {
+            option.insertBefore($(this));
+            inserted = true;
+            return false;
+        }
+    });
+    
+    if (!inserted) {
+        $('#tiposProductosDisponibles').append(option);
+    }
+}
+
+// Función para filtrar usuarios
+function filtrarUsuarios(termino) {
+    termino = termino.toLowerCase();
+    $('#usuariosDisponibles option').each(function() {
+        var texto = $(this).text().toLowerCase();
+        $(this).toggle(texto.includes(termino));
+    });
+    
+    // Reordenar manteniendo el orden original
+    var container = $('#usuariosDisponibles');
+    var options = container.find('option:visible').detach();
+    
+    var orderedOptions = [];
+    ordenOriginalUsuarios.forEach(function(id) {
+        var option = options.filter('[value="' + id + '"]');
+        if (option.length) {
+            orderedOptions.push(option);
+        }
+    });
+    
+    orderedOptions.forEach(function(option) {
+        container.append(option);
+    });
+}
+
+// Función para insertar usuarios en orden original
+function insertarUsuarioEnOrdenOriginal(option) {
+    var id = option.val();
+    var indexOriginal = ordenOriginalUsuarios.indexOf(id);
+    var inserted = false;
+    
+    $('#usuariosDisponibles option').each(function() {
+        var currentId = $(this).val();
+        var currentIndex = ordenOriginalUsuarios.indexOf(currentId);
+        
+        if (currentIndex > indexOriginal) {
+            option.insertBefore($(this));
+            inserted = true;
+            return false;
+        }
+    });
+    
+    if (!inserted) {
+        $('#usuariosDisponibles').append(option);
+    }
+}
+
+function filtrarDesarrollos(termino) {
+    termino = termino.toLowerCase();
+    
+    // Mostrar/ocultar opciones según el filtro
+    $('#desarrollosDisponibles option').each(function() {
+        var texto = $(this).text().toLowerCase();
+        $(this).toggle(texto.includes(termino));
+    });
+    
+    // Reordenar manteniendo el orden original solo para los visibles
+    var container = $('#desarrollosDisponibles');
+    var options = container.find('option:visible').detach();
+    
+    // Ordenar las opciones visibles según el orden original
+    var orderedOptions = [];
+    ordenOriginalDesarrollos.forEach(function(id) {
+        var option = options.filter('[value="' + id + '"]');
+        if (option.length) {
+            orderedOptions.push(option);
+        }
+    });
+    
+    // Agregar las opciones ordenadas al contenedor
+    orderedOptions.forEach(function(option) {
+        container.append(option);
+    });
+}
+
+function obtenerParametrosReporte(reporteId) {
+    // Mostrar loading si es necesario
+    Swal.fire({
+        title: 'Obteniendo parámetros...',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    // Llamada AJAX para obtener los parámetros del reporte
+    $.ajax({
+        url: '/portal-facil/repEspeciales/reportes/obtenerParametrosReporte', // Ajusta esta URL según tu backend
+        type: 'POST',
+        data: { reporteId: reporteId },
+        success: function(response) {
+            Swal.close();
+            
+            // Procesar la respuesta y actualizar la UI según los parámetros
+			debugger
+            actualizarUIconParametros(response);
+			setTimeout(ordenarTarjetas, 300);
+        },
+        error: function(xhr, status, error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudieron cargar los parámetros del reporte'
+            });
+            console.error('Error al obtener parámetros:', error);
+        }
+    });
+}
+
+function limpiarParametrosReporte() {
+    // Limpiar o resetear los campos de parámetros
+	
+	$('#desarrollosSeleccionados option').each(function() {
+	        var option = $(this).remove();
+	        insertarEnOrdenOriginal(option);
+	    });
+		
+	$('#tiposMovSeleccionados option').each(function() {
+	        var option = $(this).remove();
+	        insertarTipoMovEnOrdenOriginal(option);
+	    });
+		
+	$('#btnLimpiarBusquedaDesarrollos').click();
+	$('#btnLimpiarBusquedaTiposMov').click();
+	$('#btnLimpiarBusquedaCartera').click();
+	$('#btnLimpiarBusquedaClasificacionMembresia').click();
+	$('#btnLimpiarBusquedaEmpleados').click();
+	$('#btnLimpiarBusquedaEstados').click();
+	$('#btnLimpiarBusquedaEstatusRecibos').click();
+	$('#btnLimpiarBusquedaEstatusUnidades').click();
+	$('#btnLimpiarBusquedaLocaciones').click();
+	$('#btnLimpiarBusquedaPromotores').click();
+	$('#btnLimpiarBusquedaSeriesRecibos').click();
+	$('#btnLimpiarBusquedaTipoCuponesDescuentoPaq').click();
+	$('#btnLimpiarBusquedaTiposProductos').click();
+	$('#btnLimpiarBusquedaUsuarios').click();
+}
+
+function actualizarUIconParametros(parametros) {
+    // Aquí puedes actualizar la interfaz según los parámetros recibidos
+    // Por ejemplo, habilitar/deshabilitar ciertos campos, mostrar/ocultar secciones, etc.
+    debugger
+    console.log('Parámetros del reporte:', parametros);
+	limpiarParametrosReporte();
+    // Ejemplo: Mostrar u ocultar secciones según los parámetros
+    if (parametros.requiereDesarrollos) {
+        $('.card-desarrollos').show();
+		$('.card-desarrollos').attr('data-order', parametros.paramIDDesarrollos);
+    } else {
+        $('.card-desarrollos').hide();
+    }
+    
+    if (parametros.requiereTiposMovimientos) {
+        $('.card-tipos-movimiento').show();
+		$('.card-tipos-movimiento').attr('data-order', parametros.paramIDTiposMovimientos);
+    } else {
+        $('.card-tipos-movimiento').hide();
+    }
+	debugger
+	if (parametros.requiereCarteras) {
+	    $('.card-cartera').show();
+		$('.card-cartera').attr('data-order', parametros.paramIDCarteras);
+	} else {
+	    $('.card-cartera').hide();
+	}
+
+	if (parametros.requiereClasificacionMembresia) {
+	    $('.card-clasificacion-membresia').show();
+		$('.card-clasificacion-membresia').attr('data-order', parametros.paramIDClasificacionMembresia);
+	} else {
+	    $('.card-clasificacion-membresia').hide();
+	}
+	
+	if (parametros.requiereEmpleados) {
+	    $('.card-empleados').show();
+		$('.card-empleados').attr('data-order', parametros.paramIDEmpleados);
+	} else {
+	    $('.card-empleados').hide();
+	}	
+	
+	if (parametros.requiereEstados) {
+	    $('.card-estados').show();
+		$('.card-estados').attr('data-order', parametros.paramIDEstados);
+	} else {
+	    $('.card-estados').hide();
+	}	
+	
+	if (parametros.requiereEstatusRecibos) {
+	    $('.card-estatus-recibos').show();
+		$('.card-estatus-recibos').attr('data-order', parametros.paramIDEstatusRecibos);
+	} else {
+	    $('.card-estatus-recibos').hide();
+	}	
+	
+	if (parametros.requiereEstatusUnidades) {
+	    $('.card-estatus-unidades').show();
+		$('.card-estatus-unidades').attr('data-order', parametros.paramIDEstatusUnidades);
+	} else {
+	    $('.card-estatus-unidades').hide();
+	}	
+	
+	if (parametros.requiereLocaciones) {
+	    $('.card-locaciones').show();
+		$('.card-locaciones').attr('data-order', parametros.paramIDLocaciones);
+	} else {
+	    $('.card-locaciones').hide();
+	}		
+	
+	if (parametros.requierePromotores) {
+	    $('.card-promotores').show();
+		$('.card-promotores').attr('data-order', parametros.paramIDPromotores);
+	} else {
+	    $('.card-promotores').hide();
+	}	
+	
+	if (parametros.requiereSeriesRecibos) {
+	    $('.card-series-recibos').show();
+		$('.card-series-recibos').attr('data-order', parametros.paramIDSeriesRecibos);
+	} else {
+	    $('.card-series-recibos').hide();
+	}		
+	
+	if (parametros.requiereTiposCuponesDescuentoPqa) {
+	    $('.card-tipos-cupones-descuento-pqa').show();
+		$('.card-tipos-cupones-descuento-pqa').attr('data-order', parametros.paramIDTiposCuponesDescuentoPqa);
+	} else {
+	    $('.card-tipos-cupones-descuento-pqa').hide();
+	}	
+	
+	if (parametros.requiereTiposProductos) {
+	    $('.card-tipos-productos').show();
+		$('.card-tipos-productos').attr('data-order', parametros.paramIDTiposProductos);
+	} else {
+	    $('.card-tipos-productos').hide();
+	}	
+			
+	if (parametros.requiereUsuarios) {
+	    $('.card-usuarios').show();
+		$('.card-usuarios').attr('data-order', parametros.paramIDUsuarios);
+	} else {
+	    $('.card-usuarios').hide();
+	}		
+	
+	ordenarTarjetas();
+	debugger
+	setTimeout(ordenarTarjetas, 100); 
+	// Procesar la memoria técnica para seleccionar los filtros guardados
+	    if (parametros.memoriaTecnica && parametros.memoriaTecnica.length > 0) {
+	        procesarMemoriaTecnica(parametros.memoriaTecnica);
+	    }
+}
+
+function ordenarTarjetas_BKP() {
+    // Seleccionar el contenedor padre (ajusta este selector según tu estructura exacta)
+    var $container = $('.content > .container-fluid');
+    
+    // Seleccionar todas las tarjetas ordenables (las que tienen data-order)
+    var $cards = $container.find('[data-order]').detach();
+    
+    // Ordenar las tarjetas por el valor de data-order (de menor a mayor)
+    $cards.sort(function(a, b) {
+        return $(a).data('order') - $(b).data('order');
+    });
+    
+    // Volver a insertar las tarjetas en el contenedor en el nuevo orden
+    $container.append($cards);
+}
+
+function ordenarTarjetas() {
+    // Seleccionar el contenedor padre de forma más precisa
+    var $container = $('section.content > .container-fluid');
+    
+    // Seleccionar solo las tarjetas visibles que tienen data-order
+    var $cards = $container.find('.card[data-order]:visible').detach();
+    
+    // Ordenar asegurando que data-order es numérico
+    $cards.sort(function(a, b) {
+        return parseInt($(a).data('order')) - parseInt($(b).data('order'));
+    });
+    
+    // Insertar después del card de filtros de búsqueda
+    $container.find('.card.card-info').after($cards);
+}
+
+// Función para obtener los parámetros de las tarjetas visibles
+function obtenerParametrosTarjetasVisibles() {
+    const parametros = {};
+    
+    // Obtener todas las tarjetas visibles
+    $('.card[data-order]:visible').each(function() {
+		debugger
+        const card = $(this);
+        //const cardClass = card.attr('class').split(' ').find(cls => cls.startsWith('card-'));
+        
+        // Obtener los valores seleccionados
+        const seleccionados = [];
+        const selectSeleccionados = card.find('select[id$="Seleccionados"]');
+		var selectedAll =false;
+		        
+        if (selectSeleccionados.length > 0) {
+            selectSeleccionados.find('option').each(function() {
+                seleccionados.push({
+                    //clave: $(this).data('clave') || undefined,
+                    id: $(this).val(),
+                    //tabla: $(this).data('tabla') || undefined,
+                    valor: $(this).text()
+					
+                });
+            });
+			selectedAll = false;
+        }
+		
+		if(seleccionados.length == 0){
+			debugger
+			const selectDisponibles = card.find('select[id$="Disponibles"]');
+			            if (selectDisponibles.length > 0) {
+			                selectDisponibles.find('option').each(function() {
+			                    seleccionados.push({
+			                        id: $(this).val(),
+			                        valor: $(this).text()
+			                    });
+			                });
+			            }
+						
+						selectedAll = true;
+		}
+        
+        // Agregar al objeto de parámetros
+        parametros[card.data('order')] = {
+            dataOrder: card.data('order'),
+            seleccionados: seleccionados,
+			selectedAll: selectedAll
+        };
+    });
+    
+    return parametros;
+}
+
+function procesarMemoriaTecnica(memoriaTecnica) {
+	debugger
+    // Agrupar los filtros por idParametroReporte
+    const filtrosPorParametro = {};
+    
+    memoriaTecnica.forEach(item => {
+        if (!filtrosPorParametro[item.idParametroReporte]) {
+            filtrosPorParametro[item.idParametroReporte] = [];
+        }
+        filtrosPorParametro[item.idParametroReporte].push(item.idFiltroParametro);
+    });
+    
+    // Para cada grupo de filtros, seleccionar las opciones correspondientes
+    Object.keys(filtrosPorParametro).forEach(idParametro => {
+        const card = $(`.card[data-order="${idParametro}"]`);
+        
+        if (card.length) {
+            const idsFiltros = filtrosPorParametro[idParametro];
+            seleccionarFiltrosEnCard(card, idsFiltros);
+        }
+    });
+}
+
+function seleccionarFiltrosEnCard(card, idsFiltros) {
+	debugger
+    const selectDisponibles = card.find('select[id$="Disponibles"]');
+    const selectSeleccionados = card.find('select[id$="Seleccionados"]');
+    
+    // Si no hay select de disponibles, puede que sea un caso especial (como desarrollos)
+    if (selectDisponibles.length === 0) {
+        return;
+    }
+    
+    // Buscar cada filtro en los disponibles y moverlo a seleccionados
+    idsFiltros.forEach(idFiltro => {
+        const option = selectDisponibles.find(`option[value="${idFiltro}"]`);
+        
+        if (option.length) {
+            option.detach().appendTo(selectSeleccionados);
+        }
+    });
+    
+    // Ordenar los seleccionados alfabéticamente
+	debugger
+   /* if (selectSeleccionados.length) {
+        ordenarSelect('#' + selectSeleccionados.attr('id'));
+    }*/
+}
+
+// Función para mostrar el selector de columnas
+function mostrarSelectorColumnas(columnas,uuid) {	
+	if (!columnas || columnas.length === 0) {
+	        Swal.fire({
+	            icon: 'error',
+	            title: 'Error al generar reporte',
+	            text: 'No se pudieron obtener los campos del reporte',
+	            confirmButtonText: 'Aceptar'
+	        });
+	        return; // Salir de la función
+	    }
+    const $listaColumnas = $('#listaColumnas');
+    $listaColumnas.empty();
+    
+    // Llenar con las columnas (todas seleccionadas por defecto)
+    columnas.forEach(col => {
+        $listaColumnas.append(`
+            <tr>
+                <td class="align-middle text-center">
+                    <input type="checkbox" class="columna-check" 
+                           id="col-${col.replace(/\W+/g, '-')}" 
+                           checked data-columna="${col}"
+                           style="width: 16px; height: 16px;">
+                </td>
+                <td class="align-middle">
+                    <label for="col-${col.replace(/\W+/g, '-')}" style="cursor: pointer;">
+                        ${col}
+                    </label>
+                </td>
+            </tr>
+        `);
+    });
+    
+    $('#modalColumnas').modal('show');
+    
+    // Controlar el checkbox "Todos"
+    $('#checkTodos').change(function() {
+        const isChecked = $(this).prop('checked');
+        $('.columna-check').prop('checked', isChecked);
+    });
+    
+    // Botones de selección/deselección
+    $('#btnSeleccionarTodos').click(function() {
+        $('.columna-check').prop('checked', true);
+        $('#checkTodos').prop('checked', true);
+    });
+    
+    $('#btnDeseleccionarTodos').click(function() {
+        $('.columna-check').prop('checked', false);
+        $('#checkTodos').prop('checked', false);
+    });
+    
+    // Búsqueda en tiempo real
+    $('#buscarColumnas').on('input', function() {
+        const termino = $(this).val().toLowerCase();
+        $('#listaColumnas tr').each(function() {
+            const texto = $(this).find('td:last').text().toLowerCase();
+            $(this).toggle(texto.includes(termino));
+        });
+    });
+    
+    // Botón para limpiar búsqueda
+    $('#btnLimpiarBusqueda').click(function() {
+        $('#buscarColumnas').val('').trigger('input');
+        $(this).blur(); // Quitar el foco del botón
+    });
+    
+    // Hacer click en toda la fila para seleccionar
+    $listaColumnas.on('click', 'tr', function(e) {
+        if (!$(e.target).is('input')) {
+            const $checkbox = $(this).find('.columna-check');
+            $checkbox.prop('checked', !$checkbox.prop('checked')).trigger('change');
+        }
+    });
+	
+	let isDownloading = false;
+	$('#btnGenerarReporte').click(function() {
+	    // Obtener las columnas seleccionadas
+		var $btn = $(this);
+		$btn.prop('disabled', true);
+		try {
+	    const columnasSeleccionadas = obtenerColumnasSeleccionadas();
+	    if (columnasSeleccionadas.length === 0) {
+			$btn.prop('disabled', false);
+	        Swal.fire({
+	            icon: 'warning',
+	            title: 'Seleccione columnas',
+	            text: 'Por favor seleccione al menos una columna para generar el reporte'
+	        });
+	        return;
+	    }
+		
+		if(isDownloading) return;
+		   isDownloading = true;
+
+	    // Obtener los parámetros previos
+	    const fechaInicioVal = $('#fechaInicio').find('input').val();
+	    const fechaFinVal = $('#fechaFin').find('input').val();
+	    const reporteSeleccionado = $('#reportesCobranza').val();
+	    const nombreReporte = $('#reportesCobranza option:selected').data('reporte') || 'Reporte';
+	    const parametrosReporte = obtenerParametrosTarjetasVisibles();
+
+	    // Mostrar loading
+	    Swal.fire({
+	        title: 'Generando reporte...',
+	        html: 'Por favor espere',
+	        allowOutsideClick: false,
+	        didOpen: () => {
+	            Swal.showLoading();
+	        }
+	    });
+
+	    // Crear FormData para enviar los parámetros
+	    const formData = new FormData();
+	    formData.append('fechaInicio', fechaInicioVal);
+	    formData.append('fechaFin', fechaFinVal);
+	    formData.append('reporteId', reporteSeleccionado);
+	    formData.append('nombreReporte', nombreReporte);
+	    formData.append('parametrosReporte', JSON.stringify(parametrosReporte));
+	    formData.append('columnasSeleccionadas', JSON.stringify(columnasSeleccionadas));
+		formData.append('uuid', uuid);
+
+	    // Enviar solicitud
+	    $.ajax({
+	        url: '/portal-facil/repEspeciales/reportes/generarReporte',
+	        type: 'POST',
+	        data: formData,
+	        processData: false,
+	        contentType: false,
+	        xhrFields: {
+	            responseType: 'blob' // Indicar que esperamos un archivo binario
+	        },
+	        success: function(data) {
+	            Swal.close();
+				
+				const now = new Date();
+				const pad = (num, size) => num.toString().padStart(size, '0');
+				const fecha = `${now.getFullYear()}${pad(now.getMonth() + 1, 2)}${pad(now.getDate(), 2)}`;
+				const hora = `${pad(now.getHours(), 2)}${pad(now.getMinutes(), 2)}${pad(now.getSeconds(), 2)}${pad(now.getMilliseconds(), 3)}`;
+				const timestamp = `${fecha}-${hora}`;
+	            
+				setTimeout(() => {
+	            // Crear un enlace temporal para descargar el archivo
+	            const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+	            const link = document.createElement('a');
+	            link.href = window.URL.createObjectURL(blob);
+	            link.download = nombreReporte + ' ' + timestamp + '.xlsx';
+	          /*  document.body.appendChild(link);
+	            link.click();
+	            document.body.removeChild(link);
+				$btn.prop('disabled', false);
+	            // Cerrar el modal
+	            $('#modalColumnas').modal('hide');
+	            
+	            // Mostrar mensaje de éxito
+	            Swal.fire({
+	                icon: 'success',
+	                title: 'Reporte generado',
+	                text: 'El reporte se ha descargado correctamente',
+	                timer: 2000,
+	                showConfirmButton: false
+	            });
+				
+				}, 1000); */
+				// Medida adicional: Verificar si el navegador permite la acción
+	                if (typeof link.click === 'function') {
+	                    document.body.appendChild(link);
+	                    link.click();
+	                    
+	                    // Limpieza con retraso adicional
+	                    setTimeout(() => {
+	                        document.body.removeChild(link);
+	                        window.URL.revokeObjectURL(link.href);
+	                    }, 100);
+	                } else {
+	                    console.warn('El navegador bloqueó la descarga automática');
+	                    // Fallback: Abrir el blob en nueva pestaña
+	                    window.open(link.href, '_blank');
+	                }
+	                
+	                // Habilitar el botón solo después de completar la descarga
+	                $btn.prop('disabled', false);
+	                $('#modalColumnas').modal('hide');
+	            }, 1000); 
+	        },
+	        error: function(xhr) {
+	            Swal.close();
+				$btn.prop('disabled', false);
+	            if (xhr.status === 400) {
+	                // Error de validación
+	                Swal.fire({
+	                    icon: 'error',
+	                    title: 'Error en los parámetros',
+	                    text: xhr.responseText
+	                });
+	            } else {
+	                // Otro tipo de error
+	                Swal.fire({
+	                    icon: 'error',
+	                    title: 'Error',
+	                    text: 'Ocurrió un error al generar el reporte'
+	                });
+	            }
+			},
+			            complete: function() {
+			                $btn.prop('disabled', false);
+		   }
+	      });
+		} catch (e) {
+		        $btn.prop('disabled', false);
+		        console.error('Error inesperado:', e);
+		        Swal.fire({
+		            icon: 'error',
+		            title: 'Error inesperado',
+		            text: 'Ocurrió un error inesperado al generar el reporte'
+		        });
+		        throw e;
+		    }
+	});
+}
+
+// Función para obtener las columnas seleccionadas
+function obtenerColumnasSeleccionadas() {
+    const seleccionadas = [];
+    $('.columna-check:checked').each(function() {
+        seleccionadas.push($(this).data('columna'));
+    });
+    return seleccionadas;
+}
+
+/*]]>*/
+</script>
+
+<!-- Script para colapsar/expandir -->
+<script th:inline="javascript">
+/*<![CDATA[*/
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Inicialización del treeview
+    $('[data-widget="treeview"]').Treeview({
+        collapseAll: true,
+        expandSpeed: 0
+    });
+
+    // 2. Obtener el identificador de página activa del modelo Thymeleaf
+    var paginaActiva = /*[[${menuActivo}]]*/ null;
+    var currentUrl = window.location.pathname.toLowerCase(); // Convertir a minúsculas para comparación
+	
+	console.log('Pagina activa desde modelo:', paginaActiva);
+	console.log('Current URL:', currentUrl);
+	console.log('Todos los data-menu-id:', $('[data-menu-id]').map(function() { 
+	    return $(this).data('menu-id'); 
+	}).get());
+    
+    // 3. Función para activar menú mejorada
+	function activarMenu(id) {
+	    // Limpiar activos previos
+	    $('.nav-link').removeClass('active');
+	    $('.has-treeview').removeClass('menu-open');
+	    $('.nav-treeview').hide();
+
+	    // Buscar coincidencia sin importar mayúsculas/minúsculas
+		debugger
+	    $('[data-menu-id]').each(function () {
+			debugger
+			console.log($(this).data('menu-id'))
+			console.log($(id))
+			//console.log($(this).data('menu-id').toLowerCase())
+
+	       // if ($(this).data('menu-id') && $(this).data('menu-id').toLowerCase() === id.toLowerCase()) {
+				if ($(this).data('menu-id') && $(this).data('menu-id') === id) {
+
+	            $(this).addClass('active');
+
+	            // Abrir todos los ancestros has-treeview
+	            $(this).parents('.has-treeview').addClass('menu-open');
+
+	            // Mostrar todos los submenús padres (nav-treeview)
+	            $(this).parents('.nav-treeview').show();
+
+	            return false; // Salir del each
+	        }
+	    });
+	}
+
+    
+    // 4. Resaltar menú basado en URL o identificador
+	debugger
+	if (paginaActiva) {
+	        activarMenu(831);
+	    } 
+	    else if (currentUrl.includes('/repEspeciales/reportes')) {
+	        activarMenu('ssmnuRepIntCobranza');
+	    }
+	    else {
+	        // Caso 2: Fallback a detección por URL
+	        $('.nav-link').each(function() {
+				debugger
+	            var linkUrl = $(this).attr('href');
+	            if (linkUrl && 
+	               (currentUrl === linkUrl.toLowerCase() || 
+	                (linkUrl !== '/' && currentUrl.startsWith(linkUrl.toLowerCase())))) {
+	                activarMenu($(this).data('menu-id'));
+	            }
+	        });
+	    }
+});
+/*]]>*/
+
+
+
+let inactivityTime = 10 * 60 * 1000; // 10 minutos
+let countdownTime = 30;
+let countdownInterval;
+let inactivityTimer;
+
+function startInactivityTimer() {
+  clearTimeout(inactivityTimer);
+  inactivityTimer = setTimeout(showSessionModal, inactivityTime);
+}
+
+function showSessionModal() {
+	
+  const modal = document.getElementById("sessionModal");
+  const message = document.getElementById("modalMessage");
+  const countdown = document.getElementById("countdown");
+  const continueBtn = document.getElementById("continueBtn");
+
+  countdownTime = 30;
+  countdown.textContent = countdownTime;
+  modal.style.display = "flex";
+
+  countdownInterval = setInterval(() => {
+    countdownTime--;
+    countdown.textContent = countdownTime;
+    if (countdownTime <= 0) {
+      clearInterval(countdownInterval);
+      endSession();
+    }
+  }, 1000);
+
+  continueBtn.onclick = () => {
+    clearInterval(countdownInterval);
+    modal.style.display = "none";
+    fetch("/keep-alive"); // Llama al backend para renovar la sesión
+    startInactivityTimer(); // Reinicia conteo
+  };
+}
+
+function endSession() {
+  const modal = document.getElementById("sessionModal");
+  document.getElementById("modalMessage").textContent = "Sesión terminada. Vuelva a ingresar.";
+  document.getElementById("countdown").style.display = "none";
+  document.getElementById("continueBtn").style.display = "none";
+
+  setTimeout(() => {
+    window.location.href = contextRoot+"logout"; // Redirige al logout
+  }, 3000);
+}
+
+["click", "mousemove", "keydown"].forEach(event =>
+  document.addEventListener(event, startInactivityTimer)
+);
+
+startInactivityTimer();
+
+
+</script>
+</body>

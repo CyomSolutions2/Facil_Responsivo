@@ -1,0 +1,47 @@
+{
+  "_from": "animate-sass@^0.8.2",
+  "_id": "animate-sass@0.8.2",
+  "_inBundle": false,
+  "_integrity": "sha512-6sZ34dusqb1HdZLNpJUNaZc0CuuLgFI8SqlyaxbSSKE9zqfoNtOeO3IpVUCqvaSm/oMNH1VlEAsJlppjg+idKQ==",
+  "_location": "/animate-sass",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "animate-sass@^0.8.2",
+    "name": "animate-sass",
+    "escapedName": "animate-sass",
+    "rawSpec": "^0.8.2",
+    "saveSpec": null,
+    "fetchSpec": "^0.8.2"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "https://registry.npmjs.org/animate-sass/-/animate-sass-0.8.2.tgz",
+  "_shasum": "fbfa76e049177d217a50b0f99c8ee77af490b7d9",
+  "_spec": "animate-sass@^0.8.2",
+  "_where": "C:\\workspace\\Dashboardpack\\architectui-html-pro",
+  "author": {
+    "name": "Tom Gillard",
+    "email": "tomgillar@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/tgdev/animate-sass/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "animate-sass is a Sass version of Dan Eden's Animate.css.",
+  "homepage": "https://github.com/tgdev/animate-sass#readme",
+  "license": "MIT",
+  "main": "_animate.scss",
+  "name": "animate-sass",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tgdev/animate-sass.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.8.2"
+}
