@@ -11,5 +11,6 @@ public class AppConstanst {
 	 public static final String MENU_ACTIVO_ADMIN_REPORTES = "smnuAdministracionReportes";
 	 
 	 public static final String SHEET_NAME_DEFAULT_REPORT = "SHEET";
+	 public static final String LOGO_SRC = "C:/coralClubes/portal-facil/img/logo-portal-facil.png";
 
 }

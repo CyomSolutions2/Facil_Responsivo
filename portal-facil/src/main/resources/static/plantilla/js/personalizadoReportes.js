@@ -2680,7 +2680,7 @@ function actualizarUIconParametros(parametros) {
 	    }
 }
 
-function ordenarTarjetas() {
+/*function ordenarTarjetas() {
     // Seleccionar el contenedor padre de forma más precisa
     var $container = $('section.content > .container-fluid');
     
@@ -2694,7 +2694,52 @@ function ordenarTarjetas() {
     
     // Insertar después del card de filtros de búsqueda
     $container.find('.card.card-info').after($cards);
+}*/
+
+function ordenarTarjetas() {
+  // 1) Raíz real de la pantalla en reportes.html
+  var $root = $('.app-main__inner');
+  if ($root.length === 0) $root = $(document.body); // fallback por si cambia el layout
+
+  // 2) Localiza la fila (row) del card de filtros
+  //    - Preferimos un id si existe (opcional)
+  var $filtrosCard = $root.find('#cardFiltros');
+  if ($filtrosCard.length === 0) {
+    // si no hay id, tomamos el primer card con borde info (el de "Filtros de búsqueda")
+    $filtrosCard = $root.find('.card.border-info').first();
+  }
+  var $filtrosRow = $filtrosCard.closest('.row');
+
+  // 3) Recolecta TODAS las filas que contienen cards con data-order que estén visibles
+  //    (moveremos la fila completa para arrastrar también la "división" gris)
+  var rowsArray = [];
+  $root.find('.card[data-order]').each(function () {
+    var $card = $(this);
+    if ($card.is(':visible')) {
+      var $row = $card.closest('.row');
+      if ($row.length) rowsArray.push($row[0]);
+    }
+  });
+
+  // Nada que ordenar
+  if (rowsArray.length === 0 || $filtrosRow.length === 0) return;
+
+  // 4) Desacopla y ordena por el data-order del card que hay dentro de cada row
+  var $rows = $(rowsArray).detach();
+  $rows.sort(function (a, b) {
+    var ao = parseInt($(a).find('.card[data-order]').first().data('order')) || 0;
+    var bo = parseInt($(b).find('.card[data-order]').first().data('order')) || 0;
+    return ao - bo;
+  });
+
+  // 5) Inserta todas las filas ordenadas inmediatamente DESPUÉS de la fila de filtros
+  $filtrosRow.after($rows);
+
+  // (Opcional) log para depurar
+  // console.log('Tarjetas ordenadas:', $rows.map(function(){return $(this).find(".card[data-order]").attr("class")}).get());
 }
+
+
 
 function procesarMemoriaTecnica(memoriaTecnica) {
 	

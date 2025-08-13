@@ -7803,7 +7803,9 @@ button,
   .app-header__logo .logo-src {
     height: 23px;
     width: 97px;
-    background: url("../../images/logo-inverse.png"); }
+    background: url("../../images/logo-inverse.png");
+    /*DACG*/
+    visibility: hidden; }
 
 .app-header__menu,
 .app-header__mobile-menu {
